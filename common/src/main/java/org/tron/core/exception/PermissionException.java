@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class PermissionException extends TronException {
+public class PermissionException extends HrnetworkException {
 
   public PermissionException() {
     super();

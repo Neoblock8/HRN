@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class HighFreqException extends TronException {
+public class HighFreqException extends HrnetworkException {
 
   public HighFreqException() {
     super();

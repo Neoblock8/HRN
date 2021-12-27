@@ -88,7 +88,7 @@ import org.tron.protos.contract.SmartContractOuterClass.SmartContractDataWrapper
 import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 
 @Slf4j(topic = "API")
-public class TronJsonRpcImpl implements TronJsonRpc {
+public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
 
   public enum RequestSource {
     FULLNODE,
@@ -132,7 +132,7 @@ public class TronJsonRpcImpl implements TronJsonRpc {
   private Wallet wallet;
   private Manager manager;
 
-  public TronJsonRpcImpl(NodeInfoService nodeInfoService, Wallet wallet, Manager manager) {
+  public HrnetworkJsonRpcImpl(NodeInfoService nodeInfoService, Wallet wallet, Manager manager) {
     this.nodeInfoService = nodeInfoService;
     this.wallet = wallet;
     this.manager = manager;

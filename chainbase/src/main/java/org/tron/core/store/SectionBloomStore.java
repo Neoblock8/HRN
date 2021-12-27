@@ -14,12 +14,12 @@ import org.tron.common.bloom.Bloom;
 import org.tron.common.utils.ByteUtil;
 import org.tron.core.capsule.BytesCapsule;
 import org.tron.core.capsule.TransactionRetCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 import org.tron.core.exception.EventBloomException;
 
 @Slf4j(topic = "DB")
 @Component
-public class SectionBloomStore extends TronStoreWithRevoking<BytesCapsule> {
+public class SectionBloomStore extends HrnetworkStoreWithRevoking<BytesCapsule> {
 
   public static final int BLOCK_PER_SECTION = 2048;
   private List<Integer> bitList;

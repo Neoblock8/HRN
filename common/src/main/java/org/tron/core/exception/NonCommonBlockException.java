@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class NonCommonBlockException extends TronException {
+public class NonCommonBlockException extends HrnetworkException {
 
   public NonCommonBlockException() {
     super();

@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.AccountAssetCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Slf4j(topic = "DB")
 @Component
-public class AccountAssetStore extends TronStoreWithRevoking<AccountAssetCapsule> {
+public class AccountAssetStore extends HrnetworkStoreWithRevoking<AccountAssetCapsule> {
 
   @Autowired
   protected AccountAssetStore(@Value("account-asset-issue") String dbName) {

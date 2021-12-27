@@ -38,7 +38,7 @@ import org.tron.core.capsule.VotesCapsule;
 import org.tron.core.capsule.WitnessCapsule;
 import org.tron.core.exception.ContractExeException;
 import org.tron.core.exception.ContractValidateException;
-import org.tron.core.exception.TronException;
+import org.tron.core.exception.HrnetworkException;
 import org.tron.core.utils.TransactionUtil;
 import org.tron.core.vm.EnergyCost;
 import org.tron.core.vm.MessageCall;
@@ -1978,11 +1978,11 @@ public class Program {
       return new OutOfStorageException("Not enough ContractState resource");
     }
 
-    public static PrecompiledContractException contractValidateException(TronException e) {
+    public static PrecompiledContractException contractValidateException(HrnetworkException e) {
       return new PrecompiledContractException(e.getMessage());
     }
 
-    public static PrecompiledContractException contractExecuteException(TronException e) {
+    public static PrecompiledContractException contractExecuteException(HrnetworkException e) {
       return new PrecompiledContractException(e.getMessage());
     }
 

@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class JsonRpcTooManyResultException extends TronException {
+public class JsonRpcTooManyResultException extends HrnetworkException {
 
   public JsonRpcTooManyResultException() {
     super();

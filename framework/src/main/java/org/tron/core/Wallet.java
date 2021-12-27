@@ -173,8 +173,8 @@ import org.tron.core.exception.TransactionExpirationException;
 import org.tron.core.exception.VMIllegalException;
 import org.tron.core.exception.ValidateSignatureException;
 import org.tron.core.exception.ZksnarkException;
-import org.tron.core.net.TronNetDelegate;
-import org.tron.core.net.TronNetService;
+import org.tron.core.net.HrnetworkNetDelegate;
+import org.tron.core.net.HrnetworkNetService;
 import org.tron.core.net.message.TransactionMessage;
 import org.tron.core.store.AccountIdIndexStore;
 import org.tron.core.store.AccountStore;
@@ -253,9 +253,9 @@ public class Wallet {
   @Getter
   private final SignInterface cryptoEngine;
   @Autowired
-  private TronNetService tronNetService;
+  private HrnetworkNetService tronNetService;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
   @Autowired
   private Manager dbManager;
   @Autowired

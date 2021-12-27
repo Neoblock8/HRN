@@ -27,7 +27,7 @@ import org.tron.common.overlay.message.StaticMessages;
 import org.tron.core.db.ByteArrayWrapper;
 import org.tron.core.exception.P2pException;
 import org.tron.core.net.PbftHandler;
-import org.tron.core.net.TronNetHandler;
+import org.tron.core.net.HrnetworkNetHandler;
 import org.tron.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
@@ -51,7 +51,7 @@ public class Channel {
   @Autowired
   private P2pHandler p2pHandler;
   @Autowired
-  private TronNetHandler tronNetHandler;
+  private HrnetworkNetHandler tronNetHandler;
   @Autowired
   private PbftHandler pbftHandler;
   private ChannelManager channelManager;

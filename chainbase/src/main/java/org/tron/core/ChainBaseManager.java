@@ -26,7 +26,7 @@ import org.tron.core.db.KhaosDatabase;
 import org.tron.core.db.PbftSignDataStore;
 import org.tron.core.db.RecentBlockStore;
 import org.tron.core.db.TransactionStore;
-import org.tron.core.db2.core.ITronChainBase;
+import org.tron.core.db2.core.IHrnetworkChainBase;
 import org.tron.core.exception.BadItemException;
 import org.tron.core.exception.HeaderNotFound;
 import org.tron.core.exception.ItemNotFoundException;
@@ -221,7 +221,7 @@ public class ChainBaseManager {
   @Getter
   private SectionBloomStore sectionBloomStore;
 
-  public void closeOneStore(ITronChainBase database) {
+  public void closeOneStore(IHrnetworkChainBase database) {
     logger.info("******** begin to close " + database.getName() + " ********");
     try {
       database.close();

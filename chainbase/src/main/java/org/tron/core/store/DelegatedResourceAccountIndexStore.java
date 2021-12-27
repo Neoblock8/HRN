@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.DelegatedResourceAccountIndexCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Component
 public class DelegatedResourceAccountIndexStore extends
-    TronStoreWithRevoking<DelegatedResourceAccountIndexCapsule> {
+    HrnetworkStoreWithRevoking<DelegatedResourceAccountIndexCapsule> {
 
   @Autowired
   public DelegatedResourceAccountIndexStore(@Value("DelegatedResourceAccountIndex") String dbName) {

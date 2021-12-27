@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class BadBlockException extends TronException {
+public class BadBlockException extends HrnetworkException {
 
   public BadBlockException() {
     super();

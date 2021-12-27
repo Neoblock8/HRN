@@ -1,6 +1,6 @@
 package org.tron.common.logsfilter.capsule;
 
-import static org.tron.core.services.jsonrpc.TronJsonRpcImpl.handleLogsFilter;
+import static org.tron.core.services.jsonrpc.HrnetworkJsonRpcImpl.handleLogsFilter;
 
 import java.util.List;
 import lombok.Getter;

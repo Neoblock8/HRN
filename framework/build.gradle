@@ -245,7 +245,7 @@ def createScript(project, mainClass, name) {
     }
 }
 
-applicationDistribution.from("../gradle/java-tron.vmoptions") {
+applicationDistribution.from("../gradle/java-hrnetwork.vmoptions") {
     into "bin"
 }
 //distZip {

@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.tron.common.overlay.discover.node.Node;
 import org.tron.common.overlay.discover.node.NodeHandler;
-import org.tron.common.overlay.server.TronChannelInitializer;
+import org.tron.common.overlay.server.HrnetworkChannelInitializer;
 import org.tron.core.config.args.Args;
 import org.tron.protos.Protocol.ReasonCode;
 
@@ -69,8 +69,8 @@ public class PeerClient {
 
     logger.info("connect peer {} {} {}", host, port, remoteId);
 
-    TronChannelInitializer tronChannelInitializer = ctx
-        .getBean(TronChannelInitializer.class, remoteId);
+    HrnetworkChannelInitializer tronChannelInitializer = ctx
+        .getBean(HrnetworkChannelInitializer.class, remoteId);
     tronChannelInitializer.setPeerDiscoveryMode(discoveryMode);
 
     Bootstrap b = new Bootstrap();

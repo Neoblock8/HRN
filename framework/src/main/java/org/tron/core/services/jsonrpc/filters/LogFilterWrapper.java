@@ -7,7 +7,7 @@ import org.tron.common.utils.ByteArray;
 import org.tron.core.Wallet;
 import org.tron.core.exception.JsonRpcInvalidParamsException;
 import org.tron.core.services.jsonrpc.JsonRpcApiUtil;
-import org.tron.core.services.jsonrpc.TronJsonRpc.FilterRequest;
+import org.tron.core.services.jsonrpc.HrnetworkJsonRpc.FilterRequest;
 import org.tron.protos.Protocol.Block;
 
 public class LogFilterWrapper {

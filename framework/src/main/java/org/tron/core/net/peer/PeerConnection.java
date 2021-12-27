@@ -23,7 +23,7 @@ import org.tron.common.utils.Sha256Hash;
 import org.tron.core.Constant;
 import org.tron.core.capsule.BlockCapsule.BlockId;
 import org.tron.core.config.Parameter.NetConstants;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.service.AdvService;
 import org.tron.core.net.service.SyncService;
 
@@ -33,7 +33,7 @@ import org.tron.core.net.service.SyncService;
 public class PeerConnection extends Channel {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   @Autowired
   private SyncService syncService;

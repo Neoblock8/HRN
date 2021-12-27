@@ -23,7 +23,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.tron.common.error.TronDBException;
+import org.tron.common.error.HrnetworkDBException;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.storage.WriteOptionsWrapper;
 import org.tron.core.db.RevokingDatabase;
@@ -268,9 +268,9 @@ public class SnapshotManager implements RevokingDatabase {
       future.get();
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      throw new TronDBException(e);
+      throw new HrnetworkDBException(e);
     } catch (ExecutionException e) {
-      throw new TronDBException(e);
+      throw new HrnetworkDBException(e);
     }
   }
 
@@ -317,7 +317,7 @@ public class SnapshotManager implements RevokingDatabase {
             checkPointEnd - start,
             System.currentTimeMillis() - checkPointEnd
         );
-      } catch (TronDBException e) {
+      } catch (HrnetworkDBException e) {
         logger.error(" Find fatal error , program will be exited soon", e);
         hitDown = true;
         LockSupport.unpark(exitThread);
@@ -356,7 +356,7 @@ public class SnapshotManager implements RevokingDatabase {
               .getInstance().getStorage().isDbSync()));
 
     } catch ( Exception e) {
-      throw new TronDBException(e);
+      throw new HrnetworkDBException(e);
     }
   }
 
@@ -371,7 +371,7 @@ public class SnapshotManager implements RevokingDatabase {
 
       checkTmpStore.getDbSource().updateByBatch(hmap);
     } catch (Exception e) {
-      throw new TronDBException(e);
+      throw new HrnetworkDBException(e);
     }
   }
 

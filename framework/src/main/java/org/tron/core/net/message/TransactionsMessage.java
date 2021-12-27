@@ -5,7 +5,7 @@ import org.tron.core.capsule.TransactionCapsule;
 import org.tron.protos.Protocol;
 import org.tron.protos.Protocol.Transaction;
 
-public class TransactionsMessage extends TronMessage {
+public class TransactionsMessage extends HrnetworkMessage {
 
   private Protocol.Transactions transactions;
 

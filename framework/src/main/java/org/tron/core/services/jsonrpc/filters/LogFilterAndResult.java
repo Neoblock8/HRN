@@ -6,8 +6,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import lombok.Getter;
 import org.tron.core.Wallet;
 import org.tron.core.exception.JsonRpcInvalidParamsException;
-import org.tron.core.services.jsonrpc.TronJsonRpc.FilterRequest;
-import org.tron.core.services.jsonrpc.TronJsonRpc.LogFilterElement;
+import org.tron.core.services.jsonrpc.HrnetworkJsonRpc.FilterRequest;
+import org.tron.core.services.jsonrpc.HrnetworkJsonRpc.LogFilterElement;
 
 public class LogFilterAndResult extends FilterResult<LogFilterElement> {
 

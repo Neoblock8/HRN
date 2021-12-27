@@ -29,7 +29,7 @@ import org.tron.core.exception.UnLinkedBlockException;
 
 @Component
 @Slf4j(topic = "DB")
-public class KhaosDatabase extends TronDatabase {
+public class KhaosDatabase extends HrnetworkDatabase {
 
   private KhaosBlock head;
   @Getter

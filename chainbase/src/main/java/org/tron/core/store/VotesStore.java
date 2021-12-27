@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.VotesCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Component
-public class VotesStore extends TronStoreWithRevoking<VotesCapsule> {
+public class VotesStore extends HrnetworkStoreWithRevoking<VotesCapsule> {
 
   @Autowired
   public VotesStore(@Value("votes") String dbName) {

@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class NonUniqueObjectException extends TronException {
+public class NonUniqueObjectException extends HrnetworkException {
 
   public NonUniqueObjectException() {
     super();

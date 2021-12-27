@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class BalanceInsufficientException extends TronException {
+public class BalanceInsufficientException extends HrnetworkException {
 
   public BalanceInsufficientException() {
     super();

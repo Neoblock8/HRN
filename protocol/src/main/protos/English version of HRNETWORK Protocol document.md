@@ -1,7 +1,7 @@
    
 # Protobuf protocol
 
-## The protocol of TRON is defined by Google Protobuf and contains a range of layers, from account, block to transfer.
+## The protocol of HRNETWORK is defined by Google Protobuf and contains a range of layers, from account, block to transfer.
 
 + There are 3 types of account—basic account, asset release account and contract account, and attributes included in each account are name, types, address, balance and related asset.
 + A basic account is able to apply to be a validation node, which has serval parameters, including extra attributes, public key, URL, voting statistics, history performance, etc.

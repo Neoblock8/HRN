@@ -93,7 +93,7 @@ import org.tron.core.db.api.EnergyPriceHistoryLoader;
 import org.tron.core.db.api.MoveAbiHelper;
 import org.tron.core.db2.ISession;
 import org.tron.core.db2.core.Chainbase;
-import org.tron.core.db2.core.ITronChainBase;
+import org.tron.core.db2.core.IHrnetworkChainBase;
 import org.tron.core.db2.core.SnapshotManager;
 import org.tron.core.exception.AccountResourceInsufficientException;
 import org.tron.core.exception.BadBlockException;
@@ -1626,7 +1626,7 @@ public class Manager {
   public void updateFork(BlockCapsule block) {
     int blockVersion = block.getInstance().getBlockHeader().getRawData().getVersion();
     if (blockVersion > ChainConstant.BLOCK_VERSION) {
-      logger.warn("newer block version found: " + blockVersion + ", YOU MUST UPGRADE java-tron!");
+      logger.warn("newer block version found: " + blockVersion + ", YOU MUST UPGRADE HRNetwork!");
     }
     chainBaseManager
         .getForkController().update(block);
@@ -1668,7 +1668,7 @@ public class Manager {
     logger.info("******** end to close db ********");
   }
 
-  public void closeOneStore(ITronChainBase database) {
+  public void closeOneStore(IHrnetworkChainBase database) {
     logger.info("******** begin to close " + database.getName() + " ********");
     try {
       database.close();

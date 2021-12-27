@@ -12,18 +12,18 @@ import org.tron.common.storage.leveldb.LevelDbDataSourceImpl;
 import org.tron.common.storage.rocksdb.RocksDbDataSourceImpl;
 import org.tron.common.utils.StorageUtils;
 import org.tron.core.db.common.DbSourceInter;
-import org.tron.core.db2.core.ITronChainBase;
+import org.tron.core.db2.core.IHrnetworkChainBase;
 import org.tron.core.exception.BadItemException;
 import org.tron.core.exception.ItemNotFoundException;
 
 @Slf4j(topic = "DB")
-public abstract class TronDatabase<T> implements ITronChainBase<T> {
+public abstract class HrnetworkDatabase<T> implements IHrnetworkChainBase<T> {
 
   protected DbSourceInter<byte[]> dbSource;
   @Getter
   private String dbName;
 
-  protected TronDatabase(String dbName) {
+  protected HrnetworkDatabase(String dbName) {
     this.dbName = dbName;
 
     if ("LEVELDB".equals(CommonParameter.getInstance().getStorage()
@@ -46,7 +46,7 @@ public abstract class TronDatabase<T> implements ITronChainBase<T> {
     dbSource.initDB();
   }
 
-  protected TronDatabase() {
+  protected HrnetworkDatabase() {
   }
 
   public DbSourceInter<byte[]> getDbSource() {

@@ -20,14 +20,14 @@ import org.tron.core.capsule.PbftSignCapsule;
 import org.tron.core.config.Parameter.NetConstants;
 import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.BlockMessage;
 import org.tron.core.net.message.FetchInvDataMessage;
 import org.tron.core.net.message.MessageTypes;
 import org.tron.core.net.message.PbftCommitMessage;
 import org.tron.core.net.message.TransactionMessage;
 import org.tron.core.net.message.TransactionsMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.peer.Item;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.core.net.service.AdvService;
@@ -39,14 +39,14 @@ import org.tron.protos.Protocol.Transaction;
 
 @Slf4j(topic = "net")
 @Component
-public class FetchInvDataMsgHandler implements TronMsgHandler {
+public class FetchInvDataMsgHandler implements HrnetworkMsgHandler {
 
   private volatile Cache<Long, Boolean> epochCache = CacheBuilder.newBuilder().initialCapacity(100)
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
 
   private static final int MAX_SIZE = 1_000_000;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
   @Autowired
   private SyncService syncService;
   @Autowired
@@ -55,7 +55,7 @@ public class FetchInvDataMsgHandler implements TronMsgHandler {
   private ConsensusDelegate consensusDelegate;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, HrnetworkMessage msg) throws P2pException {
 
     FetchInvDataMessage fetchInvDataMsg = (FetchInvDataMessage) msg;
 

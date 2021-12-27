@@ -9,12 +9,12 @@ import org.tron.core.metrics.MetricsUtil;
 /**
  * msg factory.
  */
-public class TronMessageFactory extends MessageFactory {
+public class HrnetworkMessageFactory extends MessageFactory {
 
   private static final String DATA_LEN = ", len=";
 
   @Override
-  public TronMessage create(byte[] data) throws Exception {
+  public HrnetworkMessage create(byte[] data) throws Exception {
     boolean isException = false;
     try {
       byte type = data[0];
@@ -34,7 +34,7 @@ public class TronMessageFactory extends MessageFactory {
     }
   }
 
-  private TronMessage create(byte type, byte[] packed) throws Exception {
+  private HrnetworkMessage create(byte type, byte[] packed) throws Exception {
     MessageTypes receivedTypes = MessageTypes.fromByte(type);
     if (receivedTypes == null) {
       throw new P2pException(P2pException.TypeEnum.NO_SUCH_MESSAGE,

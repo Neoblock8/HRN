@@ -5,7 +5,7 @@ import org.tron.common.utils.Sha256Hash;
 import org.tron.core.capsule.TransactionCapsule;
 import org.tron.protos.Protocol.Transaction;
 
-public class TransactionMessage extends TronMessage {
+public class TransactionMessage extends HrnetworkMessage {
 
   private TransactionCapsule transactionCapsule;
 

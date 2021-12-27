@@ -12,7 +12,7 @@ import org.tron.core.capsule.BytesCapsule;
 import org.tron.core.exception.ItemNotFoundException;
 
 @Component
-public class BlockIndexStore extends TronStoreWithRevoking<BytesCapsule> {
+public class BlockIndexStore extends HrnetworkStoreWithRevoking<BytesCapsule> {
 
 
   @Autowired

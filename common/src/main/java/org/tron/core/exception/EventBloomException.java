@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class EventBloomException extends TronException {
+public class EventBloomException extends HrnetworkException {
 
   public EventBloomException() {
     super();

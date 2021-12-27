@@ -138,7 +138,7 @@ public class VoteWitnessActuator extends AbstractActuator {
           .checkedMultiply(sum, TRX_PRECISION); //trx -> drop. The vote count is based on TRX
       if (sum > tronPower) {
         throw new ContractValidateException(
-            "The total number of votes[" + sum + "] is greater than the tronPower[" + tronPower
+            "The total number of votes[" + sum + "] is greater than the HRNPower[" + tronPower
                 + "]");
       }
     } catch (ArithmeticException e) {

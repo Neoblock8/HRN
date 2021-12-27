@@ -25,7 +25,7 @@ import org.tron.core.capsule.BlockCapsule.BlockId;
 import org.tron.core.config.Parameter.NetConstants;
 import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.BlockMessage;
 import org.tron.core.net.message.FetchInvDataMessage;
 import org.tron.core.net.message.SyncBlockChainMessage;
@@ -39,7 +39,7 @@ import org.tron.protos.Protocol.ReasonCode;
 public class SyncService {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   @Autowired
   private PbftDataSyncHandler pbftDataSyncHandler;

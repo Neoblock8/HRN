@@ -10,7 +10,7 @@ import org.tron.protos.Protocol.Inventory;
 import org.tron.protos.Protocol.Inventory.InventoryType;
 
 
-public class InventoryMessage extends TronMessage {
+public class InventoryMessage extends HrnetworkMessage {
 
   protected Inventory inv;
 

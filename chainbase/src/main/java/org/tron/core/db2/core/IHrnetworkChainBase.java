@@ -6,7 +6,7 @@ import org.tron.common.utils.Quitable;
 import org.tron.core.exception.BadItemException;
 import org.tron.core.exception.ItemNotFoundException;
 
-public interface ITronChainBase<T> extends Iterable<Entry<byte[], T>>, Quitable {
+public interface IHrnetworkChainBase<T> extends Iterable<Entry<byte[], T>>, Quitable {
 
   /**
    * reset the database.

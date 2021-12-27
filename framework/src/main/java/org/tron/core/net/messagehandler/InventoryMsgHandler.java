@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.common.utils.Sha256Hash;
 import org.tron.core.config.args.Args;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.InventoryMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.peer.Item;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.core.net.service.AdvService;
@@ -15,10 +15,10 @@ import org.tron.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class InventoryMsgHandler implements TronMsgHandler {
+public class InventoryMsgHandler implements HrnetworkMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -29,7 +29,7 @@ public class InventoryMsgHandler implements TronMsgHandler {
   private int maxCountIn10s = 10_000;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) {
+  public void processMessage(PeerConnection peer, HrnetworkMessage msg) {
     InventoryMessage inventoryMessage = (InventoryMessage) msg;
     InventoryType type = inventoryMessage.getInventoryType();
 

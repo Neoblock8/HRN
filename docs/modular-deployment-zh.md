@@ -41,7 +41,7 @@ java-tron-1.0.0/bin/FullNode -c config.conf -w
 
 ## jvm参数配置
 
-java-tron 支持对 jvm 参数进行配置，配置文件为 bin 目录下的 java-tron.vmoptions 文件。
+java-tron 支持对 jvm 参数进行配置，配置文件为 bin 目录下的 java-hrnetwork.vmoptions 文件。
 ```
 # demo
 -XX:+UseConcMarkSweepGC

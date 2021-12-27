@@ -1,6 +1,6 @@
 package org.tron.common.logsfilter.capsule;
 
-import static org.tron.core.services.jsonrpc.TronJsonRpcImpl.handleBLockFilter;
+import static org.tron.core.services.jsonrpc.HrnetworkJsonRpcImpl.handleBLockFilter;
 
 import lombok.Getter;
 import lombok.Setter;

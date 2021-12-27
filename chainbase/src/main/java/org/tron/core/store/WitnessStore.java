@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.WitnessCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Slf4j(topic = "DB")
 @Component
-public class WitnessStore extends TronStoreWithRevoking<WitnessCapsule> {
+public class WitnessStore extends HrnetworkStoreWithRevoking<WitnessCapsule> {
 
   @Autowired
   protected WitnessStore(@Value("witness") String dbName) {

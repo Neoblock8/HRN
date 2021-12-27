@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tron.core.metrics.MetricsKey;
 import org.tron.core.metrics.MetricsUtil;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.protos.Protocol;
 
@@ -20,7 +20,7 @@ import org.tron.protos.Protocol;
 public class NetMetricManager {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   /**
    * get net info.

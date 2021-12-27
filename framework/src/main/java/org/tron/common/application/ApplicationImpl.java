@@ -10,7 +10,7 @@ import org.tron.core.config.args.Args;
 import org.tron.core.consensus.ConsensusService;
 import org.tron.core.db.Manager;
 import org.tron.core.metrics.MetricsUtil;
-import org.tron.core.net.TronNetService;
+import org.tron.core.net.HrnetworkNetService;
 import org.tron.program.FullNode;
 
 @Slf4j(topic = "app")
@@ -20,7 +20,7 @@ public class ApplicationImpl implements Application {
   private ServiceContainer services;
 
   @Autowired
-  private TronNetService tronNetService;
+  private HrnetworkNetService tronNetService;
 
   @Autowired
   private Manager dbManager;

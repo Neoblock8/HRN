@@ -91,7 +91,7 @@ public class VoteWitnessProcessor {
       sum =  LongMath.checkedMultiply(sum, TRX_PRECISION);
       if (sum > tronPower) {
         throw new ContractExeException(
-            "The total number of votes[" + sum + "] is greater than the tronPower[" + tronPower
+            "The total number of votes[" + sum + "] is greater than the HRNPower[" + tronPower
                 + "]");
       }
     } catch (ArithmeticException e) {

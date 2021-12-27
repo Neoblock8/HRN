@@ -6,7 +6,7 @@ import org.tron.core.capsule.TransactionCapsule;
 import org.tron.protos.Protocol.Block;
 import org.tron.protos.Protocol.Items;
 
-public class BlocksMessage extends TronMessage {
+public class BlocksMessage extends HrnetworkMessage {
 
   private List<Block> blocks;
 

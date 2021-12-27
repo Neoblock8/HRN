@@ -2,7 +2,7 @@ package org.tron.core.net.message;
 
 import org.tron.protos.Protocol;
 
-public class ItemNotFound extends TronMessage {
+public class ItemNotFound extends HrnetworkMessage {
 
   private org.tron.protos.Protocol.Items notFound;
 

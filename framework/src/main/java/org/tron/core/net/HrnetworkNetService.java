@@ -9,7 +9,7 @@ import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
 import org.tron.core.net.message.BlockMessage;
 import org.tron.core.net.message.TransactionMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.messagehandler.BlockMsgHandler;
 import org.tron.core.net.messagehandler.ChainInventoryMsgHandler;
 import org.tron.core.net.messagehandler.FetchInvDataMsgHandler;
@@ -25,7 +25,7 @@ import org.tron.protos.Protocol.ReasonCode;
 
 @Slf4j(topic = "net")
 @Component
-public class TronNetService {
+public class HrnetworkNetService {
 
   @Autowired
   private ChannelManager channelManager;
@@ -67,7 +67,7 @@ public class TronNetService {
     syncService.init();
     peerStatusCheck.init();
     transactionsMsgHandler.init();
-    logger.info("TronNetService start successfully.");
+    logger.info("HrnetworkNetService start successfully.");
   }
 
   public void stop() {
@@ -76,7 +76,7 @@ public class TronNetService {
     syncService.close();
     peerStatusCheck.close();
     transactionsMsgHandler.close();
-    logger.info("TronNetService closed successfully.");
+    logger.info("HrnetworkNetService closed successfully.");
   }
 
   public int fastBroadcastTransaction(TransactionMessage msg) {
@@ -91,7 +91,7 @@ public class TronNetService {
     advService.fastForward(msg);
   }
 
-  protected void onMessage(PeerConnection peer, TronMessage msg) {
+  protected void onMessage(PeerConnection peer, HrnetworkMessage msg) {
     try {
       switch (msg.getType()) {
         case SYNC_BLOCK_CHAIN:
@@ -123,7 +123,7 @@ public class TronNetService {
     }
   }
 
-  private void processException(PeerConnection peer, TronMessage msg, Exception ex) {
+  private void processException(PeerConnection peer, HrnetworkMessage msg, Exception ex) {
     ReasonCode code;
 
     if (ex instanceof P2pException) {

@@ -6,7 +6,7 @@ import org.tron.core.capsule.BlockCapsule;
 import org.tron.core.capsule.BlockCapsule.BlockId;
 import org.tron.core.capsule.TransactionCapsule;
 
-public class BlockMessage extends TronMessage {
+public class BlockMessage extends HrnetworkMessage {
 
   private BlockCapsule block;
 

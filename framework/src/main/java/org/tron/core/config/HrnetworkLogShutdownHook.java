@@ -6,9 +6,9 @@ import org.tron.program.FullNode;
 
 /**
  * @author kiven
- * tron log shutdown hock
+ * hrnetwork log shutdown hock
  */
-public class TronLogShutdownHook extends ShutdownHookBase {
+public class HrnetworkLogShutdownHook extends ShutdownHookBase {
 
   /**
    * The default shutdown delay check unit.
@@ -20,7 +20,7 @@ public class TronLogShutdownHook extends ShutdownHookBase {
    */
   private Integer check_times = 50;
 
-  public TronLogShutdownHook() {
+  public HrnetworkLogShutdownHook() {
   }
 
   @Override
@@ -35,7 +35,7 @@ public class TronLogShutdownHook extends ShutdownHookBase {
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-      addInfo("TronLogShutdownHook run error :" + e.getMessage());
+      addInfo("HrnetworkLogShutdownHook run error :" + e.getMessage());
     }
     super.stop();
   }

@@ -15,11 +15,11 @@ import org.tron.common.utils.MarketOrderPriceComparatorForRockDB;
 import org.tron.common.utils.StorageUtils;
 import org.tron.core.capsule.MarketOrderIdListCapsule;
 import org.tron.core.capsule.utils.MarketUtils;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 import org.tron.core.exception.ItemNotFoundException;
 
 @Component
-public class MarketPairPriceToOrderStore extends TronStoreWithRevoking<MarketOrderIdListCapsule> {
+public class MarketPairPriceToOrderStore extends HrnetworkStoreWithRevoking<MarketOrderIdListCapsule> {
 
   @Autowired
   protected MarketPairPriceToOrderStore(@Value("market_pair_price_to_order") String dbName) {

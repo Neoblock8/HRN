@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.CodeCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Slf4j(topic = "DB")
 @Component
-public class CodeStore extends TronStoreWithRevoking<CodeCapsule> {
+public class CodeStore extends HrnetworkStoreWithRevoking<CodeCapsule> {
 
   @Autowired
   private CodeStore(@Value("code") String dbName) {

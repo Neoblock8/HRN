@@ -16,30 +16,20 @@
  * along with the ethereumJ library. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.tron.common.crypto.jce;
+package org.tron.core.net.message;
 
-import java.security.Provider;
-import java.security.Security;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.tron.common.crypto.cryptohash.Keccak256;
-import org.tron.common.crypto.cryptohash.Keccak512;
+import org.tron.common.overlay.message.Message;
 
-public final class TronCastleProvider {
+public abstract class HrnetworkMessage extends Message {
 
-  public static Provider getInstance() {
-    return Holder.INSTANCE;
+  public HrnetworkMessage() {
   }
 
-  private static class Holder {
+  public HrnetworkMessage(byte[] rawData) {
+    super(rawData);
+  }
 
-    private static final Provider INSTANCE;
-
-    static {
-      Provider p = Security.getProvider("BC");
-
-      INSTANCE = (p != null) ? p : new BouncyCastleProvider();
-      INSTANCE.put("MessageDigest.TRON-KECCAK-256", Keccak256.class.getName());
-      INSTANCE.put("MessageDigest.TRON-KECCAK-512", Keccak512.class.getName());
-    }
+  public HrnetworkMessage(byte type, byte[] rawData) {
+    super(type, rawData);
   }
 }

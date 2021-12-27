@@ -1,30 +1,30 @@
-# Tron Protocol 
+# HRNetwork Protocol 
 
 ## Overview 
 
-This is the description of  Google Protobuf implementation of Tron's protocol.
+This is the description of  Google Protobuf implementation of HRNetwork's protocol.
 
 ## Contents 
 
-#### [1. Account](#account)
+#### [1.Account](#account)
 
-#### [2. Witness](#witness)
+#### [2.Witness](#witness)
 
-#### [3. Block](#block)
+#### [3.Block](#block)
 
-#### [4. Transaction](#trans)
+#### [4.Transaction](#trans)
 
-#### [5. Contract](#contract)
+#### [5.Contract](#contract)
 
-#### [6. Network](#net)
+#### [6.Network](#net)
 
 ## Protocols
 
-### <span id="account">1. Account</span>
+### <span id="account">1.Account</span>
 
 Account and account-related messages.
 
-- Tron has 3 `types` of account: Normal, AssetIssue, Contract
+- HRNetwork has 3 `types` of account: Normal, AssetIssue, Contract
 
 ```java
 enum AccountType {
@@ -68,15 +68,15 @@ enum AccountType {
   
   `account_id`: the id of this account 
 
-  `balance`: the TRX balance of this account.
+  `balance`: the WYZ balance of this account.
 
   `votes`: received votes of this account. – e.g. *{(“0x1b7w…9xj3”,323), (“0x8djq…j12m”,88),…,(“0x82nd…mx6i”,10001)}*.
 
-  `asset`: other assets except TRX in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*.
+  `asset`: other assets except WYZ in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*.
 
-  `assetV2`: other assets except TRX in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*. (used after allowing same name of token87)
+  `assetV2`: other assets except WYZ in this account – e.g. *{<“WishToken”,66666>,<”Dogie”,233>}*. (used after allowing same name of token87)
 
-  `frozen`: the freezed TRX of this account for receiving bandwidth
+  `frozen`: the freezed WYZ of this account for receiving bandwidth
 
   `net_usage`: the used bandwidth of this account
 
@@ -186,7 +186,7 @@ message Account {
     
   - Message `AccountId`
   
-    `name`: the name of this account.
+    `name`: the name ofthis account.
   
     `address`: the address of this account.
   
@@ -202,7 +202,7 @@ message Account {
     
   
 
-### <span id="witness"> 2. Witness</span>
+### <span id="witness"> 2.Witness</span>
 
 Witness and witness-related messages.
 
@@ -241,7 +241,7 @@ Witness and witness-related messages.
   ```
 
 
-### <span id="block"> 3. Block</span>
+### <span id="block"> 3.Block</span>
 
 - message `Block`
 
@@ -314,7 +314,7 @@ message BlockHeader {
   
 
 
-### <span id="trans"> 4. Transaction</span>
+### <span id="trans"> 4.Transaction</span>
 
 Transaction and transaction-related messages.
 
@@ -410,9 +410,9 @@ Transaction and transaction-related messages.
 
     `net_usage`: consume yourself net.
 
-    `net_fee`: consume yourself trx of net usage.
+    `net_fee`: consume yourself wyz of net usage.
 
-    `result`: the result of executing transaction.
+    `result`: he result of executing transaction.
 
     ```java
     message ResourceReceipt {
@@ -449,7 +449,7 @@ Transaction and transaction-related messages.
 
     `transferTo_address`:
 
-    `callValueInfo`: Refers to asset transfer information in internal transactions, including trx and trc10.
+    `callValueInfo`: Refers to asset transfer information in internal transactions, including wyz and trc10.
 
    ```java
        message InternalTransaction {
@@ -735,7 +735,7 @@ Transaction and transaction-related messages.
 
    `withdraw_amount`: the amount for witness withdraw.
 
-   `unfreeze_amount`: unfreeze trx amount.
+   `unfreeze_amount`: unfreeze wyz amount.
 
    `internal_transactions`: internal transaction lists.
 
@@ -817,11 +817,11 @@ Transaction and transaction-related messages.
   
 
 
-### <span id="contract"> 5. Contract</span>
+### <span id="contract"> 5.Contract</span>
 
 Contract and contract-related messages.
 
-- Tron has 33 types of Contracts declared within [`Transaction`](#trans).
+- HRNetwork has 33 types of Contracts declared within [`Transaction`](#trans).
 
 - message `Contract`
 
@@ -928,7 +928,7 @@ Contract and contract-related messages.
 
     `to_address`: receiver address.
 
-    `amount`：amount of TRX.
+    `amount`：amount of WYZ.
 
     ```java
     message TransferContract {
@@ -1045,11 +1045,11 @@ Contract and contract-related messages.
 
       `frozen_supply`: frozen supplt of asset.
 
-      `trx_num`: trx num defines token price.
+      `wyz_num`: wyz num defines token price.
 
       `precision`: precision.
 
-      `num`: trx num defines token price.
+      `num`: wyz num defines token price.
 
       `start_time`: starting date of contract.
 
@@ -1082,7 +1082,7 @@ Contract and contract-related messages.
           bytes abbr = 3;
           int64 total_supply = 4;
           repeated FrozenSupply frozen_supply = 5;
-          int32 trx_num = 6;
+          int32 wyz_num = 6;
           int32 precision = 7;
           int32 num = 8;
           int64 start_time = 9;
@@ -1147,11 +1147,11 @@ Contract and contract-related messages.
 
       `owner_address`: address of owner.
 
-      `frozen_balance`: frozen amount of TRX.
+      `frozen_balance`: frozen amount of WYZ.
 
-      `frozen_duration`: frozen duration of TRX.
+      `frozen_duration`: frozen duration of WYZ.
 
-      `resource`: type of resource gained from freezing TRX.
+      `resource`: type of resource gained from freezing WYZ.
 
       `receiver_address`: account address to receive resource.
 
@@ -1306,7 +1306,7 @@ Contract and contract-related messages.
     
        `contract_address`: smart contract address to interact with.
     
-       `call_value`: TRX amount sent to smart contract.
+       `call_value`: WYZ amount sent to smart contract.
     
        `data`: functions and parameters called in smart contract.
     
@@ -1596,7 +1596,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
   
   `bytecode`: bytecode of the smart contract.
   
-  `call_value`: amount of TRX that send to the smart contract.
+  `call_value`: amount of WYZ that send to the smart contract.
   
   `consume_user_resource_percent`: user energy payment percentage of the whole energy payment which includes both contract deployer’s payment and user energy payment.
   
@@ -1606,7 +1606,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
   
   `code_hash`: hash of smart contract bytecode.
   
-  `trx_hash`:  transactionId of Deploying contract transaction.
+  `wyz_hash`:  transactionId of Deploying contract transaction.
   
   ```java
     message SmartContract {
@@ -1653,7 +1653,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
         string name = 7;
         int64 origin_energy_limit = 8;
         bytes code_hash = 9;
-        bytes trx_hash = 10;
+        bytes wyz_hash = 10;
     }
     ```
   
@@ -1853,7 +1853,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     }
     ```
 
-### <span id="net"> 6. Network</span>
+### <span id="net"> 6.Network</span>
 
 - #### Inventory
 
@@ -1939,7 +1939,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
 
     ```java
     enum InventoryType {
-      TRX = 0;
+      WYZ = 0;
       BLOCK = 1;
     }
     ```
@@ -1951,7 +1951,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     ```java
     message Inventory {
       enum InventoryType {
-        TRX = 0;
+        WYZ = 0;
         BLOCK = 1;
       }
       InventoryType type = 1;
@@ -1966,7 +1966,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     ```java
     enum ItemType {
       ERR = 0;
-      TRX = 1;
+      WYZ = 1;
       BLOCK = 2;
       BLOCKHEADER = 3;
     }
@@ -1984,7 +1984,7 @@ message `SmartContract` has mutiple attributes and nested message `ABI`
     message Items {
       enum ItemType {
         ERR = 0;
-        TRX = 1;
+        WYZ = 1;
         BLOCK = 2;
         BLOCKHEADER = 3;
       }

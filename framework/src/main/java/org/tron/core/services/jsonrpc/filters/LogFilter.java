@@ -14,7 +14,7 @@ import org.tron.common.bloom.Bloom;
 import org.tron.common.crypto.Hash;
 import org.tron.common.runtime.vm.DataWord;
 import org.tron.core.exception.JsonRpcInvalidParamsException;
-import org.tron.core.services.jsonrpc.TronJsonRpc.FilterRequest;
+import org.tron.core.services.jsonrpc.HrnetworkJsonRpc.FilterRequest;
 import org.tron.protos.Protocol.TransactionInfo.Log;
 
 @Slf4j(topic = "API")

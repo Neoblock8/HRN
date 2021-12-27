@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.DelegatedResourceCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Component
-public class DelegatedResourceStore extends TronStoreWithRevoking<DelegatedResourceCapsule> {
+public class DelegatedResourceStore extends HrnetworkStoreWithRevoking<DelegatedResourceCapsule> {
 
   @Autowired
   public DelegatedResourceStore(@Value("DelegatedResource") String dbName) {

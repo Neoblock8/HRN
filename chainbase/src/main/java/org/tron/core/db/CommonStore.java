@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.tron.core.capsule.BytesCapsule;
 
 @Component
-public class CommonStore extends TronDatabase<BytesCapsule> {
+public class CommonStore extends HrnetworkDatabase<BytesCapsule> {
 
   @Autowired
   public CommonStore(ApplicationContext ctx) {

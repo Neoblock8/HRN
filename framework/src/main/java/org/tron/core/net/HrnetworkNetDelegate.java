@@ -56,7 +56,7 @@ import org.tron.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class TronNetDelegate {
+public class HrnetworkNetDelegate {
 
   @Autowired
   private SyncPool syncPool;

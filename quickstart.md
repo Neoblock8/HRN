@@ -2,9 +2,9 @@
 
 ## Introduction
 
-This guide provides two ways for TRON quickstart:
+This guide provides two ways for HRNETWORK quickstart:
 - Set up a FullNode using the official tools: providing a wealth of configurable parameters to startup a FullNode
-- Set up a complete private network for Tron development using a third-party tool: [docker-tron-quickstart](https://github.com/TRON-US/docker-tron-quickstart)
+- Set up a complete private network for HRNetwork development using a third-party tool: [docker-hrnetwork-quickstart](https://github.com/HRNETWORK-US/docker-hrnetwork-quickstart)
 
 ## Dependencies
 
@@ -18,33 +18,33 @@ Please download and install the latest Docker from Docker official website:
 
 ### Build the docker image from source
 
-#### Clone the java-tron repo
+#### Clone the java-hrnetwork repo
 
-Clone the java-tron repo from github and enter the directory `java-tron`:
+Clone the java-hrnetwork repo from github and enter the directory `java-hrnetwork`:
 ```
-git clone https://github.com/tronprotocol/java-tron.git
-cd java-tron
+git clone https://github.com/hrnetworkprotocol/java-hrnetwork.git
+cd java-hrnetwork
 ```
 
 #### Build the docker image
 
 Use below command to start the build:
 ```
-docker build -t tronprotocol/java-tron .
+docker build -t hrnetworkprotocol/java-hrnetwork .
 ```
 
 #### Using the official Docker images
 
 Download the official docker image from the Dockerhub with below command if you'd like to use the official images:
 ```
-docker pull tronprotocol/java-tron
+docker pull hrnetworkprotocol/java-hrnetwork
 ```
 
 ### Run the container
 
-You can run the command below to start the java-tron:
+You can run the command below to start the java-hrnetwork:
 ```
-docker run -it -d -p 8090:8090 -p 8091:8091 -p 18888:18888 -p 50051:50051 --restart always tronprotocol/java-tron 
+docker run -it -d -p 8090:8090 -p 8091:8091 -p 18888:18888 -p 50051:50051 --restart always hrnetworkprotocol/java-hrnetwork 
 ```
 
 The `-p` flag defines the ports that the container needs to be mapped on the host machine. By default the container will start and join in the mainnet
@@ -52,44 +52,44 @@ using the built-in configuration file, you can specify other configuration file 
 This image also supports customizing some startup parameters，here is an example for running a FullNode as an SR in production env:
 ```
 docker run -it -d -p 8080:8080 -p 8090:8090 -p 18888:18888 -p 50051:50051 \
-           -v /Users/quan/tron/docker/conf:/java-tron/conf \
-           -v /Users/quan/tron/docker/datadir:/java-tron/data \
-           tronprotocol/java-tron \
+           -v /Users/quan/hrnetwork/docker/conf:/java-hrnetwork/conf \
+           -v /Users/quan/hrnetwork/docker/datadir:/java-hrnetwork/data \
+           hrnetworkprotocol/java-hrnetwork \
            -jvm "{-Xmx10g -Xms10g}" \
-           -c /java-tron/conf/config-localtest.conf \
-           -d /java-tron/data \
+           -c /java-hrnetwork/conf/config-localtest.conf \
+           -d /java-hrnetwork/data \
            -w 
 ```
-Note: The directory `/Users/tron/docker/conf` must contain the file `config-localtest.conf`. The jvm parameters must be enclosed in double quotes and braces.
+Note: The directory `/Users/hrnetwork/docker/conf` must contain the file `config-localtest.conf`. The jvm parameters must be enclosed in double quotes and braces.
 
-## Quickstart for using docker-tron-quickstart
+## Quickstart for using docker-hrnetwork-quickstart
 
-The image exposes a Full Node, Solidity Node, and Event Server. Through TRON Quickstart, users can deploy DApps, smart contracts, and interact with the TronWeb library.
-Check more information at [Quickstart:](https://github.com/TRON-US/docker-tron-quickstart)
+The image exposes a Full Node, Solidity Node, and Event Server. Through HRNETWORK Quickstart, users can deploy DApps, smart contracts, and interact with the HRNetworkWeb library.
+Check more information at [Quickstart:](https://github.com/HRNETWORK-US/docker-hrnetwork-quickstart)
 
 ### Node.JS Console
-  Node.JS is used to interact with the Full and Solidity Nodes via Tron-Web.  
+  Node.JS is used to interact with the Full and Solidity Nodes via HRNetwork-Web.  
   [Node.JS](https://nodejs.org/en/) Console Download
   
-### Clone TRON Quickstart  
+### Clone HRNETWORK Quickstart  
 ```shell
-git clone https://github.com/TRON-US/docker-tron-quickstart.git
+git clone https://github.com/HRNETWORK-US/docker-hrnetwork-quickstart.git
 ```  
 
 ### Pull the image using docker:
 ```shell
-docker pull trontools/quickstart
+docker pull hrnetworktools/quickstart
 ```  
 
-## Setup TRON Quickstart   
-### TRON Quickstart Run
-Run the "docker run" command to launch TRON Quickstart. TRON Quickstart exposes port 9090 for Full Node, Solidity Node, and Event Server.
+## Setup HRNETWORK Quickstart   
+### HRNETWORK Quickstart Run
+Run the "docker run" command to launch HRNETWORK Quickstart. HRNETWORK Quickstart exposes port 9090 for Full Node, Solidity Node, and Event Server.
 ```shell
 docker run -it \
   -p 9090:9090 \
   --rm \
-  --name tron \
-  trontools/quickstart
+  --name hrnetwork \
+  hrnetworktools/quickstart
 ```  
 Notice: the option --rm automatically removes the container after it exits. This is very important because the container cannot be restarted, it MUST be run from scratch to correctly configure the environment.
 
@@ -104,12 +104,12 @@ If everything goes well, your terminal console output will look like following :
 
     [PM2] Spawning PM2 daemon with pm2_home=/root/.pm2
     [PM2] PM2 Successfully daemonized
-    [PM2][WARN] Applications eventron not running, starting...
-    [PM2] App [eventron] launched (1 instances)
+    [PM2][WARN] Applications evenhrnetwork not running, starting...
+    [PM2] App [evenhrnetwork] launched (1 instances)
     ┌──────────┬────┬─────────┬──────┬─────┬────────┬─────────┬────────┬─────┬───────────┬──────┬──────────┐
     │ App name │ id │ version │ mode │ pid │ status │ restart │ uptime │ cpu │ mem       │ user │ watching │
     ├──────────┼────┼─────────┼──────┼─────┼────────┼─────────┼────────┼─────┼───────────┼──────┼──────────┤
-    │ eventron │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
+    │ evenhrnetwork │ 0  │ N/A     │ fork │ 60  │ online │ 0       │ 0s     │ 0%  │ 25.4 MB   │ root │ disabled │
     └──────────┴────┴─────────┴──────┴─────┴────────┴─────────┴────────┴─────┴───────────┴──────┴──────────┘
     Use `pm2 show <id|name>` to get more details about an app
     Start the http proxy for dApps...
@@ -117,7 +117,7 @@ If everything goes well, your terminal console output will look like following :
     [HPM] Proxy created: /  ->  http://127.0.0.1:18190
     [HPM] Proxy created: /  ->  http://127.0.0.1:8060
 
-    Tron Quickstart listening on http://127.0.0.1:9090
+    HRNetwork Quickstart listening on http://127.0.0.1:9090
 
 
 
@@ -194,11 +194,11 @@ If everything goes well, your terminal console output will look like following :
 3. there will be a response JSON data: 
 
 ```
- {"Welcome to":"TronGrid v2.2.8"}
+ {"Welcome to":"HRNetworkGrid v2.2.8"}
 ```
 
 ## Docker Commands 
-Here are some useful docker commands, which will help you manage the TRON Quickstart Docker container on your machine. 
+Here are some useful docker commands, which will help you manage the HRNETWORK Quickstart Docker container on your machine. 
 
 **To list all active containers on your machine, run:**
 ```shell
@@ -209,7 +209,7 @@ docker container ps
 docker container ps
 
 CONTAINER ID        IMAGE               COMMAND                 CREATED             STATUS              PORTS                                              NAMES
-513078dc7816        tron                "./quickstart v2.0.0"   About an hour ago   Up About an hour    0.0.0.0:9090->9090/tcp, 0.0.0.0:18190->18190/tcp   tron
+513078dc7816        hrnetwork                "./quickstart v2.0.0"   About an hour ago   Up About an hour    0.0.0.0:9090->9090/tcp, 0.0.0.0:18190->18190/tcp   hrnetwork
 ```  
 **To kill an active container, run:**
 ```shell
@@ -218,7 +218,7 @@ docker container kill 513078dc7816   // use your container ID
 
 ### How to check the logs of the FullNode ###
 ```
-  docker exec -it tron tail -f /tron/FullNode/logs/tron.log 
+  docker exec -it hrnetwork tail -f /hrnetwork/FullNode/logs/hrnetwork.log 
 ```
 
  <details>

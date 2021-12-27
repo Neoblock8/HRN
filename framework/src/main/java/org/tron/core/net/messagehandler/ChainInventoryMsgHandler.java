@@ -14,24 +14,24 @@ import org.tron.core.config.Parameter.ChainConstant;
 import org.tron.core.config.Parameter.NetConstants;
 import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.ChainInventoryMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.core.net.service.SyncService;
 
 @Slf4j(topic = "net")
 @Component
-public class ChainInventoryMsgHandler implements TronMsgHandler {
+public class ChainInventoryMsgHandler implements HrnetworkMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   @Autowired
   private SyncService syncService;
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, HrnetworkMessage msg) throws P2pException {
 
     ChainInventoryMessage chainInventoryMessage = (ChainInventoryMessage) msg;
 

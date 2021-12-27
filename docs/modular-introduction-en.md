@@ -41,7 +41,7 @@ In addition, chainbase module features a well-designed abstract interface. Any d
 Below are a few important implementation classes and interfaces in chainbase module:
 
 1. RevokingDatabase is the interface of database container that manages all databases that can roll back. SnapshotManager is an implementation of the interface.
-2. TronStoreWithRevoking is the base abstract class of databases that can roll back. Chainbase class is its implementation.
+2. HrnetworkStoreWithRevoking is the base abstract class of databases that can roll back. Chainbase class is its implementation.
 
 ### consensus
 

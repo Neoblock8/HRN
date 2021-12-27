@@ -14,10 +14,10 @@ import org.springframework.stereotype.Component;
 import org.tron.core.config.args.Args;
 import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.TransactionMessage;
 import org.tron.core.net.message.TransactionsMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.peer.Item;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.core.net.service.AdvService;
@@ -28,12 +28,12 @@ import org.tron.protos.Protocol.Transaction.Contract.ContractType;
 
 @Slf4j(topic = "net")
 @Component
-public class TransactionsMsgHandler implements TronMsgHandler {
+public class TransactionsMsgHandler implements HrnetworkMsgHandler {
 
   private static int MAX_TRX_SIZE = 50_000;
   private static int MAX_SMART_CONTRACT_SUBMIT_SIZE = 100;
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
   @Autowired
   private AdvService advService;
 
@@ -61,7 +61,7 @@ public class TransactionsMsgHandler implements TronMsgHandler {
   }
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, HrnetworkMessage msg) throws P2pException {
     TransactionsMessage transactionsMessage = (TransactionsMessage) msg;
     check(peer, transactionsMessage);
     for (Transaction trx : transactionsMessage.getTransactions().getTransactionsList()) {

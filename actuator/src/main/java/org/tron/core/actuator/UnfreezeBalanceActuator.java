@@ -434,10 +434,10 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
           if (dynamicStore.supportAllowNewResourceModel()) {
             Frozen frozenBalanceForTronPower = accountCapsule.getInstance().getTronPower();
             if (frozenBalanceForTronPower.getFrozenBalance() <= 0) {
-              throw new ContractValidateException("no frozenBalance(TronPower)");
+              throw new ContractValidateException("no frozenBalance(HRNPower)");
             }
             if (frozenBalanceForTronPower.getExpireTime() > now) {
-              throw new ContractValidateException("It's not time to unfreeze(TronPower).");
+              throw new ContractValidateException("It's not time to unfreeze(HRNPower).");
             }
           } else {
             throw new ContractValidateException(
@@ -447,7 +447,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
         default:
           if (dynamicStore.supportAllowNewResourceModel()) {
             throw new ContractValidateException(
-                "ResourceCode error.valid ResourceCode[BANDWIDTH、Energy、TRON_POWER]");
+                "ResourceCode error.valid ResourceCode[BANDWIDTH、Energy、HRN_POWER]");
           } else {
             throw new ContractValidateException(
                 "ResourceCode error.valid ResourceCode[BANDWIDTH、Energy]");

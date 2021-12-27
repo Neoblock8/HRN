@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
 import org.tron.common.application.Application;
 import org.tron.common.application.ApplicationFactory;
-import org.tron.common.application.TronApplicationContext;
+import org.tron.common.application.HrnetworkApplicationContext;
 import org.tron.common.overlay.client.DatabaseGrpcClient;
 import org.tron.common.overlay.discover.DiscoverServer;
 import org.tron.common.overlay.discover.node.NodeManager;
@@ -21,7 +21,7 @@ import org.tron.core.capsule.BlockCapsule;
 import org.tron.core.config.DefaultConfig;
 import org.tron.core.config.args.Args;
 import org.tron.core.db.Manager;
-import org.tron.core.net.TronNetService;
+import org.tron.core.net.HrnetworkNetService;
 import org.tron.core.services.RpcApiService;
 import org.tron.core.services.http.solidity.SolidityNodeHttpApiService;
 import org.tron.protos.Protocol.Block;
@@ -72,7 +72,7 @@ public class SolidityNode {
     }
     parameter.setSolidityNode(true);
 
-    ApplicationContext context = new TronApplicationContext(DefaultConfig.class);
+    ApplicationContext context = new HrnetworkApplicationContext(DefaultConfig.class);
 
     if (parameter.isHelp()) {
       logger.info("Here is the help message.");
@@ -98,7 +98,7 @@ public class SolidityNode {
     discoverServer.close();
     NodeManager nodeManager = context.getBean(NodeManager.class);
     nodeManager.close();
-    TronNetService tronNetService = context.getBean(TronNetService.class);
+    HrnetworkNetService tronNetService = context.getBean(HrnetworkNetService.class);
     tronNetService.stop();
 
     SolidityNode node = new SolidityNode(appT.getDbManager());

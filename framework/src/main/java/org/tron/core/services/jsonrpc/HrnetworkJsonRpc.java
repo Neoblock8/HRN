@@ -29,7 +29,7 @@ import org.tron.core.services.jsonrpc.types.TransactionReceipt;
 import org.tron.core.services.jsonrpc.types.TransactionResult;
 
 @Component
-public interface TronJsonRpc {
+public interface HrnetworkJsonRpc {
 
   @JsonRpcMethod("web3_clientVersion")
   String web3ClientVersion();

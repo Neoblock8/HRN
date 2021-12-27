@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.tron.core.capsule.IncrementalMerkleTreeCapsule;
-import org.tron.core.db.TronStoreWithRevoking;
+import org.tron.core.db.HrnetworkStoreWithRevoking;
 
 @Slf4j(topic = "DB")
 @Component
 public class IncrementalMerkleTreeStore
-    extends TronStoreWithRevoking<IncrementalMerkleTreeCapsule> {
+    extends HrnetworkStoreWithRevoking<IncrementalMerkleTreeCapsule> {
 
   @Autowired
   public IncrementalMerkleTreeStore(@Value("IncrementalMerkleTree") String dbName) {

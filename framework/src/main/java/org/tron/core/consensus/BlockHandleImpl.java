@@ -11,7 +11,7 @@ import org.tron.consensus.base.Param.Miner;
 import org.tron.consensus.base.State;
 import org.tron.core.capsule.BlockCapsule;
 import org.tron.core.db.Manager;
-import org.tron.core.net.TronNetService;
+import org.tron.core.net.HrnetworkNetService;
 import org.tron.core.net.message.BlockMessage;
 
 @Slf4j(topic = "consensus")
@@ -25,7 +25,7 @@ public class BlockHandleImpl implements BlockHandle {
   private BackupManager backupManager;
 
   @Autowired
-  private TronNetService tronNetService;
+  private HrnetworkNetService tronNetService;
 
   @Autowired
   private Consensus consensus;

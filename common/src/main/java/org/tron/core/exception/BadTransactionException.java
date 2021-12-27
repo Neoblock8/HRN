@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class BadTransactionException extends TronException {
+public class BadTransactionException extends HrnetworkException {
 
   public BadTransactionException() {
     super();

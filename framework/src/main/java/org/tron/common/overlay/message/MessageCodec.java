@@ -12,7 +12,7 @@ import org.tron.core.metrics.MetricsKey;
 import org.tron.core.metrics.MetricsUtil;
 import org.tron.core.net.message.MessageTypes;
 import org.tron.core.net.message.PbftMessageFactory;
-import org.tron.core.net.message.TronMessageFactory;
+import org.tron.core.net.message.HrnetworkMessageFactory;
 
 @Component
 @Scope("prototype")
@@ -20,7 +20,7 @@ public class MessageCodec extends ByteToMessageDecoder {
 
   private Channel channel;
   private P2pMessageFactory p2pMessageFactory = new P2pMessageFactory();
-  private TronMessageFactory tronMessageFactory = new TronMessageFactory();
+  private HrnetworkMessageFactory tronMessageFactory = new HrnetworkMessageFactory();
   private PbftMessageFactory pbftMessageFactory = new PbftMessageFactory();
 
   @Override

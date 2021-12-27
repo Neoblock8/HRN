@@ -7,20 +7,20 @@ import org.tron.common.overlay.discover.node.NodeManager;
 import org.tron.common.overlay.server.ChannelManager;
 import org.tron.core.db.Manager;
 
-public class TronApplicationContext extends AnnotationConfigApplicationContext {
+public class HrnetworkApplicationContext extends AnnotationConfigApplicationContext {
 
-  public TronApplicationContext() {
+  public HrnetworkApplicationContext() {
   }
 
-  public TronApplicationContext(DefaultListableBeanFactory beanFactory) {
+  public HrnetworkApplicationContext(DefaultListableBeanFactory beanFactory) {
     super(beanFactory);
   }
 
-  public TronApplicationContext(Class<?>... annotatedClasses) {
+  public HrnetworkApplicationContext(Class<?>... annotatedClasses) {
     super(annotatedClasses);
   }
 
-  public TronApplicationContext(String... basePackages) {
+  public HrnetworkApplicationContext(String... basePackages) {
     super(basePackages);
   }
 

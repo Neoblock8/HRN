@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class JsonRpcInvalidParamsException extends TronException {
+public class JsonRpcInvalidParamsException extends HrnetworkException {
 
   public JsonRpcInvalidParamsException() {
     super();

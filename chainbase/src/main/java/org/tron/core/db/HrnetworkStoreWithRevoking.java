@@ -29,7 +29,7 @@ import org.tron.core.db2.common.IRevokingDB;
 import org.tron.core.db2.common.LevelDB;
 import org.tron.core.db2.common.RocksDB;
 import org.tron.core.db2.core.Chainbase;
-import org.tron.core.db2.core.ITronChainBase;
+import org.tron.core.db2.core.IHrnetworkChainBase;
 import org.tron.core.db2.core.RevokingDBWithCachingOldValue;
 import org.tron.core.db2.core.SnapshotRoot;
 import org.tron.core.exception.BadItemException;
@@ -37,7 +37,7 @@ import org.tron.core.exception.ItemNotFoundException;
 
 
 @Slf4j(topic = "DB")
-public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements ITronChainBase<T> {
+public abstract class HrnetworkStoreWithRevoking<T extends ProtoCapsule> implements IHrnetworkChainBase<T> {
 
   @Getter // only for unit test
   protected IRevokingDB revokingDB;
@@ -47,7 +47,7 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
   @Autowired
   private RevokingDatabase revokingDatabase;
 
-  protected TronStoreWithRevoking(String dbName) {
+  protected HrnetworkStoreWithRevoking(String dbName) {
     int dbVersion = CommonParameter.getInstance().getStorage().getDbVersion();
     String dbEngine = CommonParameter.getInstance().getStorage().getDbEngine();
     if (dbVersion == 1) {
@@ -86,7 +86,7 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
     return null;
   }
 
-  protected TronStoreWithRevoking(DB<byte[], byte[]> db) {
+  protected HrnetworkStoreWithRevoking(DB<byte[], byte[]> db) {
     int dbVersion = CommonParameter.getInstance().getStorage().getDbVersion();
     if (dbVersion == 2) {
       this.revokingDB = new Chainbase(new SnapshotRoot(db));
@@ -96,13 +96,13 @@ public abstract class TronStoreWithRevoking<T extends ProtoCapsule> implements I
   }
 
   // only for test
-  protected TronStoreWithRevoking(String dbName, RevokingDatabase revokingDatabase) {
+  protected HrnetworkStoreWithRevoking(String dbName, RevokingDatabase revokingDatabase) {
     this.revokingDB = new RevokingDBWithCachingOldValue(dbName,
         (AbstractRevokingStore) revokingDatabase);
   }
 
   // only for test
-  protected TronStoreWithRevoking(String dbName, Options options,
+  protected HrnetworkStoreWithRevoking(String dbName, Options options,
       RevokingDatabase revokingDatabase) {
     this.revokingDB = new RevokingDBWithCachingOldValue(dbName, options,
         (AbstractRevokingStore) revokingDatabase);

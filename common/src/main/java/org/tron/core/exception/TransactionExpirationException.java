@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class TransactionExpirationException extends TronException {
+public class TransactionExpirationException extends HrnetworkException {
 
   public TransactionExpirationException() {
     super();

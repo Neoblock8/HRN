@@ -1,6 +1,6 @@
 package org.tron.core.exception;
 
-public class VMIllegalException extends TronException {
+public class VMIllegalException extends HrnetworkException {
 
   public VMIllegalException() {
     super();

@@ -13,9 +13,9 @@ import org.tron.core.capsule.BlockCapsule.BlockId;
 import org.tron.core.config.args.Args;
 import org.tron.core.exception.P2pException;
 import org.tron.core.exception.P2pException.TypeEnum;
-import org.tron.core.net.TronNetDelegate;
+import org.tron.core.net.HrnetworkNetDelegate;
 import org.tron.core.net.message.BlockMessage;
-import org.tron.core.net.message.TronMessage;
+import org.tron.core.net.message.HrnetworkMessage;
 import org.tron.core.net.peer.Item;
 import org.tron.core.net.peer.PeerConnection;
 import org.tron.core.net.service.AdvService;
@@ -25,10 +25,10 @@ import org.tron.protos.Protocol.Inventory.InventoryType;
 
 @Slf4j(topic = "net")
 @Component
-public class BlockMsgHandler implements TronMsgHandler {
+public class BlockMsgHandler implements HrnetworkMsgHandler {
 
   @Autowired
-  private TronNetDelegate tronNetDelegate;
+  private HrnetworkNetDelegate tronNetDelegate;
 
   @Autowired
   private AdvService advService;
@@ -44,7 +44,7 @@ public class BlockMsgHandler implements TronMsgHandler {
   private boolean fastForward = Args.getInstance().isFastForward();
 
   @Override
-  public void processMessage(PeerConnection peer, TronMessage msg) throws P2pException {
+  public void processMessage(PeerConnection peer, HrnetworkMessage msg) throws P2pException {
 
     BlockMessage blockMessage = (BlockMessage) msg;
     BlockId blockId = blockMessage.getBlockId();
