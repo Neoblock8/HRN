@@ -166,32 +166,32 @@ public class TransactionUtil {
 
   public static TransactionCapsule getTransactionSign(TransactionSign transactionSign) {
     byte[] privateKey = transactionSign.getPrivateKey().toByteArray();
-    TransactionCapsule trx = new TransactionCapsule(transactionSign.getTransaction());
-    trx.sign(privateKey);
-    return trx;
+    TransactionCapsule hrn = new TransactionCapsule(transactionSign.getTransaction());
+    hrn.sign(privateKey);
+    return hrn;
   }
 
   public TransactionCapsule addSign(TransactionSign transactionSign)
       throws PermissionException, SignatureException, SignatureFormatException {
     byte[] privateKey = transactionSign.getPrivateKey().toByteArray();
-    TransactionCapsule trx = new TransactionCapsule(transactionSign.getTransaction());
-    trx.addSign(privateKey, chainBaseManager.getAccountStore());
-    return trx;
+    TransactionCapsule hrn = new TransactionCapsule(transactionSign.getTransaction());
+    hrn.addSign(privateKey, chainBaseManager.getAccountStore());
+    return hrn;
   }
 
-  public TransactionSignWeight getTransactionSignWeight(Transaction trx) {
+  public TransactionSignWeight getTransactionSignWeight(Transaction hrn) {
     TransactionSignWeight.Builder tswBuilder = TransactionSignWeight.newBuilder();
-    TransactionExtention.Builder trxExBuilder = TransactionExtention.newBuilder();
-    trxExBuilder.setTransaction(trx);
-    trxExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
-        .getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray())));
+    TransactionExtention.Builder hrnExBuilder = TransactionExtention.newBuilder();
+    hrnExBuilder.setTransaction(hrn);
+    hrnExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
+        .getInstance().isECKeyCryptoEngine(), hrn.getRawData().toByteArray())));
     Return.Builder retBuilder = Return.newBuilder();
     retBuilder.setResult(true).setCode(response_code.SUCCESS);
-    trxExBuilder.setResult(retBuilder);
-    tswBuilder.setTransaction(trxExBuilder);
+    hrnExBuilder.setResult(retBuilder);
+    tswBuilder.setTransaction(hrnExBuilder);
     Result.Builder resultBuilder = Result.newBuilder();
     try {
-      Contract contract = trx.getRawData().getContract(0);
+      Contract contract = hrn.getRawData().getContract(0);
       byte[] owner = TransactionCapsule.getOwner(contract);
       AccountCapsule account = chainBaseManager.getAccountStore().get(owner);
       if (Objects.isNull(account)) {
@@ -212,11 +212,11 @@ public class TransactionUtil {
         }
       }
       tswBuilder.setPermission(permission);
-      if (trx.getSignatureCount() > 0) {
+      if (hrn.getSignatureCount() > 0) {
         List<ByteString> approveList = new ArrayList<ByteString>();
-        long currentWeight = TransactionCapsule.checkWeight(permission, trx.getSignatureList(),
+        long currentWeight = TransactionCapsule.checkWeight(permission, hrn.getSignatureList(),
             Sha256Hash.hash(CommonParameter.getInstance()
-                .isECKeyCryptoEngine(), trx.getRawData().toByteArray()), approveList);
+                .isECKeyCryptoEngine(), hrn.getRawData().toByteArray()), approveList);
         tswBuilder.addAllApprovedList(approveList);
         tswBuilder.setCurrentWeight(currentWeight);
       }

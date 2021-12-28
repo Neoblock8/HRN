@@ -153,7 +153,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
   private static final byte[] TRANSACTION_FEE_POOL = "TRANSACTION_FEE_POOL".getBytes();
 
   private static final byte[] MAX_FEE_LIMIT = "MAX_FEE_LIMIT".getBytes();
-  private static final byte[] BURN_TRX_AMOUNT = "BURN_TRX_AMOUNT".getBytes();
+  private static final byte[] BURN_HRN_AMOUNT = "BURN_HRN_AMOUNT".getBytes();
   private static final byte[] ALLOW_BLACKHOLE_OPTIMIZATION = "ALLOW_BLACKHOLE_OPTIMIZATION".getBytes();
   private static final byte[] ALLOW_NEW_RESOURCE_MODEL = "ALLOW_NEW_RESOURCE_MODEL".getBytes();
   private static final byte[] ALLOW_TVM_FREEZE = "ALLOW_TVM_FREEZE".getBytes();
@@ -404,7 +404,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     try {
       this.getCreateAccountFee();
     } catch (IllegalArgumentException e) {
-      this.saveCreateAccountFee(100_000L); // 0.1TRX
+      this.saveCreateAccountFee(100_000L); // 0.1HRN
     }
 
     try {
@@ -734,9 +734,9 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     }
 
     try {
-      this.getBurnTrxAmount();
+      this.getBurnHrnAmount();
     } catch (IllegalArgumentException e) {
-      this.saveBurnTrx(0L);
+      this.saveBurnHrn(0L);
     }
 
     try {
@@ -1585,9 +1585,9 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found TOTAL_CREATE_WITNESS_COST"));
   }
 
-  public void saveTotalStoragePool(long trx) {
+  public void saveTotalStoragePool(long hrn) {
     this.put(TOTAL_STORAGE_POOL,
-        new BytesCapsule(ByteArray.fromLong(trx)));
+        new BytesCapsule(ByteArray.fromLong(hrn)));
   }
 
   public long getTotalStoragePool() {
@@ -1598,9 +1598,9 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found TOTAL_STORAGE_POOL"));
   }
 
-  public void saveTotalStorageTax(long trx) {
+  public void saveTotalStorageTax(long hrn) {
     this.put(TOTAL_STORAGE_TAX,
-        new BytesCapsule(ByteArray.fromLong(trx)));
+        new BytesCapsule(ByteArray.fromLong(hrn)));
   }
 
   public long getTotalStorageTax() {
@@ -2063,21 +2063,21 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     );
   }
 
-  //The unit is trx
+  //The unit is hrn
   public void addTotalNetWeight(long amount) {
     long totalNetWeight = getTotalNetWeight();
     totalNetWeight += amount;
     saveTotalNetWeight(totalNetWeight);
   }
 
-  //The unit is trx
+  //The unit is hrn
   public void addTotalEnergyWeight(long amount) {
     long totalEnergyWeight = getTotalEnergyWeight();
     totalEnergyWeight += amount;
     saveTotalEnergyWeight(totalEnergyWeight);
   }
 
-  //The unit is trx
+  //The unit is hrn
   public void addTotalTronPowerWeight(long amount) {
     long totalWeight = getTotalTronPowerWeight();
     totalWeight += amount;
@@ -2211,23 +2211,23 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
         new BytesCapsule(ByteArray.fromLong(maxFeeLimit)));
   }
 
-  public long getBurnTrxAmount() {
-    return Optional.ofNullable(getUnchecked(BURN_TRX_AMOUNT))
+  public long getBurnHrnAmount() {
+    return Optional.ofNullable(getUnchecked(BURN_HRN_AMOUNT))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElseThrow(() -> new IllegalArgumentException("not found BURN_TRX_AMOUNT"));
+        .orElseThrow(() -> new IllegalArgumentException("not found BURN_HRN_AMOUNT"));
   }
 
-  public void burnTrx(long amount) {
+  public void burnHrn(long amount) {
     if (amount <= 0) {
       return;
     }
-    amount += getBurnTrxAmount();
-    saveBurnTrx(amount);
+    amount += getBurnHrnAmount();
+    saveBurnHrn(amount);
   }
 
-  private void saveBurnTrx(long amount) {
-    this.put(BURN_TRX_AMOUNT, new BytesCapsule(ByteArray.fromLong(amount)));
+  private void saveBurnHrn(long amount) {
+    this.put(BURN_HRN_AMOUNT, new BytesCapsule(ByteArray.fromLong(amount)));
   }
 
   public boolean supportBlackHoleOptimization() {

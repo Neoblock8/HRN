@@ -49,8 +49,8 @@ public class ContractStore extends HrnetworkStoreWithRevoking<ContractCapsule> {
   /**
    * find a transaction  by it's id.
    */
-  public byte[] findContractByHash(byte[] trxHash) {
-    return revokingDB.getUnchecked(trxHash);
+  public byte[] findContractByHash(byte[] hrnHash) {
+    return revokingDB.getUnchecked(hrnHash);
   }
 
 }

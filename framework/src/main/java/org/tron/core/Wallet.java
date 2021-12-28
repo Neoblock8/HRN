@@ -22,7 +22,7 @@ import static org.tron.common.utils.Commons.getAssetIssueStoreFinal;
 import static org.tron.common.utils.Commons.getExchangeStoreFinal;
 import static org.tron.common.utils.WalletUtil.isConstant;
 import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.tron.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.tron.core.config.Parameter.ChainConstant.HRN_PRECISION;
 import static org.tron.core.config.Parameter.DatabaseConstants.EXCHANGE_COUNT_LIMIT_MAX;
 import static org.tron.core.config.Parameter.DatabaseConstants.MARKET_COUNT_LIMIT_MAX;
 import static org.tron.core.config.Parameter.DatabaseConstants.PROPOSAL_COUNT_LIMIT_MAX;
@@ -267,7 +267,7 @@ public class Wallet {
   @Autowired
   private NodeManager nodeManager;
   private int minEffectiveConnection = Args.getInstance().getMinEffectiveConnection();
-  private boolean trxCacheEnable = Args.getInstance().isTrxCacheEnable();
+  private boolean hrnCacheEnable = Args.getInstance().isHrnCacheEnable();
   public static final String CONTRACT_VALIDATE_EXCEPTION = "ContractValidateException: {}";
   public static final String CONTRACT_VALIDATE_ERROR = "Contract validate error : ";
 
@@ -391,17 +391,17 @@ public class Wallet {
     return new TransactionCapsule(contract, accountStore).getInstance();
   }
 
-  private void setTransaction(TransactionCapsule trx) {
+  private void setTransaction(TransactionCapsule hrn) {
     try {
       BlockId blockId = chainBaseManager.getHeadBlockId();
-      if ("solid".equals(Args.getInstance().getTrxReferenceBlock())) {
+      if ("solid".equals(Args.getInstance().getHrnReferenceBlock())) {
         blockId = chainBaseManager.getSolidBlockId();
       }
-      trx.setReference(blockId.getNum(), blockId.getBytes());
+      hrn.setReference(blockId.getNum(), blockId.getBytes());
       long expiration = chainBaseManager.getHeadBlockTimeStamp() + Args.getInstance()
-          .getTrxExpirationTimeInMilliseconds();
-      trx.setExpiration(expiration);
-      trx.setTimestamp();
+          .getHrnExpirationTimeInMilliseconds();
+      hrn.setExpiration(expiration);
+      hrn.setTimestamp();
     } catch (Exception e) {
       logger.error("Create transaction capsule failed.", e);
     }
@@ -411,13 +411,13 @@ public class Wallet {
       com.google.protobuf.Message message,
       ContractType contractType,
       long timeout) {
-    TransactionCapsule trx = new TransactionCapsule(message, contractType);
+    TransactionCapsule hrn = new TransactionCapsule(message, contractType);
     try {
       BlockId blockId = chainBaseManager.getHeadBlockId();
-      if ("solid".equals(Args.getInstance().getTrxReferenceBlock())) {
+      if ("solid".equals(Args.getInstance().getHrnReferenceBlock())) {
         blockId = chainBaseManager.getSolidBlockId();
       }
-      trx.setReference(blockId.getNum(), blockId.getBytes());
+      hrn.setReference(blockId.getNum(), blockId.getBytes());
 
       long expiration;
       if (timeout > 0) {
@@ -426,14 +426,14 @@ public class Wallet {
       } else {
         expiration =
             chainBaseManager.getHeadBlockTimeStamp() + Args.getInstance()
-                .getTrxExpirationTimeInMilliseconds();
+                .getHrnExpirationTimeInMilliseconds();
       }
-      trx.setExpiration(expiration);
-      trx.setTimestamp();
+      hrn.setExpiration(expiration);
+      hrn.setTimestamp();
     } catch (Exception e) {
       logger.error("Create transaction capsule failed.", e);
     }
-    return trx;
+    return hrn;
   }
 
   public TransactionCapsule createTransactionCapsuleWithoutValidate(
@@ -451,10 +451,10 @@ public class Wallet {
 
   public TransactionCapsule createTransactionCapsule(com.google.protobuf.Message message,
       ContractType contractType) throws ContractValidateException {
-    TransactionCapsule trx = new TransactionCapsule(message, contractType);
+    TransactionCapsule hrn = new TransactionCapsule(message, contractType);
     if (contractType != ContractType.CreateSmartContract
         && contractType != ContractType.TriggerSmartContract) {
-      List<Actuator> actList = ActuatorFactory.createActuator(trx, chainBaseManager);
+      List<Actuator> actList = ActuatorFactory.createActuator(hrn, chainBaseManager);
       for (Actuator act : actList) {
         act.validate();
       }
@@ -463,14 +463,14 @@ public class Wallet {
     if (contractType == ContractType.CreateSmartContract) {
 
       CreateSmartContract contract = ContractCapsule
-          .getSmartContractFromTransaction(trx.getInstance());
+          .getSmartContractFromTransaction(hrn.getInstance());
       long percent = contract.getNewContract().getConsumeUserResourcePercent();
       if (percent < 0 || percent > 100) {
         throw new ContractValidateException("percent must be >= 0 and <= 100");
       }
     }
-    setTransaction(trx);
-    return trx;
+    setTransaction(hrn);
+    return hrn;
   }
 
   /**
@@ -478,9 +478,9 @@ public class Wallet {
    */
   public GrpcAPI.Return broadcastTransaction(Transaction signedTransaction) {
     GrpcAPI.Return.Builder builder = GrpcAPI.Return.newBuilder();
-    TransactionCapsule trx = new TransactionCapsule(signedTransaction);
-    trx.setTime(System.currentTimeMillis());
-    Sha256Hash txID = trx.getTransactionId();
+    TransactionCapsule hrn = new TransactionCapsule(signedTransaction);
+    hrn.setTime(System.currentTimeMillis());
+    Sha256Hash txID = hrn.getTransactionId();
     try {
       TransactionMessage message = new TransactionMessage(signedTransaction.toByteArray());
       if (minEffectiveConnection != 0) {
@@ -511,7 +511,7 @@ public class Wallet {
             .setMessage(ByteString.copyFromUtf8("Server busy.")).build();
       }
 
-      if (trxCacheEnable) {
+      if (hrnCacheEnable) {
         if (dbManager.getTransactionIdCache().getIfPresent(txID) != null) {
           logger.warn("Broadcast transaction {} has failed, it already exists.", txID);
           return builder.setResult(false).setCode(response_code.DUP_TRANSACTION_ERROR)
@@ -522,9 +522,9 @@ public class Wallet {
       }
 
       if (chainBaseManager.getDynamicPropertiesStore().supportVM()) {
-        trx.resetResult();
+        hrn.resetResult();
       }
-      dbManager.pushTransaction(trx);
+      dbManager.pushTransaction(hrn);
       int num = tronNetService.fastBroadcastTransaction(message);
       if (num == 0 && minEffectiveConnection != 0) {
         return builder.setResult(false).setCode(response_code.NOT_ENOUGH_EFFECTIVE_CONNECTION)
@@ -581,31 +581,31 @@ public class Wallet {
     }
   }
 
-  public TransactionApprovedList getTransactionApprovedList(Transaction trx) {
+  public TransactionApprovedList getTransactionApprovedList(Transaction hrn) {
     TransactionApprovedList.Builder tswBuilder = TransactionApprovedList.newBuilder();
-    TransactionExtention.Builder trxExBuilder = TransactionExtention.newBuilder();
-    trxExBuilder.setTransaction(trx);
-    trxExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
-        .getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray())));
+    TransactionExtention.Builder hrnExBuilder = TransactionExtention.newBuilder();
+    hrnExBuilder.setTransaction(hrn);
+    hrnExBuilder.setTxid(ByteString.copyFrom(Sha256Hash.hash(CommonParameter
+        .getInstance().isECKeyCryptoEngine(), hrn.getRawData().toByteArray())));
     Return.Builder retBuilder = Return.newBuilder();
     retBuilder.setResult(true).setCode(response_code.SUCCESS);
-    trxExBuilder.setResult(retBuilder);
-    tswBuilder.setTransaction(trxExBuilder);
+    hrnExBuilder.setResult(retBuilder);
+    tswBuilder.setTransaction(hrnExBuilder);
     TransactionApprovedList.Result.Builder resultBuilder = TransactionApprovedList.Result
         .newBuilder();
     try {
-      Contract contract = trx.getRawData().getContract(0);
+      Contract contract = hrn.getRawData().getContract(0);
       byte[] owner = TransactionCapsule.getOwner(contract);
       AccountCapsule account = chainBaseManager.getAccountStore().get(owner);
       if (account == null) {
         throw new PermissionException("Account does not exist!");
       }
 
-      if (trx.getSignatureCount() > 0) {
+      if (hrn.getSignatureCount() > 0) {
         List<ByteString> approveList = new ArrayList<ByteString>();
         byte[] hash = Sha256Hash.hash(CommonParameter
-            .getInstance().isECKeyCryptoEngine(), trx.getRawData().toByteArray());
-        for (ByteString sig : trx.getSignatureList()) {
+            .getInstance().isECKeyCryptoEngine(), hrn.getRawData().toByteArray());
+        for (ByteString sig : hrn.getSignatureList()) {
           if (sig.size() < 65) {
             throw new SignatureFormatException(
                 "Signature size is " + sig.size());
@@ -1219,7 +1219,7 @@ public class Wallet {
     long storageLimit = accountCapsule.getAccountResource().getStorageLimit();
     long storageUsage = accountCapsule.getAccountResource().getStorageUsage();
     long allTronPowerUsage = accountCapsule.getTronPowerUsage();
-    long allTronPower = accountCapsule.getAllTronPower() / TRX_PRECISION;
+    long allTronPower = accountCapsule.getAllTronPower() / HRN_PRECISION;
 
     Map<String, Long> assetNetLimitMap = new HashMap<>();
     Map<String, Long> allFreeAssetNetUsage = setAssetNetLimit(assetNetLimitMap, accountCapsule);
@@ -2542,17 +2542,17 @@ public class Wallet {
     return builder.build();
   }
 
-  public Transaction deployContract(TransactionCapsule trxCap) {
+  public Transaction deployContract(TransactionCapsule hrnCap) {
 
     // do nothing, so can add some useful function later
-    // trxCap contract para cacheUnpackValue has value
+    // hrnCap contract para cacheUnpackValue has value
 
-    return trxCap.getInstance();
+    return hrnCap.getInstance();
   }
 
   public Transaction triggerContract(TriggerSmartContract
       triggerSmartContract,
-      TransactionCapsule trxCap, Builder builder,
+      TransactionCapsule hrnCap, Builder builder,
       Return.Builder retBuilder)
       throws ContractValidateException, ContractExeException, HeaderNotFound, VMIllegalException {
 
@@ -2575,14 +2575,14 @@ public class Wallet {
         triggerSmartContract.getData().toByteArray());
 
     if (isConstant(abi, selector)) {
-      return callConstantContract(trxCap, builder, retBuilder);
+      return callConstantContract(hrnCap, builder, retBuilder);
     } else {
-      return trxCap.getInstance();
+      return hrnCap.getInstance();
     }
   }
 
   public Transaction triggerConstantContract(TriggerSmartContract triggerSmartContract,
-      TransactionCapsule trxCap, Builder builder, Return.Builder retBuilder)
+      TransactionCapsule hrnCap, Builder builder, Return.Builder retBuilder)
       throws ContractValidateException, ContractExeException, HeaderNotFound, VMIllegalException {
 
     if (triggerSmartContract.getContractAddress().isEmpty()) { // deploy contract
@@ -2598,7 +2598,7 @@ public class Wallet {
       );
       deployBuilder.setCallTokenValue(triggerSmartContract.getCallTokenValue());
       deployBuilder.setTokenId(triggerSmartContract.getTokenId());
-      trxCap = createTransactionCapsule(deployBuilder.build(), ContractType.CreateSmartContract);
+      hrnCap = createTransactionCapsule(deployBuilder.build(), ContractType.CreateSmartContract);
     } else { // call contract
       ContractStore contractStore = chainBaseManager.getContractStore();
       byte[] contractAddress = triggerSmartContract.getContractAddress().toByteArray();
@@ -2606,10 +2606,10 @@ public class Wallet {
         throw new ContractValidateException("Smart contract is not exist.");
       }
     }
-    return callConstantContract(trxCap, builder, retBuilder);
+    return callConstantContract(hrnCap, builder, retBuilder);
   }
 
-  public Transaction callConstantContract(TransactionCapsule trxCap,
+  public Transaction callConstantContract(TransactionCapsule hrnCap,
       Builder builder, Return.Builder retBuilder)
       throws ContractValidateException, ContractExeException, HeaderNotFound, VMIllegalException {
 
@@ -2626,7 +2626,7 @@ public class Wallet {
       headBlock = blockCapsuleList.get(0).getInstance();
     }
 
-    TransactionContext context = new TransactionContext(new BlockCapsule(headBlock), trxCap,
+    TransactionContext context = new TransactionContext(new BlockCapsule(headBlock), hrnCap,
         StoreFactory.getInstance(), true, false);
     VMActuator vmActuator = new VMActuator(true);
 
@@ -2659,8 +2659,8 @@ public class Wallet {
       retBuilder.setMessage(ByteString.copyFromUtf8("REVERT opcode executed"))
           .build();
     }
-    trxCap.setResult(ret);
-    return trxCap.getInstance();
+    hrnCap.setResult(ret);
+    return hrnCap.getInstance();
   }
 
   public SmartContract getContract(GrpcAPI.BytesMessage bytesMessage) {
@@ -3438,41 +3438,41 @@ public class Wallet {
     triggerBuilder.setData(ByteString.copyFrom(input));
     TriggerSmartContract trigger = triggerBuilder.build();
 
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder hrnExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
-    TransactionExtention trxExt;
+    TransactionExtention hrnExt;
 
     try {
-      TransactionCapsule trxCap = createTransactionCapsule(trigger,
+      TransactionCapsule hrnCap = createTransactionCapsule(trigger,
           ContractType.TriggerSmartContract);
-      Transaction trx = triggerConstantContract(trigger, trxCap, trxExtBuilder, retBuilder);
+      Transaction hrn = triggerConstantContract(trigger, hrnCap, hrnExtBuilder, retBuilder);
 
       retBuilder.setResult(true).setCode(response_code.SUCCESS);
-      trxExtBuilder.setTransaction(trx);
-      trxExtBuilder.setTxid(trxCap.getTransactionId().getByteString());
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setTransaction(hrn);
+      hrnExtBuilder.setTxid(hrnCap.getTransactionId().getByteString());
+      hrnExtBuilder.setResult(retBuilder);
     } catch (ContractValidateException | VMIllegalException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
           .setMessage(ByteString.copyFromUtf8(CONTRACT_VALIDATE_ERROR + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
     } catch (RuntimeException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_EXE_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("When run constant call in VM, have RuntimeException: " + e.getMessage());
     } catch (Exception e) {
       retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("unknown exception caught: " + e.getMessage(), e);
     } finally {
-      trxExt = trxExtBuilder.build();
+      hrnExt = hrnExtBuilder.build();
     }
 
-    String code = trxExt.getResult().getCode().toString();
+    String code = hrnExt.getResult().getCode().toString();
     if ("SUCCESS".equals(code)) {
-      List<ByteString> list = trxExt.getConstantResultList();
+      List<ByteString> list = hrnExt.getConstantResultList();
       byte[] listBytes = new byte[0];
       for (ByteString bs : list) {
         listBytes = ByteUtil.merge(listBytes, bs.toByteArray());
@@ -3702,41 +3702,41 @@ public class Wallet {
     triggerBuilder.setData(ByteString.copyFrom(selector));
     TriggerSmartContract trigger = triggerBuilder.build();
 
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder hrnExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
-    TransactionExtention trxExt;
+    TransactionExtention hrnExt;
 
     try {
-      TransactionCapsule trxCap = createTransactionCapsule(trigger,
+      TransactionCapsule hrnCap = createTransactionCapsule(trigger,
           ContractType.TriggerSmartContract);
-      Transaction trx = triggerConstantContract(trigger, trxCap, trxExtBuilder, retBuilder);
+      Transaction hrn = triggerConstantContract(trigger, hrnCap, hrnExtBuilder, retBuilder);
 
       retBuilder.setResult(true).setCode(response_code.SUCCESS);
-      trxExtBuilder.setTransaction(trx);
-      trxExtBuilder.setTxid(trxCap.getTransactionId().getByteString());
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setTransaction(hrn);
+      hrnExtBuilder.setTxid(hrnCap.getTransactionId().getByteString());
+      hrnExtBuilder.setResult(retBuilder);
     } catch (ContractValidateException | VMIllegalException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
           .setMessage(ByteString.copyFromUtf8(CONTRACT_VALIDATE_ERROR + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
     } catch (RuntimeException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_EXE_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("When run constant call in VM, have RuntimeException: " + e.getMessage());
     } catch (Exception e) {
       retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("Unknown exception caught: " + e.getMessage(), e);
     } finally {
-      trxExt = trxExtBuilder.build();
+      hrnExt = hrnExtBuilder.build();
     }
 
-    String code = trxExt.getResult().getCode().toString();
+    String code = hrnExt.getResult().getCode().toString();
     if ("SUCCESS".equals(code)) {
-      List<ByteString> list = trxExt.getConstantResultList();
+      List<ByteString> list = hrnExt.getConstantResultList();
       byte[] listBytes = new byte[0];
       for (ByteString bs : list) {
         listBytes = ByteUtil.merge(listBytes, bs.toByteArray());

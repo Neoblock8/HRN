@@ -143,7 +143,7 @@ public class WitnessCreateActuator extends AbstractActuator {
     Commons
         .adjustBalance(accountStore, witnessCreateContract.getOwnerAddress().toByteArray(), -cost);
     if (dynamicStore.supportBlackHoleOptimization()) {
-      dynamicStore.burnTrx(cost);
+      dynamicStore.burnHrn(cost);
     } else {
       Commons.adjustBalance(accountStore, accountStore.getBlackhole(), +cost);
     }

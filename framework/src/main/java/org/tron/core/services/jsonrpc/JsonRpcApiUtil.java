@@ -247,11 +247,11 @@ public class JsonRpcApiUtil {
         case ParticipateAssetIssueContract:
           // long token = DataImporter.getTokenID(blockNum,
           //     contractParameter.unpack(ParticipateAssetIssueContract.class).getAssetName());
-          // long trxNum = contractParameter.unpack(ParticipateAssetIssueContract.class)
+          // long hrnNum = contractParameter.unpack(ParticipateAssetIssueContract.class)
           // .getAmount();
           // Token10Entity entity = DataImporter.getTokenEntity(token);
-          // long exchangeAmount = Math.multiplyExact(trxNum, entity.getNum());
-          // exchangeAmount = Math.floorDiv(exchangeAmount, entity.getTrxNum());
+          // long exchangeAmount = Math.multiplyExact(hrnNum, entity.getNum());
+          // exchangeAmount = Math.floorDiv(exchangeAmount, entity.getHrnNum());
           // amount = exchangeAmount;
           break;
         case FreezeBalanceContract:

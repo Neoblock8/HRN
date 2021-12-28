@@ -72,7 +72,7 @@ public class AssetIssueActuator extends AbstractActuator {
 
       Commons.adjustBalance(accountStore, ownerAddress, -fee);
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnHrn(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);//send to blackhole
       }
@@ -152,8 +152,8 @@ public class AssetIssueActuator extends AbstractActuator {
 
     if (dynamicStore.getAllowSameTokenName() != 0) {
       String name = assetIssueContract.getName().toStringUtf8().toLowerCase();
-      if (("trx").equals(name)) {
-        throw new ContractValidateException("assetName can't be trx");
+      if (("hrn").equals(name)) {
+        throw new ContractValidateException("assetName can't be hrn");
       }
     }
 
@@ -201,8 +201,8 @@ public class AssetIssueActuator extends AbstractActuator {
       throw new ContractValidateException("TotalSupply must greater than 0!");
     }
 
-    if (assetIssueContract.getTrxNum() <= 0) {
-      throw new ContractValidateException("TrxNum must greater than 0!");
+    if (assetIssueContract.getHrnNum() <= 0) {
+      throw new ContractValidateException("HrnNum must greater than 0!");
     }
 
     if (assetIssueContract.getNum() <= 0) {

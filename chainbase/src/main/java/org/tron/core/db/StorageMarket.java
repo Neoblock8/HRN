@@ -22,15 +22,15 @@ public class StorageMarket {
     this.dynamicPropertiesStore = dynamicPropertiesStore;
   }
 
-  private long exchangeToSupply(boolean isTRX, long quant) {
-    logger.info("isTRX: " + isTRX);
-    long balance = isTRX ? dynamicPropertiesStore.getTotalStoragePool() :
+  private long exchangeToSupply(boolean isHRN, long quant) {
+    logger.info("isHRN: " + isHRN);
+    long balance = isHRN ? dynamicPropertiesStore.getTotalStoragePool() :
         dynamicPropertiesStore.getTotalStorageReserved();
     logger.info("balance: " + balance);
     long newBalance = balance + quant;
     logger.info("balance + quant: " + (balance + quant));
 
-//    if (isTRX) {
+//    if (isHRN) {
 //      dbManager.getDynamicPropertiesStore().saveTotalStoragePool(newBalance);
 //    } else {
 //      dbManager.getDynamicPropertiesStore().saveTotalStorageReserved(newBalance);
@@ -44,15 +44,15 @@ public class StorageMarket {
     return out;
   }
 
-  private long exchangeToSupply2(boolean isTRX, long quant) {
-    logger.info("isTRX: " + isTRX);
-    long balance = isTRX ? dynamicPropertiesStore.getTotalStoragePool() :
+  private long exchangeToSupply2(boolean isHRN, long quant) {
+    logger.info("isHRN: " + isHRN);
+    long balance = isHRN ? dynamicPropertiesStore.getTotalStoragePool() :
         dynamicPropertiesStore.getTotalStorageReserved();
     logger.info("balance: " + balance);
     long newBalance = balance - quant;
     logger.info("balance - quant: " + (balance - quant));
 
-//    if (isTRX) {
+//    if (isHRN) {
 //      dbManager.getDynamicPropertiesStore().saveTotalStoragePool(newBalance);
 //    } else {
 //      dbManager.getDynamicPropertiesStore().saveTotalStorageReserved(newBalance);
@@ -66,8 +66,8 @@ public class StorageMarket {
     return out;
   }
 
-  private long exchange_from_supply(boolean isTRX, long supplyQuant) {
-    long balance = isTRX ? dynamicPropertiesStore.getTotalStoragePool() :
+  private long exchange_from_supply(boolean isHRN, long supplyQuant) {
+    long balance = isHRN ? dynamicPropertiesStore.getTotalStoragePool() :
         dynamicPropertiesStore.getTotalStorageReserved();
     supply -= supplyQuant;
 
@@ -76,7 +76,7 @@ public class StorageMarket {
     logger.info("exchangeBalance: " + exchangeBalance);
     long out = (long) exchangeBalance;
 
-    if (isTRX) {
+    if (isHRN) {
       out = Math.round(exchangeBalance / 100000) * 100000;
       logger.info("---out: " + out);
     }
@@ -84,9 +84,9 @@ public class StorageMarket {
     return out;
   }
 
-  public long exchange(long from, boolean isTRX) {
-    long relay = exchangeToSupply(isTRX, from);
-    return exchange_from_supply(!isTRX, relay);
+  public long exchange(long from, boolean isHRN) {
+    long relay = exchangeToSupply(isHRN, from);
+    return exchange_from_supply(!isHRN, relay);
   }
 
   public long calculateTax(long duration, long limit) {

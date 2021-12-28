@@ -348,8 +348,8 @@ public class DepositImpl implements Deposit {
       storage = new Storage(address, dbManager.getStorageRowStore());
     }
     ContractCapsule contract = getContract(address);
-    if (contract != null && !ByteUtil.isNullOrZeroArray(contract.getTrxHash())) {
-      storage.generateAddrHash(contract.getTrxHash());
+    if (contract != null && !ByteUtil.isNullOrZeroArray(contract.getHrnHash())) {
+      storage.generateAddrHash(contract.getHrnHash());
     }
     return storage;
   }
@@ -491,18 +491,18 @@ public class DepositImpl implements Deposit {
   }
 
   @Override
-  public TransactionCapsule getTransaction(byte[] trxHash) {
-    Key key = Key.create(trxHash);
+  public TransactionCapsule getTransaction(byte[] hrnHash) {
+    Key key = Key.create(hrnHash);
     if (transactionCache.containsKey(key)) {
       return transactionCache.get(key).getTransaction();
     }
 
     TransactionCapsule transactionCapsule;
     if (parent != null) {
-      transactionCapsule = parent.getTransaction(trxHash);
+      transactionCapsule = parent.getTransaction(hrnHash);
     } else {
       try {
-        transactionCapsule = getTransactionStore().get(trxHash);
+        transactionCapsule = getTransactionStore().get(hrnHash);
       } catch (BadItemException e) {
         transactionCapsule = null;
       }

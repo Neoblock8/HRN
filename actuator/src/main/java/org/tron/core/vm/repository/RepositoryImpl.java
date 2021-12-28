@@ -525,8 +525,8 @@ public class RepositoryImpl implements Repository {
     ContractCapsule contract = getContract(address);
     if (contract != null) {
       storage.setContractVersion(contract.getContractVersion());
-      if (!ByteUtil.isNullOrZeroArray(contract.getTrxHash())) {
-        storage.generateAddrHash(contract.getTrxHash());
+      if (!ByteUtil.isNullOrZeroArray(contract.getHrnHash())) {
+        storage.generateAddrHash(contract.getHrnHash());
       }
     }
     return storage;
@@ -864,7 +864,7 @@ public class RepositoryImpl implements Repository {
     return account;
   }
 
-  //The unit is trx
+  //The unit is hrn
   @Override
   public void addTotalNetWeight(long amount) {
     long totalNetWeight = getTotalNetWeight();
@@ -872,7 +872,7 @@ public class RepositoryImpl implements Repository {
     saveTotalNetWeight(totalNetWeight);
   }
 
-  //The unit is trx
+  //The unit is hrn
   @Override
   public void addTotalEnergyWeight(long amount) {
     long totalEnergyWeight = getTotalEnergyWeight();

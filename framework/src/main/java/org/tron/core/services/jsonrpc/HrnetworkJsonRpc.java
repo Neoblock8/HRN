@@ -85,7 +85,7 @@ public interface HrnetworkJsonRpc {
   @JsonRpcErrors({
       @JsonRpcError(exception = JsonRpcInvalidParamsException.class, code = -32602, data = "{}"),
   })
-  String getTrxBalance(String address, String blockNumOrTag) throws JsonRpcInvalidParamsException;
+  String getHrnBalance(String address, String blockNumOrTag) throws JsonRpcInvalidParamsException;
 
   @JsonRpcMethod("eth_getStorageAt")
   @JsonRpcErrors({

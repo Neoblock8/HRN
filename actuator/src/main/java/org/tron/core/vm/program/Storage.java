@@ -59,16 +59,16 @@ public class Storage {
     return Hash.sha3(address);
   }
 
-  private static byte[] addrHash(byte[] address, byte[] trxHash) {
-    if (ByteUtil.isNullOrZeroArray(trxHash)) {
+  private static byte[] addrHash(byte[] address, byte[] hrnHash) {
+    if (ByteUtil.isNullOrZeroArray(hrnHash)) {
       return Hash.sha3(address);
     }
-    return Hash.sha3(ByteUtil.merge(address, trxHash));
+    return Hash.sha3(ByteUtil.merge(address, hrnHash));
   }
 
-  public void generateAddrHash(byte[] trxId) {
+  public void generateAddrHash(byte[] hrnId) {
     // update addreHash for create2
-    addrHash = addrHash(address, trxId);
+    addrHash = addrHash(address, hrnId);
   }
 
   public DataWord getValue(DataWord key) {

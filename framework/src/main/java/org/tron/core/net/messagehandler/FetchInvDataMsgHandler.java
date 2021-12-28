@@ -135,15 +135,15 @@ public class FetchInvDataMsgHandler implements HrnetworkMsgHandler {
   private void check(PeerConnection peer, FetchInvDataMessage fetchInvDataMsg) throws P2pException {
     MessageTypes type = fetchInvDataMsg.getInvMessageType();
 
-    if (type == MessageTypes.TRX) {
+    if (type == MessageTypes.HRN) {
       for (Sha256Hash hash : fetchInvDataMsg.getHashList()) {
-        if (peer.getAdvInvSpread().getIfPresent(new Item(hash, InventoryType.TRX)) == null) {
+        if (peer.getAdvInvSpread().getIfPresent(new Item(hash, InventoryType.HRN)) == null) {
           throw new P2pException(TypeEnum.BAD_MESSAGE, "not spread inv: {}" + hash);
         }
       }
-      int fetchCount = peer.getNodeStatistics().messageStatistics.tronInTrxFetchInvDataElement
+      int fetchCount = peer.getNodeStatistics().messageStatistics.tronInHrnFetchInvDataElement
           .getCount(10);
-      int maxCount = advService.getTrxCount().getCount(60);
+      int maxCount = advService.getHrnCount().getCount(60);
       if (fetchCount > maxCount) {
         logger.error("maxCount: " + maxCount + ", fetchCount: " + fetchCount);
       }

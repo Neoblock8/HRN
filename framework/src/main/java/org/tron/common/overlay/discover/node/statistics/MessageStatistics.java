@@ -40,20 +40,20 @@ public class MessageStatistics {
   public final MessageCount tronInBlockChainInventory = new MessageCount();
   public final MessageCount tronOutBlockChainInventory = new MessageCount();
 
-  public final MessageCount tronInTrxInventory = new MessageCount();
-  public final MessageCount tronOutTrxInventory = new MessageCount();
-  public final MessageCount tronInTrxInventoryElement = new MessageCount();
-  public final MessageCount tronOutTrxInventoryElement = new MessageCount();
+  public final MessageCount tronInHrnInventory = new MessageCount();
+  public final MessageCount tronOutHrnInventory = new MessageCount();
+  public final MessageCount tronInHrnInventoryElement = new MessageCount();
+  public final MessageCount tronOutHrnInventoryElement = new MessageCount();
 
   public final MessageCount tronInBlockInventory = new MessageCount();
   public final MessageCount tronOutBlockInventory = new MessageCount();
   public final MessageCount tronInBlockInventoryElement = new MessageCount();
   public final MessageCount tronOutBlockInventoryElement = new MessageCount();
 
-  public final MessageCount tronInTrxFetchInvData = new MessageCount();
-  public final MessageCount tronOutTrxFetchInvData = new MessageCount();
-  public final MessageCount tronInTrxFetchInvDataElement = new MessageCount();
-  public final MessageCount tronOutTrxFetchInvDataElement = new MessageCount();
+  public final MessageCount tronInHrnFetchInvData = new MessageCount();
+  public final MessageCount tronOutHrnFetchInvData = new MessageCount();
+  public final MessageCount tronInHrnFetchInvDataElement = new MessageCount();
+  public final MessageCount tronOutHrnFetchInvDataElement = new MessageCount();
 
   public final MessageCount tronInBlockFetchInvData = new MessageCount();
   public final MessageCount tronOutBlockFetchInvData = new MessageCount();
@@ -61,10 +61,10 @@ public class MessageStatistics {
   public final MessageCount tronOutBlockFetchInvDataElement = new MessageCount();
 
 
-  public final MessageCount tronInTrx = new MessageCount();
-  public final MessageCount tronOutTrx = new MessageCount();
-  public final MessageCount tronInTrxs = new MessageCount();
-  public final MessageCount tronOutTrxs = new MessageCount();
+  public final MessageCount tronInHrn = new MessageCount();
+  public final MessageCount tronOutHrn = new MessageCount();
+  public final MessageCount tronInHrns = new MessageCount();
+  public final MessageCount tronOutHrns = new MessageCount();
   public final MessageCount tronInBlock = new MessageCount();
   public final MessageCount tronOutBlock = new MessageCount();
   public final MessageCount tronOutAdvBlock = new MessageCount();
@@ -175,8 +175,8 @@ public class MessageStatistics {
         InventoryMessage inventoryMessage = (InventoryMessage) msg;
         int inventorySize = inventoryMessage.getInventory().getIdsCount();
         messageProcess(inventoryMessage.getInvMessageType(),
-                tronInTrxInventory,tronInTrxInventoryElement,tronInBlockInventory,
-                tronInBlockInventoryElement,tronOutTrxInventory,tronOutTrxInventoryElement,
+                tronInHrnInventory,tronInHrnInventoryElement,tronInBlockInventory,
+                tronInBlockInventoryElement,tronOutHrnInventory,tronOutHrnInventoryElement,
                 tronOutBlockInventory,tronOutBlockInventoryElement,
                 flag, inventorySize);
         break;
@@ -184,22 +184,22 @@ public class MessageStatistics {
         FetchInvDataMessage fetchInvDataMessage = (FetchInvDataMessage) msg;
         int fetchSize = fetchInvDataMessage.getInventory().getIdsCount();
         messageProcess(fetchInvDataMessage.getInvMessageType(),
-                tronInTrxFetchInvData,tronInTrxFetchInvDataElement,tronInBlockFetchInvData,
-                tronInBlockFetchInvDataElement,tronOutTrxFetchInvData,tronOutTrxFetchInvDataElement,
+                tronInHrnFetchInvData,tronInHrnFetchInvDataElement,tronInBlockFetchInvData,
+                tronInBlockFetchInvDataElement,tronOutHrnFetchInvData,tronOutHrnFetchInvDataElement,
                 tronOutBlockFetchInvData,tronOutBlockFetchInvDataElement,
                 flag, fetchSize);
         break;
-      case TRXS:
+      case HRNS:
         TransactionsMessage transactionsMessage = (TransactionsMessage) msg;
         if (flag) {
-          tronInTrxs.add();
-          tronInTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          tronInHrns.add();
+          tronInHrn.add(transactionsMessage.getTransactions().getTransactionsCount());
         } else {
-          tronOutTrxs.add();
-          tronOutTrx.add(transactionsMessage.getTransactions().getTransactionsCount());
+          tronOutHrns.add();
+          tronOutHrn.add(transactionsMessage.getTransactions().getTransactionsCount());
         }
         break;
-      case TRX:
+      case HRN:
         if (flag) {
           tronInMessage.add();
         } else {
@@ -219,27 +219,27 @@ public class MessageStatistics {
   
   
   private void messageProcess(MessageTypes messageType,
-                              MessageCount inTrx,
-                              MessageCount inTrxEle,
+                              MessageCount inHrn,
+                              MessageCount inHrnEle,
                               MessageCount inBlock,
                               MessageCount inBlockEle,
-                              MessageCount outTrx,
-                              MessageCount outTrxEle,
+                              MessageCount outHrn,
+                              MessageCount outHrnEle,
                               MessageCount outBlock,
                               MessageCount outBlockEle,
                               boolean flag, int size) {
     if (flag) {
-      if (messageType == MessageTypes.TRX) {
-        inTrx.add();
-        inTrxEle.add(size);
+      if (messageType == MessageTypes.HRN) {
+        inHrn.add();
+        inHrnEle.add(size);
       } else {
         inBlock.add();
         inBlockEle.add(size);
       }
     } else {
-      if (messageType == MessageTypes.TRX) {
-        outTrx.add();
-        outTrxEle.add(size);
+      if (messageType == MessageTypes.HRN) {
+        outHrn.add();
+        outHrnEle.add(size);
       } else {
         outBlock.add();
         outBlockEle.add(size);

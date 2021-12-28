@@ -24,8 +24,8 @@ public class BroadcastHexServlet extends RateLimiterServlet {
     try {
       String input = request.getReader().lines()
           .collect(Collectors.joining(System.lineSeparator()));
-      String trx = JSONObject.parseObject(input).getString("transaction");
-      Transaction transaction = Transaction.parseFrom(ByteArray.fromHexString(trx));
+      String hrn = JSONObject.parseObject(input).getString("transaction");
+      Transaction transaction = Transaction.parseFrom(ByteArray.fromHexString(hrn));
       TransactionCapsule transactionCapsule = new TransactionCapsule(transaction);
       String transactionID = ByteArray
           .toHexString(transactionCapsule.getTransactionId().getBytes());

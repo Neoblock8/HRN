@@ -71,7 +71,7 @@ public class TransferAssetActuator extends AbstractActuator {
 
       Commons.adjustBalance(accountStore, ownerAccountCapsule, -fee);
       if (dynamicStore.supportBlackHoleOptimization()) {
-        dynamicStore.burnTrx(fee);
+        dynamicStore.burnHrn(fee);
       } else {
         Commons.adjustBalance(accountStore, accountStore.getBlackhole(), fee);
       }
@@ -164,7 +164,7 @@ public class TransferAssetActuator extends AbstractActuator {
 
     AccountCapsule toAccount = accountStore.get(toAddress);
     if (toAccount != null) {
-      //after ForbidTransferToContract proposal, send trx to smartContract by actuator is not allowed.
+      //after ForbidTransferToContract proposal, send hrn to smartContract by actuator is not allowed.
       if (dynamicStore.getForbidTransferToContract() == 1
           && toAccount.getType() == AccountType.Contract) {
         throw new ContractValidateException("Cannot transfer asset to smartContract.");

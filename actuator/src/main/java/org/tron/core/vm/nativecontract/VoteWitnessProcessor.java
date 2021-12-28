@@ -4,7 +4,7 @@ import static org.tron.core.actuator.ActuatorConstant.NOT_EXIST_STR;
 import static org.tron.core.actuator.ActuatorConstant.STORE_NOT_EXIST;
 import static org.tron.core.actuator.ActuatorConstant.WITNESS_EXCEPTION_STR;
 import static org.tron.core.config.Parameter.ChainConstant.MAX_VOTE_NUMBER;
-import static org.tron.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.tron.core.config.Parameter.ChainConstant.HRN_PRECISION;
 
 import com.google.common.math.LongMath;
 import com.google.protobuf.ByteString;
@@ -88,7 +88,7 @@ public class VoteWitnessProcessor {
       }
 
       long tronPower = accountCapsule.getTronPower();
-      sum =  LongMath.checkedMultiply(sum, TRX_PRECISION);
+      sum =  LongMath.checkedMultiply(sum, HRN_PRECISION);
       if (sum > tronPower) {
         throw new ContractExeException(
             "The total number of votes[" + sum + "] is greater than the HRNPower[" + tronPower

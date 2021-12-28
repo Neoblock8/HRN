@@ -12,7 +12,7 @@ public class TransactionMessage extends HrnetworkMessage {
   public TransactionMessage(byte[] data) throws Exception {
     super(data);
     this.transactionCapsule = new TransactionCapsule(getCodedInputStream(data));
-    this.type = MessageTypes.TRX.asByte();
+    this.type = MessageTypes.HRN.asByte();
     if (Message.isFilter()) {
       compareBytes(data, transactionCapsule.getInstance().toByteArray());
       transactionCapsule
@@ -20,10 +20,10 @@ public class TransactionMessage extends HrnetworkMessage {
     }
   }
 
-  public TransactionMessage(Transaction trx) {
-    this.transactionCapsule = new TransactionCapsule(trx);
-    this.type = MessageTypes.TRX.asByte();
-    this.data = trx.toByteArray();
+  public TransactionMessage(Transaction hrn) {
+    this.transactionCapsule = new TransactionCapsule(hrn);
+    this.type = MessageTypes.HRN.asByte();
+    this.data = hrn.toByteArray();
   }
 
   @Override

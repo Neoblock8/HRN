@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.tron.core.services.http.GetBurnTrxServlet;
+import org.tron.core.services.http.GetBurnHrnServlet;
 import org.tron.core.services.interfaceOnPBFT.WalletOnPBFT;
 
 
 @Component
 @Slf4j(topic = "API")
-public class GetBurnTrxOnPBFTServlet extends GetBurnTrxServlet {
+public class GetBurnHrnOnPBFTServlet extends GetBurnHrnServlet {
 
   @Autowired
   private WalletOnPBFT walletOnPBFT;

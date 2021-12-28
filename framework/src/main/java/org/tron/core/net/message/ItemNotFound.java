@@ -7,7 +7,7 @@ public class ItemNotFound extends HrnetworkMessage {
   private org.tron.protos.Protocol.Items notFound;
 
   /**
-   * means can not find this block or trx.
+   * means can not find this block or hrn.
    */
   public ItemNotFound() {
     Protocol.Items.Builder itemsBuilder = Protocol.Items.newBuilder();

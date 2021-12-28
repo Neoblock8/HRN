@@ -41,11 +41,11 @@ public class HrnetworkMessageFactory extends MessageFactory {
           "type=" + type + DATA_LEN + packed.length);
     }
     switch (receivedTypes) {
-      case TRX:
+      case HRN:
         return new TransactionMessage(packed);
       case BLOCK:
         return new BlockMessage(packed);
-      case TRXS:
+      case HRNS:
         return new TransactionsMessage(packed);
       case BLOCKS:
         return new BlocksMessage(packed);
@@ -61,7 +61,7 @@ public class HrnetworkMessageFactory extends MessageFactory {
         return new ItemNotFound();
       case FETCH_BLOCK_HEADERS:
         return new FetchBlockHeadersMessage(packed);
-      case TRX_INVENTORY:
+      case HRN_INVENTORY:
         return new TransactionInventoryMessage(packed);
       case PBFT_COMMIT_MSG:
         return new PbftCommitMessage(packed);

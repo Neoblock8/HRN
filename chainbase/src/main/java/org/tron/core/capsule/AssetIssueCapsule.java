@@ -116,8 +116,8 @@ public class AssetIssueCapsule implements ProtoCapsule<AssetIssueContract> {
     return this.assetIssueContract.getNum();
   }
 
-  public int getTrxNum() {
-    return this.assetIssueContract.getTrxNum();
+  public int getHrnNum() {
+    return this.assetIssueContract.getHrnNum();
   }
 
   public long getStartTime() {

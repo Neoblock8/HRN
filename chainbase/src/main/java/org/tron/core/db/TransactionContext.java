@@ -10,18 +10,18 @@ import org.tron.core.store.StoreFactory;
 public class TransactionContext {
 
   private BlockCapsule blockCap;
-  private TransactionCapsule trxCap;
+  private TransactionCapsule hrnCap;
   private StoreFactory storeFactory;
   private ProgramResult programResult = new ProgramResult();
   private boolean isStatic;
   private boolean eventPluginLoaded;
 
-  public TransactionContext(BlockCapsule blockCap, TransactionCapsule trxCap,
+  public TransactionContext(BlockCapsule blockCap, TransactionCapsule hrnCap,
       StoreFactory storeFactory,
       boolean isStatic,
       boolean eventPluginLoaded) {
     this.blockCap = blockCap;
-    this.trxCap = trxCap;
+    this.hrnCap = hrnCap;
     this.storeFactory = storeFactory;
     this.isStatic = isStatic;
     this.eventPluginLoaded = eventPluginLoaded;

@@ -35,12 +35,12 @@ public class WalletUtil {
     return b;
   }
 
-  public static byte[] generateContractAddress(Transaction trx) {
+  public static byte[] generateContractAddress(Transaction hrn) {
 
-    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(trx);
+    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(hrn);
     byte[] ownerAddress = contract.getOwnerAddress().toByteArray();
-    TransactionCapsule trxCap = new TransactionCapsule(trx);
-    byte[] txRawDataHash = trxCap.getTransactionId().getBytes();
+    TransactionCapsule hrnCap = new TransactionCapsule(hrn);
+    byte[] txRawDataHash = hrnCap.getTransactionId().getBytes();
 
     byte[] combined = new byte[txRawDataHash.length + ownerAddress.length];
     System.arraycopy(txRawDataHash, 0, combined, 0, txRawDataHash.length);

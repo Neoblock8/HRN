@@ -1,7 +1,7 @@
 package org.tron.core.net.service;
 
 import static org.tron.core.config.Parameter.ChainConstant.BLOCK_PRODUCED_INTERVAL;
-import static org.tron.core.config.Parameter.NetConstants.MAX_TRX_FETCH_PER_PEER;
+import static org.tron.core.config.Parameter.NetConstants.MAX_HRN_FETCH_PER_PEER;
 import static org.tron.core.config.Parameter.NetConstants.MSG_CACHE_DURATION_IN_BLOCKS;
 
 import com.google.common.cache.Cache;
@@ -43,7 +43,7 @@ import org.tron.protos.Protocol.Inventory.InventoryType;
 public class AdvService {
   
   private final int MAX_INV_TO_FETCH_CACHE_SIZE = 100_000;
-  private final int MAX_TRX_CACHE_SIZE = 50_000;
+  private final int MAX_HRN_CACHE_SIZE = 50_000;
   private final int MAX_BLOCK_CACHE_SIZE = 10;
   private final int MAX_SPREAD_SIZE = 1_000;
 
@@ -58,8 +58,8 @@ public class AdvService {
       .maximumSize(MAX_INV_TO_FETCH_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
       .recordStats().build();
 
-  private Cache<Item, Message> trxCache = CacheBuilder.newBuilder()
-      .maximumSize(MAX_TRX_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
+  private Cache<Item, Message> hrnCache = CacheBuilder.newBuilder()
+      .maximumSize(MAX_HRN_CACHE_SIZE).expireAfterWrite(1, TimeUnit.HOURS)
       .recordStats().build();
 
   private Cache<Item, Message> blockCache = CacheBuilder.newBuilder()
@@ -71,7 +71,7 @@ public class AdvService {
   private ScheduledExecutorService fetchExecutor = Executors.newSingleThreadScheduledExecutor();
 
   @Getter
-  private MessageCount trxCount = new MessageCount();
+  private MessageCount hrnCount = new MessageCount();
 
   private boolean fastForward = Args.getInstance().isFastForward();
 
@@ -109,11 +109,11 @@ public class AdvService {
   }
 
   public boolean addInv(Item item) {
-    if (fastForward && item.getType().equals(InventoryType.TRX)) {
+    if (fastForward && item.getType().equals(InventoryType.HRN)) {
       return false;
     }
 
-    if (item.getType().equals(InventoryType.TRX) && trxCache.getIfPresent(item) != null) {
+    if (item.getType().equals(InventoryType.HRN) && hrnCache.getIfPresent(item) != null) {
       return false;
     }
     if (item.getType().equals(InventoryType.BLOCK) && blockCache.getIfPresent(item) != null) {
@@ -136,8 +136,8 @@ public class AdvService {
   }
 
   public Message getMessage(Item item) {
-    if (item.getType() == InventoryType.TRX) {
-      return trxCache.getIfPresent(item);
+    if (item.getType() == InventoryType.HRN) {
+      return hrnCache.getIfPresent(item);
     } else {
       return blockCache.getIfPresent(item);
     }
@@ -154,13 +154,13 @@ public class AdvService {
       return 0;
     }
 
-    Item item = new Item(msg.getMessageId(), InventoryType.TRX);
-    trxCount.add();
-    trxCache.put(item, new TransactionMessage(msg.getTransactionCapsule().getInstance()));
+    Item item = new Item(msg.getMessageId(), InventoryType.HRN);
+    hrnCount.add();
+    hrnCache.put(item, new TransactionMessage(msg.getTransactionCapsule().getInstance()));
 
     List<Sha256Hash> list = new ArrayList<>();
     list.add(msg.getMessageId());
-    InventoryMessage inventoryMessage = new InventoryMessage(list, InventoryType.TRX);
+    InventoryMessage inventoryMessage = new InventoryMessage(list, InventoryType.HRN);
 
     int peersCount = 0;
     for (PeerConnection peer: peers) {
@@ -196,17 +196,17 @@ public class AdvService {
       blockMsg.getBlockCapsule().getTransactions().forEach(transactionCapsule -> {
         Sha256Hash tid = transactionCapsule.getTransactionId();
         invToSpread.remove(tid);
-        trxCache.put(new Item(tid, InventoryType.TRX),
+        hrnCache.put(new Item(tid, InventoryType.HRN),
             new TransactionMessage(transactionCapsule.getInstance()));
       });
       blockCache.put(item, msg);
     } else if (msg instanceof TransactionMessage) {
-      TransactionMessage trxMsg = (TransactionMessage) msg;
-      item = new Item(trxMsg.getMessageId(), InventoryType.TRX);
-      trxCount.add();
-      trxCache.put(item, new TransactionMessage(trxMsg.getTransactionCapsule().getInstance()));
+      TransactionMessage hrnMsg = (TransactionMessage) msg;
+      item = new Item(hrnMsg.getMessageId(), InventoryType.HRN);
+      hrnCount.add();
+      hrnCache.put(item, new TransactionMessage(hrnMsg.getTransactionCapsule().getInstance()));
     } else {
-      logger.error("Adv item is neither block nor trx, type: {}", msg.getType());
+      logger.error("Adv item is neither block nor hrn, type: {}", msg.getType());
       return;
     }
 
@@ -274,7 +274,7 @@ public class AdvService {
           return;
         }
         peers.stream().filter(peer -> peer.getAdvInvReceive().getIfPresent(item) != null
-                && invSender.getSize(peer) < MAX_TRX_FETCH_PER_PEER)
+                && invSender.getSize(peer) < MAX_HRN_FETCH_PER_PEER)
                 .sorted(Comparator.comparingInt(peer -> invSender.getSize(peer)))
                 .findFirst().ifPresent(peer -> {
                   invSender.add(item, peer);
@@ -351,7 +351,7 @@ public class AdvService {
 
     public void sendInv() {
       send.forEach((peer, ids) -> ids.forEach((key, value) -> {
-        if (peer.isFastForwardPeer() && key.equals(InventoryType.TRX)) {
+        if (peer.isFastForwardPeer() && key.equals(InventoryType.HRN)) {
           return;
         }
         if (key.equals(InventoryType.BLOCK)) {

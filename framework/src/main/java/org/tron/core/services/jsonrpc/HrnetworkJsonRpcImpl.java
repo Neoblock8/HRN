@@ -324,7 +324,7 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
   }
 
   @Override
-  public String getTrxBalance(String address, String blockNumOrTag)
+  public String getHrnBalance(String address, String blockNumOrTag)
       throws JsonRpcInvalidParamsException {
     if ("earliest".equalsIgnoreCase(blockNumOrTag)
         || "pending".equalsIgnoreCase(blockNumOrTag)) {
@@ -352,7 +352,7 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
   }
 
   private void callTriggerConstantContract(byte[] ownerAddressByte, byte[] contractAddressByte,
-      long value, byte[] data, TransactionExtention.Builder trxExtBuilder,
+      long value, byte[] data, TransactionExtention.Builder hrnExtBuilder,
       Return.Builder retBuilder)
       throws ContractValidateException, ContractExeException, HeaderNotFound, VMIllegalException {
 
@@ -365,14 +365,14 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
         null
     );
 
-    TransactionCapsule trxCap = wallet.createTransactionCapsule(triggerContract,
+    TransactionCapsule hrnCap = wallet.createTransactionCapsule(triggerContract,
         ContractType.TriggerSmartContract);
-    Transaction trx =
-        wallet.triggerConstantContract(triggerContract, trxCap, trxExtBuilder, retBuilder);
+    Transaction hrn =
+        wallet.triggerConstantContract(triggerContract, hrnCap, hrnExtBuilder, retBuilder);
 
-    trxExtBuilder.setTransaction(trx);
-    trxExtBuilder.setTxid(trxCap.getTransactionId().getByteString());
-    trxExtBuilder.setResult(retBuilder);
+    hrnExtBuilder.setTransaction(hrn);
+    hrnExtBuilder.setTxid(hrnCap.getTransactionId().getByteString());
+    hrnExtBuilder.setResult(retBuilder);
     retBuilder.setResult(true).setCode(response_code.SUCCESS);
   }
 
@@ -383,37 +383,37 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
   private String call(byte[] ownerAddressByte, byte[] contractAddressByte, long value,
       byte[] data) {
 
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder hrnExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
-    TransactionExtention trxExt;
+    TransactionExtention hrnExt;
 
     try {
       callTriggerConstantContract(ownerAddressByte, contractAddressByte, value, data,
-          trxExtBuilder, retBuilder);
+          hrnExtBuilder, retBuilder);
 
     } catch (ContractValidateException | VMIllegalException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_VALIDATE_ERROR)
           .setMessage(ByteString.copyFromUtf8(CONTRACT_VALIDATE_ERROR + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn(CONTRACT_VALIDATE_EXCEPTION, e.getMessage());
     } catch (RuntimeException e) {
       retBuilder.setResult(false).setCode(response_code.CONTRACT_EXE_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("When run constant call in VM, have RuntimeException: " + e.getMessage());
     } catch (Exception e) {
       retBuilder.setResult(false).setCode(response_code.OTHER_ERROR)
           .setMessage(ByteString.copyFromUtf8(e.getClass() + " : " + e.getMessage()));
-      trxExtBuilder.setResult(retBuilder);
+      hrnExtBuilder.setResult(retBuilder);
       logger.warn("Unknown exception caught: " + e.getMessage(), e);
     } finally {
-      trxExt = trxExtBuilder.build();
+      hrnExt = hrnExtBuilder.build();
     }
 
     String result = "0x";
-    String code = trxExt.getResult().getCode().toString();
+    String code = hrnExt.getResult().getCode().toString();
     if ("SUCCESS".equals(code)) {
-      List<ByteString> list = trxExt.getConstantResultList();
+      List<ByteString> list = hrnExt.getConstantResultList();
       byte[] listBytes = new byte[0];
       for (ByteString bs : list) {
         listBytes = ByteUtil.merge(listBytes, bs.toByteArray());
@@ -521,7 +521,7 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
       return "0x0";
     }
 
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder hrnExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
 
     try {
@@ -537,10 +537,10 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
           contractAddress,
           args.parseValue(),
           ByteArray.fromHexString(args.data),
-          trxExtBuilder,
+          hrnExtBuilder,
           retBuilder);
 
-      return ByteArray.toJsonHex(trxExtBuilder.getEnergyUsed());
+      return ByteArray.toJsonHex(hrnExtBuilder.getEnergyUsed());
     } catch (ContractValidateException e) {
       String errString = "invalid contract";
       if (e.getMessage() != null) {
@@ -846,7 +846,7 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
     byte[] contractAddress = addressCompatibleToByteArray(args.to);
 
     TriggerSmartContract.Builder build = TriggerSmartContract.newBuilder();
-    TransactionExtention.Builder trxExtBuilder = TransactionExtention.newBuilder();
+    TransactionExtention.Builder hrnExtBuilder = TransactionExtention.newBuilder();
     Return.Builder retBuilder = Return.newBuilder();
 
     try {
@@ -872,11 +872,11 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
       rawBuilder.setFeeLimit(args.parseGas() * wallet.getEnergyFee());
       txBuilder.setRawData(rawBuilder);
 
-      Transaction trx = wallet
-          .triggerContract(build.build(), new TransactionCapsule(txBuilder.build()), trxExtBuilder,
+      Transaction hrn = wallet
+          .triggerContract(build.build(), new TransactionCapsule(txBuilder.build()), hrnExtBuilder,
               retBuilder);
-      trx = setTransactionPermissionId(args.permissionId, trx);
-      trxExtBuilder.setTransaction(trx);
+      hrn = setTransactionPermissionId(args.permissionId, hrn);
+      hrnExtBuilder.setTransaction(hrn);
     } catch (JsonRpcInvalidParamsException e) {
       throw new JsonRpcInvalidParamsException(e.getMessage());
     } catch (ContractValidateException e) {
@@ -890,7 +890,7 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
       throw new JsonRpcInternalException(errString);
     }
 
-    String jsonString = Util.printTransaction(trxExtBuilder.build().getTransaction(), args.visible);
+    String jsonString = Util.printTransaction(hrnExtBuilder.build().getTransaction(), args.visible);
     TransactionJson transactionJson = new TransactionJson();
     transactionJson.transaction = JSON.parseObject(jsonString);
 

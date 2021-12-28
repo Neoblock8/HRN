@@ -138,7 +138,7 @@ public final class VMUtils {
     }
 
     if (Arrays.equals(toAddress, ownerAddress)) {
-      throw new ContractValidateException("Cannot transfer TRX to yourself.");
+      throw new ContractValidateException("Cannot transfer HRN to yourself.");
     }
 
     AccountCapsule ownerAccount = deposit.getAccount(ownerAddress);

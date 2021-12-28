@@ -44,7 +44,7 @@ public class TransactionUtil {
         Contract.ContractType.TransferContract).getInstance();
   }
 
-  public static TransactionInfoCapsule buildTransactionInfoInstance(TransactionCapsule trxCap,
+  public static TransactionInfoCapsule buildTransactionInfoInstance(TransactionCapsule hrnCap,
       BlockCapsule block, TransactionTrace trace) {
 
     TransactionInfo.Builder builder = TransactionInfo.newBuilder();
@@ -55,7 +55,7 @@ public class TransactionUtil {
       builder.setResult(code.FAILED);
       builder.setResMessage(ByteString.copyFromUtf8(trace.getRuntimeError()));
     }
-    builder.setId(ByteString.copyFrom(trxCap.getTransactionId().getBytes()));
+    builder.setId(ByteString.copyFrom(hrnCap.getTransactionId().getBytes()));
     ProgramResult programResult = trace.getRuntimeResult();
     long fee =
         programResult.getRet().getFee() + traceReceipt.getEnergyFee()
@@ -127,7 +127,7 @@ public class TransactionUtil {
     //TODO: "for loop" below in future for multiple token case, we only have one for now.
     Protocol.InternalTransaction.CallValueInfo.Builder callValueInfoBuilder =
         Protocol.InternalTransaction.CallValueInfo.newBuilder();
-    // trx will not be set token name
+    // hrn will not be set token name
     callValueInfoBuilder.setCallValue(it.getValue());
     // Just one transferBuilder for now.
     itBuilder.addCallValueInfo(callValueInfoBuilder);

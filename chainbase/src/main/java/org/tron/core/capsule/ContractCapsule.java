@@ -37,9 +37,9 @@ public class ContractCapsule implements ProtoCapsule<SmartContract> {
     }
   }
 
-  public static CreateSmartContract getSmartContractFromTransaction(Transaction trx) {
+  public static CreateSmartContract getSmartContractFromTransaction(Transaction hrn) {
     try {
-      Any any = trx.getRawData().getContract(0).getParameter();
+      Any any = hrn.getRawData().getContract(0).getParameter();
       CreateSmartContract createSmartContract = any.unpack(CreateSmartContract.class);
       return createSmartContract;
     } catch (InvalidProtocolBufferException e) {
@@ -47,9 +47,9 @@ public class ContractCapsule implements ProtoCapsule<SmartContract> {
     }
   }
 
-  public static TriggerSmartContract getTriggerContractFromTransaction(Transaction trx) {
+  public static TriggerSmartContract getTriggerContractFromTransaction(Transaction hrn) {
     try {
-      Any any = trx.getRawData().getContract(0).getParameter();
+      Any any = hrn.getRawData().getContract(0).getParameter();
       TriggerSmartContract contractTriggerContract = any.unpack(TriggerSmartContract.class);
       return contractTriggerContract;
     } catch (InvalidProtocolBufferException e) {
@@ -111,8 +111,8 @@ public class ContractCapsule implements ProtoCapsule<SmartContract> {
     this.smartContract = this.smartContract.toBuilder().setAbi(ABI.getDefaultInstance()).build();
   }
 
-  public byte[] getTrxHash() {
-    return this.smartContract.getTrxHash().toByteArray();
+  public byte[] getHrnHash() {
+    return this.smartContract.getHrnHash().toByteArray();
   }
 
   public int getContractVersion() {

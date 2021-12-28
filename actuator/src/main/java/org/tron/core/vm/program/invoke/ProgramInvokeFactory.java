@@ -1,7 +1,7 @@
 package org.tron.core.vm.program.invoke;
 
-import static org.tron.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CALL_TYPE;
-import static org.tron.common.runtime.InternalTransaction.TrxType.TRX_CONTRACT_CREATION_TYPE;
+import static org.tron.common.runtime.InternalTransaction.HrnType.HRN_CONTRACT_CALL_TYPE;
+import static org.tron.common.runtime.InternalTransaction.HrnType.HRN_CONTRACT_CREATION_TYPE;
 import static org.tron.common.utils.WalletUtil.generateContractAddress;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class ProgramInvokeFactory {
   /**
    * Invocation by the wire tx
    */
-  public static ProgramInvoke createProgramInvoke(InternalTransaction.TrxType trxType,
+  public static ProgramInvoke createProgramInvoke(InternalTransaction.HrnType hrnType,
       InternalTransaction.ExecutorType executorType, Transaction tx, long tokenValue, long tokenId,
       Block block,
       Repository deposit, long vmStartInUs,
@@ -38,7 +38,7 @@ public class ProgramInvokeFactory {
     long timestamp = 0L;
     long number = -1L;
 
-    if (trxType == TRX_CONTRACT_CREATION_TYPE) {
+    if (hrnType == HRN_CONTRACT_CREATION_TYPE) {
       CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(tx);
       contractAddress = generateContractAddress(tx);
       ownerAddress = contract.getOwnerAddress().toByteArray();
@@ -65,7 +65,7 @@ public class ProgramInvokeFactory {
           tokenValue, tokenId, data, lastHash, coinbase, timestamp, number, deposit, vmStartInUs,
           vmShouldEndInUs, energyLimit);
 
-    } else if (trxType == TRX_CONTRACT_CALL_TYPE) {
+    } else if (hrnType == HRN_CONTRACT_CALL_TYPE) {
       TriggerSmartContract contract = ContractCapsule
           .getTriggerContractFromTransaction(tx);
       /***         ADDRESS op       ***/

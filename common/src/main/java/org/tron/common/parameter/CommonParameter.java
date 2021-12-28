@@ -203,7 +203,7 @@ public class CommonParameter {
   public int blockProducedTimeOut;
   @Getter
   @Setter
-  public long netMaxTrxPerSecond;
+  public long netMaxHrnPerSecond;
   @Getter
   @Setter
   public long maxConnectionAgeInMillis;
@@ -305,13 +305,13 @@ public class CommonParameter {
   public boolean needToUpdateAsset;
   @Getter
   @Setter
-  public String trxReferenceBlock;
+  public String hrnReferenceBlock;
   @Getter
   @Setter
   public int minEffectiveConnection;
   @Getter
   @Setter
-  public boolean trxCacheEnable;
+  public boolean hrnCacheEnable;
   @Getter
   @Setter
   public long allowMarketTransaction; //committee parameter
@@ -344,7 +344,7 @@ public class CommonParameter {
   public boolean eventSubscribe = false;
   @Getter
   @Setter
-  public long trxExpirationTimeInMilliseconds; // (ms)
+  public long hrnExpirationTimeInMilliseconds; // (ms)
   @Parameter(names = {"-v", "--version"}, description = "output code version", help = true)
   public boolean version;
   @Getter

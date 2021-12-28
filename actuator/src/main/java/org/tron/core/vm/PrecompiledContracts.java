@@ -13,7 +13,7 @@ import static org.tron.common.utils.ByteUtil.numberOfLeadingZeros;
 import static org.tron.common.utils.ByteUtil.parseBytes;
 import static org.tron.common.utils.ByteUtil.parseWord;
 import static org.tron.common.utils.ByteUtil.stripLeadingZeroes;
-import static org.tron.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.tron.core.config.Parameter.ChainConstant.HRN_PRECISION;
 
 import com.google.protobuf.ByteString;
 import java.math.BigInteger;
@@ -1684,7 +1684,7 @@ public class PrecompiledContracts {
       AccountCapsule accountCapsule = this.getDeposit().getAccount(address);
 
       long tronPower = accountCapsule != null
-          ? accountCapsule.getTronPower() / TRX_PRECISION : 0;
+          ? accountCapsule.getTronPower() / HRN_PRECISION : 0;
       return Pair.of(true, longTo32Bytes(tronPower));
     }
   }

@@ -54,8 +54,8 @@ public class InventoryMsgHandler implements HrnetworkMsgHandler {
       return false;
     }
 
-    if (type.equals(InventoryType.TRX)) {
-      int count = peer.getNodeStatistics().messageStatistics.tronInTrxInventoryElement.getCount(10);
+    if (type.equals(InventoryType.HRN)) {
+      int count = peer.getNodeStatistics().messageStatistics.tronInHrnInventoryElement.getCount(10);
       if (count > maxCountIn10s) {
         logger.warn("Drop inv: {} size: {} from Peer {}, Inv count: {} is overload.",
             type, size, peer.getInetAddress(), count);

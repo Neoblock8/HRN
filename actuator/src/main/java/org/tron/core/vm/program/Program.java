@@ -8,7 +8,7 @@ import static org.apache.commons.lang3.ArrayUtils.isEmpty;
 import static org.apache.commons.lang3.ArrayUtils.isNotEmpty;
 import static org.apache.commons.lang3.ArrayUtils.nullToEmpty;
 import static org.tron.common.utils.ByteUtil.stripLeadingZeroes;
-import static org.tron.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.tron.core.config.Parameter.ChainConstant.HRN_PRECISION;
 
 import com.google.protobuf.ByteString;
 import java.math.BigInteger;
@@ -179,8 +179,8 @@ public class Program {
   }
 
   /**
-   * @param transferAddress the address send TRX to.
-   * @param value the TRX value transferred in the internal transaction
+   * @param transferAddress the address send HRN to.
+   * @param value the HRN value transferred in the internal transaction
    */
   private InternalTransaction addInternalTx(DataWord energyLimit, byte[] senderAddress,
       byte[] transferAddress,
@@ -430,7 +430,7 @@ public class Program {
       } catch (ContractValidateException e) {
         if (VMConfig.allowTvmConstantinople()) {
           throw new TransferException(
-              "transfer all token or transfer all trx failed in suicide: %s", e.getMessage());
+              "transfer all token or transfer all hrn failed in suicide: %s", e.getMessage());
         }
         throw new BytecodeExecutionException("transfer failure");
       }
@@ -467,11 +467,11 @@ public class Program {
     if (ownerCapsule.getFrozenCount() != 0) {
       frozenBalanceForBandwidthOfOwner = ownerCapsule.getFrozenList().get(0).getFrozenBalance();
     }
-    repo.addTotalNetWeight(-frozenBalanceForBandwidthOfOwner / TRX_PRECISION);
+    repo.addTotalNetWeight(-frozenBalanceForBandwidthOfOwner / HRN_PRECISION);
 
     long frozenBalanceForEnergyOfOwner =
         ownerCapsule.getAccountResource().getFrozenBalanceForEnergy().getFrozenBalance();
-    repo.addTotalEnergyWeight(-frozenBalanceForEnergyOfOwner / TRX_PRECISION);
+    repo.addTotalEnergyWeight(-frozenBalanceForEnergyOfOwner / HRN_PRECISION);
 
     // transfer all kinds of frozen balance to BlackHole
     repo.addBalance(inheritorAddr, frozenBalanceForBandwidthOfOwner + frozenBalanceForEnergyOfOwner);
@@ -579,7 +579,7 @@ public class Program {
             .setConsumeUserResourcePercent(100)
             .setOriginAddress(ByteString.copyFrom(senderAddress));
         if (isCreate2) {
-          builder.setTrxHash(ByteString.copyFrom(rootTransactionId));
+          builder.setHrnHash(ByteString.copyFrom(rootTransactionId));
         }
         SmartContract newSmartContract = builder.build();
         deposit.createContract(newAddress, new ContractCapsule(newSmartContract));
@@ -770,7 +770,7 @@ public class Program {
         throw e;
       }
     }
-    // transfer TRX validation
+    // transfer HRN validation
     byte[] tokenId = null;
 
     checkTokenId(msg);
@@ -801,7 +801,7 @@ public class Program {
     byte[] programCode =
         accountCapsule != null ? getContractState().getCode(codeAddress) : EMPTY_BYTE_ARRAY;
 
-    // only for TRX, not for token
+    // only for HRN, not for token
     long contextBalance = 0L;
     if (byTestingSuite()) {
       // This keeps track of the calls created for a test
@@ -818,7 +818,7 @@ public class Program {
         } catch (ContractValidateException e) {
           if (VMConfig.allowTvmConstantinople()) {
             refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
-            throw new TransferException("transfer trx failed: %s", e.getMessage());
+            throw new TransferException("transfer hrn failed: %s", e.getMessage());
           }
           throw new BytecodeExecutionException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, e.getMessage());
         }
@@ -1376,7 +1376,7 @@ public class Program {
 
     checkTokenId(msg);
     boolean isTokenTransfer = isTokenTransfer(msg);
-    // transfer TRX validation
+    // transfer HRN validation
     if (!isTokenTransfer) {
       senderBalance = deposit.getBalance(senderAddress);
     } else {
@@ -1464,7 +1464,7 @@ public class Program {
    * [Long.Min, 0)        Not possible                               error
    * --------------------------------------------------------------------------------------------- 0
    * allowed and only allowed                    error (guaranteed in CALLTOKEN) transfertoken id=0
-   * should not transfer TRX） ---------------------------------------------------------------------
+   * should not transfer HRN） ---------------------------------------------------------------------
    * (0-100_0000]          Not possible                              error
    * ---------------------------------------------------------------------------------------------
    * (100_0000, Long.Max]  Not possible                             allowed
@@ -1571,7 +1571,7 @@ public class Program {
 
   private void createAccountIfNotExist(Repository deposit, byte[] contextAddress) {
     if (VMConfig.allowTvmSolidity059()) {
-      //after solidity059 proposal , allow contract transfer trc10 or TRX to non-exist address(would create one)
+      //after solidity059 proposal , allow contract transfer trc10 or HRN to non-exist address(would create one)
       AccountCapsule sender = deposit.getAccount(contextAddress);
       if (sender == null) {
         deposit.createNormalAccount(contextAddress);

@@ -19,7 +19,7 @@ import org.tron.common.logsfilter.trigger.ContractTrigger;
 import org.tron.common.parameter.CommonParameter;
 import org.tron.common.runtime.InternalTransaction;
 import org.tron.common.runtime.InternalTransaction.ExecutorType;
-import org.tron.common.runtime.InternalTransaction.TrxType;
+import org.tron.common.runtime.InternalTransaction.HrnType;
 import org.tron.common.runtime.ProgramResult;
 import org.tron.common.utils.StorageUtils;
 import org.tron.common.utils.StringUtil;
@@ -62,7 +62,7 @@ import org.tron.protos.contract.SmartContractOuterClass.TriggerSmartContract;
 public class VMActuator implements Actuator2 {
 
   /* tx and block info */
-  private Transaction trx;
+  private Transaction hrn;
   private BlockCapsule blockCap;
 
   /* tvm execution context */
@@ -75,7 +75,7 @@ public class VMActuator implements Actuator2 {
 
   @Getter
   @Setter
-  private InternalTransaction.TrxType trxType;
+  private InternalTransaction.HrnType hrnType;
   private ExecutorType executorType;
 
   @Getter
@@ -110,13 +110,13 @@ public class VMActuator implements Actuator2 {
 
     //Load Config
     ConfigLoader.load(context.getStoreFactory());
-    trx = context.getTrxCap().getInstance();
+    hrn = context.getHrnCap().getInstance();
     blockCap = context.getBlockCap();
-    if (VMConfig.allowTvmFreeze() && context.getTrxCap().getTrxTrace() != null) {
-      receipt = context.getTrxCap().getTrxTrace().getReceipt();
+    if (VMConfig.allowTvmFreeze() && context.getHrnCap().getHrnTrace() != null) {
+      receipt = context.getHrnCap().getHrnTrace().getReceipt();
     }
     //Route Type
-    ContractType contractType = this.trx.getRawData().getContract(0).getType();
+    ContractType contractType = this.hrn.getRawData().getContract(0).getType();
     //Prepare Repository
     rootRepository = RepositoryImpl.createRoot(context.getStoreFactory());
 
@@ -135,11 +135,11 @@ public class VMActuator implements Actuator2 {
 
     switch (contractType.getNumber()) {
       case ContractType.TriggerSmartContract_VALUE:
-        trxType = TrxType.TRX_CONTRACT_CALL_TYPE;
+        hrnType = HrnType.HRN_CONTRACT_CALL_TYPE;
         call();
         break;
       case ContractType.CreateSmartContract_VALUE:
-        trxType = TrxType.TRX_CONTRACT_CREATION_TYPE;
+        hrnType = HrnType.HRN_CONTRACT_CREATION_TYPE;
         create();
         break;
       default:
@@ -158,8 +158,8 @@ public class VMActuator implements Actuator2 {
     try {
       if (program != null) {
         if (null != blockCap && blockCap.generatedByMyself && blockCap.hasWitnessSignature()
-            && null != TransactionUtil.getContractRet(trx)
-            && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(trx)) {
+            && null != TransactionUtil.getContractRet(hrn)
+            && contractResult.OUT_OF_TIME == TransactionUtil.getContractRet(hrn)) {
           result = program.getResult();
           program.spendAllEnergy();
 
@@ -172,7 +172,7 @@ public class VMActuator implements Actuator2 {
         VM.play(program);
         result = program.getResult();
 
-        if (TrxType.TRX_CONTRACT_CREATION_TYPE == trxType && !result.isRevert()) {
+        if (HrnType.HRN_CONTRACT_CREATION_TYPE == hrnType && !result.isRevert()) {
           byte[] code = program.getResult().getHReturn();
           if (code.length != 0 && VMConfig.allowTvmLondon() && code[0] == (byte) 0xEF) {
             if (null == result.getException()) {
@@ -286,7 +286,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("vm work is off, need to be opened by the committee");
     }
 
-    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(trx);
+    CreateSmartContract contract = ContractCapsule.getSmartContractFromTransaction(hrn);
     if (contract == null) {
       throw new ContractValidateException("Cannot get CreateSmartContract from transaction");
     }
@@ -312,7 +312,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("percent must be >= 0 and <= 100");
     }
 
-    byte[] contractAddress = WalletUtil.generateContractAddress(trx);
+    byte[] contractAddress = WalletUtil.generateContractAddress(hrn);
     // insure the new contract address haven't exist
     if (rootRepository.getAccount(contractAddress) != null) {
       throw new ContractValidateException(
@@ -332,7 +332,7 @@ public class VMActuator implements Actuator2 {
     byte[] callerAddress = contract.getOwnerAddress().toByteArray();
     // create vm to constructor smart contract
     try {
-      long feeLimit = trx.getRawData().getFeeLimit();
+      long feeLimit = hrn.getRawData().getFeeLimit();
       if (feeLimit < 0 || feeLimit > rootRepository.getDynamicPropertiesStore().getMaxFeeLimit()) {
         logger.info("invalid feeLimit {}", feeLimit);
         throw new ContractValidateException(
@@ -366,7 +366,7 @@ public class VMActuator implements Actuator2 {
       checkTokenValueAndId(tokenValue, tokenId);
 
       byte[] ops = newSmartContract.getBytecode().toByteArray();
-      rootInternalTx = new InternalTransaction(trx, trxType);
+      rootInternalTx = new InternalTransaction(hrn, hrnType);
 
       long maxCpuTimeOfOneTx = rootRepository.getDynamicPropertiesStore()
           .getMaxCpuTimeOfOneTx() * VMConstant.ONE_THOUSAND;
@@ -374,14 +374,14 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = ProgramInvokeFactory
-          .createProgramInvoke(TrxType.TRX_CONTRACT_CREATION_TYPE, executorType, trx,
+          .createProgramInvoke(HrnType.HRN_CONTRACT_CREATION_TYPE, executorType, hrn,
               tokenValue, tokenId, blockCap.getInstance(), rootRepository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       this.program = new Program(ops, programInvoke, rootInternalTx);
       if (VMConfig.allowTvmCompatibleEvm()) {
         this.program.setContractVersion(1);
       }
-      byte[] txId = TransactionUtil.getTransactionId(trx).getBytes();
+      byte[] txId = TransactionUtil.getTransactionId(hrn).getBytes();
       this.program.setRootTransactionId(txId);
       if (enableEventListener && isCheckTransaction()) {
         logInfoTriggerParser = new LogInfoTriggerParser(blockCap.getNum(), blockCap.getTimeStamp(),
@@ -424,7 +424,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("VM work is off, need to be opened by the committee");
     }
 
-    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(trx);
+    TriggerSmartContract contract = ContractCapsule.getTriggerContractFromTransaction(hrn);
     if (contract == null) {
       return;
     }
@@ -463,7 +463,7 @@ public class VMActuator implements Actuator2 {
 
     byte[] code = rootRepository.getCode(contractAddress);
     if (isNotEmpty(code)) {
-      long feeLimit = trx.getRawData().getFeeLimit();
+      long feeLimit = hrn.getRawData().getFeeLimit();
       if (feeLimit < 0 || feeLimit > rootRepository.getDynamicPropertiesStore().getMaxFeeLimit()) {
         logger.info("invalid feeLimit {}", feeLimit);
         throw new ContractValidateException(
@@ -486,18 +486,18 @@ public class VMActuator implements Actuator2 {
       long vmStartInUs = System.nanoTime() / VMConstant.ONE_THOUSAND;
       long vmShouldEndInUs = vmStartInUs + thisTxCPULimitInUs;
       ProgramInvoke programInvoke = ProgramInvokeFactory
-          .createProgramInvoke(TrxType.TRX_CONTRACT_CALL_TYPE, executorType, trx,
+          .createProgramInvoke(HrnType.HRN_CONTRACT_CALL_TYPE, executorType, hrn,
               tokenValue, tokenId, blockCap.getInstance(), rootRepository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       if (isConstantCall) {
         programInvoke.setConstantCall();
       }
-      rootInternalTx = new InternalTransaction(trx, trxType);
+      rootInternalTx = new InternalTransaction(hrn, hrnType);
       this.program = new Program(code, programInvoke, rootInternalTx);
       if (VMConfig.allowTvmCompatibleEvm()) {
         this.program.setContractVersion(deployedContract.getContractVersion());
       }
-      byte[] txId = TransactionUtil.getTransactionId(trx).getBytes();
+      byte[] txId = TransactionUtil.getTransactionId(hrn).getBytes();
       this.program.setRootTransactionId(txId);
 
       if (enableEventListener && isCheckTransaction()) {
@@ -622,7 +622,7 @@ public class VMActuator implements Actuator2 {
         cpuLimitRatio = 1.0;
       } else {
         // self witness or other witness or fullnode verifies block
-        if (trx.getRet(0).getContractRet() == contractResult.OUT_OF_TIME) {
+        if (hrn.getRet(0).getContractRet() == contractResult.OUT_OF_TIME) {
           cpuLimitRatio = CommonParameter.getInstance().getMinTimeRatio();
         } else {
           cpuLimitRatio = CommonParameter.getInstance().getMaxTimeRatio();
@@ -644,7 +644,7 @@ public class VMActuator implements Actuator2 {
     if (Arrays.equals(creator.getAddress().toByteArray(), caller.getAddress().toByteArray())) {
       // when the creator calls his own contract, this logic will be used.
       // so, the creator must use a BIG feeLimit to call his own contract,
-      // which will cost the feeLimit TRX when the creator's frozen energy is 0.
+      // which will cost the feeLimit HRN when the creator's frozen energy is 0.
       return callerEnergyLimit;
     }
 

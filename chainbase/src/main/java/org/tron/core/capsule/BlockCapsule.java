@@ -94,7 +94,7 @@ public class BlockCapsule implements ProtoCapsule<Block> {
 
     // block
     Block.Builder blockBuild = Block.newBuilder();
-    transactionList.forEach(trx -> blockBuild.addTransactions(trx));
+    transactionList.forEach(hrn -> blockBuild.addTransactions(hrn));
     this.block = blockBuild.setBlockHeader(blockHeader).build();
     initTxs();
   }
@@ -123,9 +123,9 @@ public class BlockCapsule implements ProtoCapsule<Block> {
     }
   }
 
-  public void addTransaction(TransactionCapsule pendingTrx) {
-    this.block = this.block.toBuilder().addTransactions(pendingTrx.getInstance()).build();
-    getTransactions().add(pendingTrx);
+  public void addTransaction(TransactionCapsule pendingHrn) {
+    this.block = this.block.toBuilder().addTransactions(pendingHrn.getInstance()).build();
+    getTransactions().add(pendingHrn);
   }
 
   public List<TransactionCapsule> getTransactions() {
@@ -134,7 +134,7 @@ public class BlockCapsule implements ProtoCapsule<Block> {
 
   private void initTxs() {
     transactions = this.block.getTransactionsList().stream()
-        .map(trx -> new TransactionCapsule(trx))
+        .map(hrn -> new TransactionCapsule(hrn))
         .collect(Collectors.toList());
   }
 

@@ -169,7 +169,7 @@ public class HrnetworkNetDelegate {
   public boolean contain(Sha256Hash hash, MessageTypes type) {
     if (type.equals(MessageTypes.BLOCK)) {
       return chainBaseManager.containBlock(hash);
-    } else if (type.equals(MessageTypes.TRX)) {
+    } else if (type.equals(MessageTypes.HRN)) {
       return dbManager.getTransactionStore().has(hash.getBytes());
     }
     return false;
@@ -180,7 +180,7 @@ public class HrnetworkNetDelegate {
       switch (type) {
         case BLOCK:
           return new BlockMessage(chainBaseManager.getBlockById(hash));
-        case TRX:
+        case HRN:
           TransactionCapsule tx = chainBaseManager.getTransactionStore().get(hash.getBytes());
           if (tx != null) {
             return new TransactionMessage(tx.getInstance());
@@ -244,13 +244,13 @@ public class HrnetworkNetDelegate {
     }
   }
 
-  public void pushTransaction(TransactionCapsule trx) throws P2pException {
+  public void pushTransaction(TransactionCapsule hrn) throws P2pException {
     try {
-      trx.setTime(System.currentTimeMillis());
-      dbManager.pushTransaction(trx);
+      hrn.setTime(System.currentTimeMillis());
+      dbManager.pushTransaction(hrn);
     } catch (ContractSizeNotEqualToOneException
         | VMIllegalException e) {
-      throw new P2pException(TypeEnum.BAD_TRX, e);
+      throw new P2pException(TypeEnum.BAD_HRN, e);
     } catch (ContractValidateException
         | ValidateSignatureException
         | ContractExeException
@@ -261,7 +261,7 @@ public class HrnetworkNetDelegate {
         | ReceiptCheckErrException
         | TooBigTransactionResultException
         | AccountResourceInsufficientException e) {
-      throw new P2pException(TypeEnum.TRX_EXE_FAILED, e);
+      throw new P2pException(TypeEnum.HRN_EXE_FAILED, e);
     }
   }
 

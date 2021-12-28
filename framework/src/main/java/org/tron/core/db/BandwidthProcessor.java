@@ -1,6 +1,6 @@
 package org.tron.core.db;
 
-import static org.tron.core.config.Parameter.ChainConstant.TRX_PRECISION;
+import static org.tron.core.config.Parameter.ChainConstant.HRN_PRECISION;
 import static org.tron.protos.Protocol.Transaction.Contract.ContractType.ShieldedTransferContract;
 import static org.tron.protos.Protocol.Transaction.Contract.ContractType.TransferAssetContract;
 
@@ -65,20 +65,20 @@ public class BandwidthProcessor extends ResourceProcessor {
   }
 
   @Override
-  public void consume(TransactionCapsule trx, TransactionTrace trace)
+  public void consume(TransactionCapsule hrn, TransactionTrace trace)
       throws ContractValidateException, AccountResourceInsufficientException,
       TooBigTransactionResultException {
-    List<Contract> contracts = trx.getInstance().getRawData().getContractList();
-    if (trx.getResultSerializedSize() > Constant.MAX_RESULT_SIZE_IN_TX * contracts.size()) {
+    List<Contract> contracts = hrn.getInstance().getRawData().getContractList();
+    if (hrn.getResultSerializedSize() > Constant.MAX_RESULT_SIZE_IN_TX * contracts.size()) {
       throw new TooBigTransactionResultException();
     }
 
     long bytesSize;
 
     if (chainBaseManager.getDynamicPropertiesStore().supportVM()) {
-      bytesSize = trx.getInstance().toBuilder().clearRet().build().getSerializedSize();
+      bytesSize = hrn.getInstance().toBuilder().clearRet().build().getSerializedSize();
     } else {
-      bytesSize = trx.getSerializedSize();
+      bytesSize = hrn.getSerializedSize();
     }
 
     for (Contract contract : contracts) {
@@ -89,7 +89,7 @@ public class BandwidthProcessor extends ResourceProcessor {
         bytesSize += Constant.MAX_RESULT_SIZE_IN_TX;
       }
 
-      logger.debug("trxId {}, bandwidth cost: {}", trx.getTransactionId(), bytesSize);
+      logger.debug("hrnId {}, bandwidth cost: {}", hrn.getTransactionId(), bytesSize);
       trace.setNetBill(bytesSize, 0);
       byte[] address = TransactionCapsule.getOwner(contract);
       AccountCapsule accountCapsule = chainBaseManager.getAccountStore().get(address);
@@ -349,10 +349,10 @@ public class BandwidthProcessor extends ResourceProcessor {
 
   public long calculateGlobalNetLimit(AccountCapsule accountCapsule) {
     long frozeBalance = accountCapsule.getAllFrozenBalanceForBandwidth();
-    if (frozeBalance < TRX_PRECISION) {
+    if (frozeBalance < HRN_PRECISION) {
       return 0;
     }
-    long netWeight = frozeBalance / TRX_PRECISION;
+    long netWeight = frozeBalance / HRN_PRECISION;
     long totalNetLimit = chainBaseManager.getDynamicPropertiesStore().getTotalNetLimit();
     long totalNetWeight = chainBaseManager.getDynamicPropertiesStore().getTotalNetWeight();
     if (totalNetWeight == 0) {

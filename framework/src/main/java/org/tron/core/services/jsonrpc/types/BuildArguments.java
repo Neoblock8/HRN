@@ -74,7 +74,7 @@ public class BuildArguments {
       if (smartContract != null) {
         contractType = ContractType.TriggerSmartContract;
       } else {
-        // tokenId and tokenValue: trc10, value: TRX
+        // tokenId and tokenValue: trc10, value: HRN
         if (availableTransferAsset()) {
           contractType = ContractType.TransferAssetContract;
         } else {

@@ -9,17 +9,17 @@ public class TransactionsMessage extends HrnetworkMessage {
 
   private Protocol.Transactions transactions;
 
-  public TransactionsMessage(List<Transaction> trxs) {
+  public TransactionsMessage(List<Transaction> hrns) {
     Protocol.Transactions.Builder builder = Protocol.Transactions.newBuilder();
-    trxs.forEach(trx -> builder.addTransactions(trx));
+    hrns.forEach(hrn -> builder.addTransactions(hrn));
     this.transactions = builder.build();
-    this.type = MessageTypes.TRXS.asByte();
+    this.type = MessageTypes.HRNS.asByte();
     this.data = this.transactions.toByteArray();
   }
 
   public TransactionsMessage(byte[] data) throws Exception {
     super(data);
-    this.type = MessageTypes.TRXS.asByte();
+    this.type = MessageTypes.HRNS.asByte();
     this.transactions = Protocol.Transactions.parseFrom(getCodedInputStream(data));
     if (isFilter()) {
       compareBytes(data, transactions.toByteArray());
@@ -33,7 +33,7 @@ public class TransactionsMessage extends HrnetworkMessage {
 
   @Override
   public String toString() {
-    return new StringBuilder().append(super.toString()).append("trx size: ")
+    return new StringBuilder().append(super.toString()).append("hrn size: ")
         .append(this.transactions.getTransactionsList().size()).toString();
   }
 
