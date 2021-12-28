@@ -1838,7 +1838,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found ALLOW_CREATION_OF_CONTRACTS"));
   }
 
-  public boolean supportVm() {
+  public boolean supportVM() {
     return getAllowCreationOfContracts() == 1L;
   }
 
