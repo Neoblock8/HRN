@@ -23,45 +23,45 @@ public class ConfigLoader {
       if (ds != null) {
         VMConfig.initVmHardFork(checkForEnergyLimit(ds));
         VMConfig.initAllowMultiSign(ds.getAllowMultiSign());
-        VMConfig.initAllowTvmTransferTrc10(ds.getAllowTvmTransferTrc10());
-        VMConfig.initAllowTvmConstantinople(ds.getAllowTvmConstantinople());
-        VMConfig.initAllowTvmSolidity059(ds.getAllowTvmSolidity059());
+        VMConfig.initAllowHvmTransferTrc10(ds.getAllowHvmTransferTrc10());
+        VMConfig.initAllowHvmConstantinople(ds.getAllowHvmConstantinople());
+        VMConfig.initAllowHvmSolidity059(ds.getAllowHvmSolidity059());
         VMConfig.initAllowShieldedTRC20Transaction(ds.getAllowShieldedTRC20Transaction());
-        VMConfig.initAllowTvmIstanbul(ds.getAllowTvmIstanbul());
-        VMConfig.initAllowTvmFreeze(ds.getAllowTvmFreeze());
-        VMConfig.initAllowTvmVote(ds.getAllowTvmVote());
-        VMConfig.initAllowTvmLondon(ds.getAllowTvmLondon());
-        VMConfig.initAllowTvmCompatibleEvm(ds.getAllowTvmCompatibleEvm());
+        VMConfig.initAllowHvmIstanbul(ds.getAllowHvmIstanbul());
+        VMConfig.initAllowHvmFreeze(ds.getAllowHvmFreeze());
+        VMConfig.initAllowHvmVote(ds.getAllowHvmVote());
+        VMConfig.initAllowHvmLondon(ds.getAllowHvmLondon());
+        VMConfig.initAllowHvmCompatibleEvm(ds.getAllowHvmCompatibleEvm());
       }
     }
     OperationRegistry.newBaseOperation();
 
-    if (VMConfig.allowTvmTransferTrc10()) {
-      OperationRegistry.newAllowTvmTransferTrc10Operation();
+    if (VMConfig.allowHvmTransferTrc10()) {
+      OperationRegistry.newAllowHvmTransferTrc10Operation();
     }
 
-    if (VMConfig.allowTvmConstantinople()) {
-      OperationRegistry.newAllowTvmConstantinopleOperation();
+    if (VMConfig.allowHvmConstantinople()) {
+      OperationRegistry.newAllowHvmConstantinopleOperation();
     }
 
-    if (VMConfig.allowTvmSolidity059()) {
-      OperationRegistry.newAllowTvmSolidity059Operation();
+    if (VMConfig.allowHvmSolidity059()) {
+      OperationRegistry.newAllowHvmSolidity059Operation();
     }
 
-    if (VMConfig.allowTvmIstanbul()) {
-      OperationRegistry.newAllowTvmIstanbulOperation();
+    if (VMConfig.allowHvmIstanbul()) {
+      OperationRegistry.newAllowHvmIstanbulOperation();
     }
 
-    if (VMConfig.allowTvmFreeze()) {
-      OperationRegistry.newAllowTvmFreezeOperation();
+    if (VMConfig.allowHvmFreeze()) {
+      OperationRegistry.newAllowHvmFreezeOperation();
     }
 
-    if (VMConfig.allowTvmVote()) {
-      OperationRegistry.newAllowTvmVoteOperation();
+    if (VMConfig.allowHvmVote()) {
+      OperationRegistry.newAllowHvmVoteOperation();
     }
 
-    if (VMConfig.allowTvmLondon()) {
-      OperationRegistry.newAllowTvmLondonOperation();
+    if (VMConfig.allowHvmLondon()) {
+      OperationRegistry.newAllowHvmLondonOperation();
     }
   }
 }

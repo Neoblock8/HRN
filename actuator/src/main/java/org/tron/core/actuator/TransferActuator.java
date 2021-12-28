@@ -138,9 +138,9 @@ public class TransferActuator extends AbstractActuator {
 
       }
 
-      // after AllowTvmCompatibleEvm proposal, send hrn to smartContract which version is one
+      // after AllowHvmCompatibleEvm proposal, send hrn to smartContract which version is one
       // by actuator is not allowed.
-      if (dynamicStore.getAllowTvmCompatibleEvm() == 1
+      if (dynamicStore.getAllowHvmCompatibleEvm() == 1
           && toAccount != null
           && toAccount.getType() == AccountType.Contract) {
 

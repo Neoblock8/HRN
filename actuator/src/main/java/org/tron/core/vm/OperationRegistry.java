@@ -243,7 +243,7 @@ public class OperationRegistry {
         EnergyCost::getSuicideCost, OperationActions::suicideAction);
   }
 
-  public static void newAllowTvmTransferTrc10Operation() {
+  public static void newAllowHvmTransferTrc10Operation() {
     // if already loaded, return
     if (operations[Op.CALLTOKENID] != null) {
       return;
@@ -261,7 +261,7 @@ public class OperationRegistry {
         EnergyCost::getBaseTierCost, OperationActions::callTokenIdAction);
   }
 
-  public static void newAllowTvmConstantinopleOperation() {
+  public static void newAllowHvmConstantinopleOperation() {
     // if already loaded, return
     if (operations[Op.EXTCODEHASH] != null) {
       return;
@@ -282,7 +282,7 @@ public class OperationRegistry {
         EnergyCost::getExtCodeHashCost, OperationActions::extCodeHashAction);
   }
 
-  public static void newAllowTvmSolidity059Operation() {
+  public static void newAllowHvmSolidity059Operation() {
     // if already loaded, return
     if (operations[Op.ISCONTRACT] != null) {
       return;
@@ -291,7 +291,7 @@ public class OperationRegistry {
         EnergyCost::getBalanceCost, OperationActions::isContractAction);
   }
 
-  public static void newAllowTvmIstanbulOperation() {
+  public static void newAllowHvmIstanbulOperation() {
     // if already loaded, return
     if (operations[Op.SELFBALANCE] != null) {
       return;
@@ -303,7 +303,7 @@ public class OperationRegistry {
         EnergyCost::getLowTierCost, OperationActions::selfBalanceAction);
   }
 
-  public static void newAllowTvmFreezeOperation() {
+  public static void newAllowHvmFreezeOperation() {
     // if already loaded, return
     if (operations[Op.FREEZEEXPIRETIME] != null) {
       return;
@@ -318,7 +318,7 @@ public class OperationRegistry {
         EnergyCost::getFreezeExpireTimeCost, OperationActions::freezeExpireTimeAction);
   }
 
-  public static void newAllowTvmVoteOperation() {
+  public static void newAllowHvmVoteOperation() {
     // if already loaded, return
     if (operations[Op.WITHDRAWREWARD] != null) {
       return;
@@ -330,7 +330,7 @@ public class OperationRegistry {
         EnergyCost::getWithdrawRewardCost, OperationActions::withdrawRewardAction);
   }
 
-  public static void newAllowTvmLondonOperation() {
+  public static void newAllowHvmLondonOperation() {
     // if already loaded, return
     if (operations[Op.BASEFEE] != null) {
       return;

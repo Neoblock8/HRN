@@ -107,11 +107,11 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
       }
 
       AccountCapsule receiverCapsule = accountStore.get(receiverAddress);
-      if (dynamicStore.getAllowTvmConstantinople() == 0 ||
+      if (dynamicStore.getAllowHvmConstantinople() == 0 ||
           (receiverCapsule != null && receiverCapsule.getType() != AccountType.Contract)) {
         switch (unfreezeBalanceContract.getResource()) {
           case BANDWIDTH:
-            if (dynamicStore.getAllowTvmSolidity059() == 1
+            if (dynamicStore.getAllowHvmSolidity059() == 1
                 && receiverCapsule.getAcquiredDelegatedFrozenBalanceForBandwidth()
                 < unfreezeBalance) {
               receiverCapsule.setAcquiredDelegatedFrozenBalanceForBandwidth(0);
@@ -120,7 +120,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
             }
             break;
           case ENERGY:
-            if (dynamicStore.getAllowTvmSolidity059() == 1
+            if (dynamicStore.getAllowHvmSolidity059() == 1
                 && receiverCapsule.getAcquiredDelegatedFrozenBalanceForEnergy() < unfreezeBalance) {
               receiverCapsule.setAcquiredDelegatedFrozenBalanceForEnergy(0);
             } else {
@@ -320,7 +320,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
       }
 
       AccountCapsule receiverCapsule = accountStore.get(receiverAddress);
-      if (dynamicStore.getAllowTvmConstantinople() == 0
+      if (dynamicStore.getAllowHvmConstantinople() == 0
           && receiverCapsule == null) {
         String readableReceiverAddress = StringUtil.createReadableString(receiverAddress);
         throw new ContractValidateException(
@@ -343,7 +343,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
             throw new ContractValidateException("no delegatedFrozenBalance(BANDWIDTH)");
           }
 
-          if (dynamicStore.getAllowTvmConstantinople() == 0) {
+          if (dynamicStore.getAllowHvmConstantinople() == 0) {
             if (receiverCapsule.getAcquiredDelegatedFrozenBalanceForBandwidth()
                 < delegatedResourceCapsule.getFrozenBalanceForBandwidth()) {
               throw new ContractValidateException(
@@ -353,7 +353,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
                       + "]");
             }
           } else {
-            if (dynamicStore.getAllowTvmSolidity059() != 1
+            if (dynamicStore.getAllowHvmSolidity059() != 1
                 && receiverCapsule != null
                 && receiverCapsule.getType() != AccountType.Contract
                 && receiverCapsule.getAcquiredDelegatedFrozenBalanceForBandwidth()
@@ -374,7 +374,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
           if (delegatedResourceCapsule.getFrozenBalanceForEnergy() <= 0) {
             throw new ContractValidateException("no delegateFrozenBalance(Energy)");
           }
-          if (dynamicStore.getAllowTvmConstantinople() == 0) {
+          if (dynamicStore.getAllowHvmConstantinople() == 0) {
             if (receiverCapsule.getAcquiredDelegatedFrozenBalanceForEnergy()
                 < delegatedResourceCapsule.getFrozenBalanceForEnergy()) {
               throw new ContractValidateException(
@@ -384,7 +384,7 @@ public class UnfreezeBalanceActuator extends AbstractActuator {
                       "]");
             }
           } else {
-            if (dynamicStore.getAllowTvmSolidity059() != 1
+            if (dynamicStore.getAllowHvmSolidity059() != 1
                 && receiverCapsule != null
                 && receiverCapsule.getType() != AccountType.Contract
                 && receiverCapsule.getAcquiredDelegatedFrozenBalanceForEnergy()

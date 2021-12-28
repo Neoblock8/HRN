@@ -876,11 +876,11 @@ public class Wallet {
             .setKey("getTotalEnergyLimit")
             .setValue(chainBaseManager.getDynamicPropertiesStore().getTotalEnergyLimit())
             .build());
-    //    ALLOW_TVM_TRANSFER_TRC10, // 1, 18
+    //    ALLOW_HVM_TRANSFER_TRC10, // 1, 18
     builder.addChainParameter(
         Protocol.ChainParameters.ChainParameter.newBuilder()
-            .setKey("getAllowTvmTransferTrc10")
-            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmTransferTrc10())
+            .setKey("getAllowHvmTransferTrc10")
+            .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowHvmTransferTrc10())
             .build());
     //    TOTAL_CURRENT_ENERGY_LIMIT, // 50,000,000,000, 19
     builder.addChainParameter(
@@ -931,21 +931,21 @@ public class Wallet {
         .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowProtoFilterNum())
         .build());
 
-    // ALLOW_TVM_CONSTANTINOPLE
+    // ALLOW_HVM_CONSTANTINOPLE
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmConstantinople")
-        .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmConstantinople())
+        .setKey("getAllowHvmConstantinople")
+        .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowHvmConstantinople())
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmSolidity059")
-        .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowTvmSolidity059())
+        .setKey("getAllowHvmSolidity059")
+        .setValue(chainBaseManager.getDynamicPropertiesStore().getAllowHvmSolidity059())
         .build());
 
-    // ALLOW_TVM_ISTANBUL
+    // ALLOW_HVM_ISTANBUL
     builder.addChainParameter(
-        Protocol.ChainParameters.ChainParameter.newBuilder().setKey("getAllowTvmIstanbul")
-            .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmIstanbul()).build());
+        Protocol.ChainParameters.ChainParameter.newBuilder().setKey("getAllowHvmIstanbul")
+            .setValue(dbManager.getDynamicPropertiesStore().getAllowHvmIstanbul()).build());
 
     // ALLOW_ZKSNARK_TRANSACTION
     //    builder.addChainParameter(
@@ -1046,23 +1046,23 @@ public class Wallet {
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmFreeze")
-        .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmFreeze())
+        .setKey("getAllowHvmFreeze")
+        .setValue(dbManager.getDynamicPropertiesStore().getAllowHvmFreeze())
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmVote")
-        .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmVote())
+        .setKey("getAllowHvmVote")
+        .setValue(dbManager.getDynamicPropertiesStore().getAllowHvmVote())
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmLondon")
-        .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmLondon())
+        .setKey("getAllowHvmLondon")
+        .setValue(dbManager.getDynamicPropertiesStore().getAllowHvmLondon())
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
-        .setKey("getAllowTvmCompatibleEvm")
-        .setValue(dbManager.getDynamicPropertiesStore().getAllowTvmCompatibleEvm())
+        .setKey("getAllowHvmCompatibleEvm")
+        .setValue(dbManager.getDynamicPropertiesStore().getAllowHvmCompatibleEvm())
         .build());
 
     builder.addChainParameter(Protocol.ChainParameters.ChainParameter.newBuilder()
@@ -3067,9 +3067,9 @@ public class Wallet {
       throw new ContractValidateException("No valid shielded TRC-20 contract address");
     }
 
-    byte[] shieldedTRC20ContractAddressTvm = new byte[20];
-    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressTvm, 0, 20);
-    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressTvm);
+    byte[] shieldedTRC20ContractAddressHvm = new byte[20];
+    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressHvm, 0, 20);
+    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressHvm);
 
     BigInteger fromAmount;
     BigInteger toAmount;
@@ -3148,9 +3148,9 @@ public class Wallet {
         throw new ContractValidateException("No valid transparent TRC-20 output address");
       }
 
-      byte[] transparentToAddressTvm = new byte[20];
-      System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
-      builder.setTransparentToAddress(transparentToAddressTvm);
+      byte[] transparentToAddressHvm = new byte[20];
+      System.arraycopy(transparentToAddress, 1, transparentToAddressHvm, 0, 20);
+      builder.setTransparentToAddress(transparentToAddressHvm);
       builder.setTransparentToAmount(toAmount);
 
       Optional<byte[]> cipher = NoteEncryption.Encryption
@@ -3201,9 +3201,9 @@ public class Wallet {
         || shieldedTRC20ContractAddress.length != 21) {
       throw new ContractValidateException("No valid shielded TRC-20 contract address");
     }
-    byte[] shieldedTRC20ContractAddressTvm = new byte[20];
-    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressTvm, 0, 20);
-    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressTvm);
+    byte[] shieldedTRC20ContractAddressHvm = new byte[20];
+    System.arraycopy(shieldedTRC20ContractAddress, 1, shieldedTRC20ContractAddressHvm, 0, 20);
+    builder.setShieldedTRC20Address(shieldedTRC20ContractAddressHvm);
 
     BigInteger fromAmount;
     BigInteger toAmount;
@@ -3272,9 +3272,9 @@ public class Wallet {
       if (ArrayUtils.isEmpty(transparentToAddress) || transparentToAddress.length != 21) {
         throw new ContractValidateException("No transparent TRC-20 output address");
       }
-      byte[] transparentToAddressTvm = new byte[20];
-      System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
-      builder.setTransparentToAddress(transparentToAddressTvm);
+      byte[] transparentToAddressHvm = new byte[20];
+      System.arraycopy(transparentToAddress, 1, transparentToAddressHvm, 0, 20);
+      builder.setTransparentToAddress(transparentToAddressHvm);
       builder.setTransparentToAmount(toAmount);
       Optional<byte[]> cipher = NoteEncryption.Encryption
           .encryptBurnMessageByOvk(ovk, toAmount, transparentToAddress);
@@ -3757,10 +3757,10 @@ public class Wallet {
     BigInteger value = getBigIntegerFromString(request.getAmount());
     checkBigIntegerRange(value);
     byte[] transparentToAddress = request.getTransparentToAddress().toByteArray();
-    byte[] transparentToAddressTvm = new byte[20];
+    byte[] transparentToAddressHvm = new byte[20];
     if (!ArrayUtils.isEmpty(transparentToAddress)) {
       if (transparentToAddress.length == 21) {
-        System.arraycopy(transparentToAddress, 1, transparentToAddressTvm, 0, 20);
+        System.arraycopy(transparentToAddress, 1, transparentToAddressHvm, 0, 20);
       } else {
         throw new ZksnarkException("invalid transparent to address");
       }
@@ -3784,7 +3784,7 @@ public class Wallet {
     }
     String input = parametersBuilder
         .getTriggerContractInput(shieldedTRC20Parameters, spendAuthoritySignature, value, false,
-            transparentToAddressTvm);
+            transparentToAddressHvm);
     if (Objects.isNull(input)) {
       throw new ZksnarkException("generate the trigger contract parameters error");
     }

@@ -446,9 +446,9 @@ public class HrnetworkJsonRpcImpl implements HrnetworkJsonRpc {
       StorageRowStore store = manager.getStorageRowStore();
       Storage storage = new Storage(addressByte, store);
 
-      // init Tvm config
+      // init Hvm config
       storage.setContractVersion(smartContract.getVersion());
-      VMConfig.initAllowTvmCompatibleEvm(1);
+      VMConfig.initAllowHvmCompatibleEvm(1);
 
       DataWord value = storage.getValue(new DataWord(ByteArray.fromHexString(storageIdx)));
       return ByteArray.toJsonHex(value == null ? new byte[32] : value.getData());

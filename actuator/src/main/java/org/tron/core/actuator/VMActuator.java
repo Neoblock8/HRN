@@ -65,7 +65,7 @@ public class VMActuator implements Actuator2 {
   private Transaction hrn;
   private BlockCapsule blockCap;
 
-  /* tvm execution context */
+  /* hvm execution context */
   private Repository rootRepository;
   private Program program;
   private InternalTransaction rootInternalTx;
@@ -112,7 +112,7 @@ public class VMActuator implements Actuator2 {
     ConfigLoader.load(context.getStoreFactory());
     hrn = context.getHrnCap().getInstance();
     blockCap = context.getBlockCap();
-    if (VMConfig.allowTvmFreeze() && context.getHrnCap().getHrnTrace() != null) {
+    if (VMConfig.allowHvmFreeze() && context.getHrnCap().getHrnTrace() != null) {
       receipt = context.getHrnCap().getHrnTrace().getReceipt();
     }
     //Route Type
@@ -174,7 +174,7 @@ public class VMActuator implements Actuator2 {
 
         if (HrnType.HRN_CONTRACT_CREATION_TYPE == hrnType && !result.isRevert()) {
           byte[] code = program.getResult().getHReturn();
-          if (code.length != 0 && VMConfig.allowTvmLondon() && code[0] == (byte) 0xEF) {
+          if (code.length != 0 && VMConfig.allowHvmLondon() && code[0] == (byte) 0xEF) {
             if (null == result.getException()) {
               result.setException(Program.Exception.invalidCodeException());
             }
@@ -189,7 +189,7 @@ public class VMActuator implements Actuator2 {
             }
           } else {
             result.spendEnergy(saveCodeEnergy);
-            if (VMConfig.allowTvmConstantinople()) {
+            if (VMConfig.allowHvmConstantinople()) {
               rootRepository.saveCode(program.getContractAddress().getNoLeadZeroesData(), code);
             }
           }
@@ -291,7 +291,7 @@ public class VMActuator implements Actuator2 {
       throw new ContractValidateException("Cannot get CreateSmartContract from transaction");
     }
     SmartContract newSmartContract;
-    if (VMConfig.allowTvmCompatibleEvm()) {
+    if (VMConfig.allowHvmCompatibleEvm()) {
       newSmartContract = contract.getNewContract().toBuilder().setVersion(1).build();
     } else {
       newSmartContract = contract.getNewContract().toBuilder().clearVersion().build();
@@ -325,7 +325,7 @@ public class VMActuator implements Actuator2 {
     long callValue = newSmartContract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowTvmTransferTrc10()) {
+    if (VMConfig.allowHvmTransferTrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -378,7 +378,7 @@ public class VMActuator implements Actuator2 {
               tokenValue, tokenId, blockCap.getInstance(), rootRepository, vmStartInUs,
               vmShouldEndInUs, energyLimit);
       this.program = new Program(ops, programInvoke, rootInternalTx);
-      if (VMConfig.allowTvmCompatibleEvm()) {
+      if (VMConfig.allowHvmCompatibleEvm()) {
         this.program.setContractVersion(1);
       }
       byte[] txId = TransactionUtil.getTransactionId(hrn).getBytes();
@@ -398,14 +398,14 @@ public class VMActuator implements Actuator2 {
 
     rootRepository.createContract(contractAddress, new ContractCapsule(newSmartContract));
     byte[] code = newSmartContract.getBytecode().toByteArray();
-    if (!VMConfig.allowTvmConstantinople()) {
+    if (!VMConfig.allowHvmConstantinople()) {
       rootRepository.saveCode(contractAddress, ProgramPrecompile.getCode(code));
     }
     // transfer from callerAddress to contractAddress according to callValue
     if (callValue > 0) {
       MUtil.transfer(rootRepository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowTvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowHvmTransferTrc10() && tokenValue > 0) {
       MUtil.transferToken(rootRepository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -444,7 +444,7 @@ public class VMActuator implements Actuator2 {
     long callValue = contract.getCallValue();
     long tokenValue = 0;
     long tokenId = 0;
-    if (VMConfig.allowTvmTransferTrc10()) {
+    if (VMConfig.allowHvmTransferTrc10()) {
       tokenValue = contract.getCallTokenValue();
       tokenId = contract.getTokenId();
     }
@@ -494,7 +494,7 @@ public class VMActuator implements Actuator2 {
       }
       rootInternalTx = new InternalTransaction(hrn, hrnType);
       this.program = new Program(code, programInvoke, rootInternalTx);
-      if (VMConfig.allowTvmCompatibleEvm()) {
+      if (VMConfig.allowHvmCompatibleEvm()) {
         this.program.setContractVersion(deployedContract.getContractVersion());
       }
       byte[] txId = TransactionUtil.getTransactionId(hrn).getBytes();
@@ -512,7 +512,7 @@ public class VMActuator implements Actuator2 {
     if (callValue > 0) {
       MUtil.transfer(rootRepository, callerAddress, contractAddress, callValue);
     }
-    if (VMConfig.allowTvmTransferTrc10() && tokenValue > 0) {
+    if (VMConfig.allowHvmTransferTrc10() && tokenValue > 0) {
       MUtil.transferToken(rootRepository, callerAddress, contractAddress, String.valueOf(tokenId),
           tokenValue);
     }
@@ -528,7 +528,7 @@ public class VMActuator implements Actuator2 {
     }
 
     long leftFrozenEnergy = rootRepository.getAccountLeftEnergyFromFreeze(account);
-    if (VMConfig.allowTvmFreeze()) {
+    if (VMConfig.allowHvmFreeze()) {
       receipt.setCallerEnergyLeft(leftFrozenEnergy);
     }
 
@@ -582,7 +582,7 @@ public class VMActuator implements Actuator2 {
   public long getTotalEnergyLimit(AccountCapsule creator, AccountCapsule caller,
       TriggerSmartContract contract, long feeLimit, long callValue)
       throws ContractValidateException {
-    if (Objects.isNull(creator) && VMConfig.allowTvmConstantinople()) {
+    if (Objects.isNull(creator) && VMConfig.allowHvmConstantinople()) {
       return getAccountEnergyLimitWithFixRatio(caller, feeLimit, callValue);
     }
     //  according to version
@@ -595,7 +595,7 @@ public class VMActuator implements Actuator2 {
 
 
   public void checkTokenValueAndId(long tokenValue, long tokenId) throws ContractValidateException {
-    if (VMConfig.allowTvmTransferTrc10() && VMConfig.allowMultiSign()) {
+    if (VMConfig.allowHvmTransferTrc10() && VMConfig.allowMultiSign()) {
       // tokenid can only be 0
       // or (MIN_TOKEN_ID, Long.Max]
       if (tokenId <= VMConstant.MIN_TOKEN_ID && tokenId != 0) {
@@ -661,7 +661,7 @@ public class VMActuator implements Actuator2 {
     long originEnergyLeft = 0;
     if (consumeUserResourcePercent < VMConstant.ONE_HUNDRED) {
       originEnergyLeft = rootRepository.getAccountLeftEnergyFromFreeze(creator);
-      if (VMConfig.allowTvmFreeze()) {
+      if (VMConfig.allowHvmFreeze()) {
         receipt.setOriginEnergyLeft(originEnergyLeft);
       }
     }

@@ -174,10 +174,10 @@ public class PrecompiledContracts {
     if (address.equals(altBN128PairingAddr)) {
       return altBN128Pairing;
     }
-    if (VMConfig.allowTvmSolidity059() && address.equals(batchValidateSignAddr)) {
+    if (VMConfig.allowHvmSolidity059() && address.equals(batchValidateSignAddr)) {
       return batchValidateSign;
     }
-    if (VMConfig.allowTvmSolidity059() && address.equals(validateMultiSignAddr)) {
+    if (VMConfig.allowHvmSolidity059() && address.equals(validateMultiSignAddr)) {
       return validateMultiSign;
     }
     if (VMConfig.allowShieldedTRC20Transaction() && address.equals(verifyMintProofAddr)) {
@@ -192,28 +192,28 @@ public class PrecompiledContracts {
     if (VMConfig.allowShieldedTRC20Transaction() && address.equals(merkleHashAddr)) {
       return merkleHash;
     }
-    if (VMConfig.allowTvmVote() && address.equals(rewardBalanceAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(rewardBalanceAddr)) {
       return rewardBalance;
     }
-    if (VMConfig.allowTvmVote() && address.equals(isSrCandidateAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(isSrCandidateAddr)) {
       return isSrCandidate;
     }
-    if (VMConfig.allowTvmVote() && address.equals(voteCountAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(voteCountAddr)) {
       return voteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(usedVoteCountAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(usedVoteCountAddr)) {
       return usedVoteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(receivedVoteCountAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(receivedVoteCountAddr)) {
       return receivedVoteCount;
     }
-    if (VMConfig.allowTvmVote() && address.equals(totalVoteCountAddr)) {
+    if (VMConfig.allowHvmVote() && address.equals(totalVoteCountAddr)) {
       return totalVoteCount;
     }
-    if (VMConfig.allowTvmCompatibleEvm() && address.equals(ethRipemd160Addr)) {
+    if (VMConfig.allowHvmCompatibleEvm() && address.equals(ethRipemd160Addr)) {
       return ethRipemd160;
     }
-    if (VMConfig.allowTvmCompatibleEvm() && address.equals(blake2FAddr)) {
+    if (VMConfig.allowHvmCompatibleEvm() && address.equals(blake2FAddr)) {
       return blake2F;
     }
 
@@ -613,7 +613,7 @@ public class PrecompiledContracts {
 
     @Override
     public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
+      if (VMConfig.allowHvmIstanbul()) {
         return getEnergyForDataIstanbul(data);
       }
       return 500;
@@ -667,7 +667,7 @@ public class PrecompiledContracts {
 
     @Override
     public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
+      if (VMConfig.allowHvmIstanbul()) {
         return getEnergyForDataIstanbul(data);
       }
       return 40000;
@@ -720,7 +720,7 @@ public class PrecompiledContracts {
 
     @Override
     public long getEnergyForData(byte[] data) {
-      if (VMConfig.allowTvmIstanbul()) {
+      if (VMConfig.allowHvmIstanbul()) {
         return getEnergyForDataIstanbul(data);
       }
       if (data == null) {

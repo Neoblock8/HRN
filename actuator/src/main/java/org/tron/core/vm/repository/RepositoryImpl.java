@@ -439,7 +439,7 @@ public class RepositoryImpl implements Repository {
     Value value = Value.create(code, Type.VALUE_TYPE_CREATE);
     codeCache.put(key, value);
 
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowHvmConstantinople()) {
       ContractCapsule contract = getContract(address);
       byte[] codeHash = Hash.sha3(code);
       contract.setCodeHash(codeHash);

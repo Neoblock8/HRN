@@ -105,8 +105,8 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveTotalEnergyLimit(entry.getValue());
           break;
         }
-        case ALLOW_TVM_TRANSFER_TRC10: {
-          manager.getDynamicPropertiesStore().saveAllowTvmTransferTrc10(entry.getValue());
+        case ALLOW_HVM_TRANSFER_TRC10: {
+          manager.getDynamicPropertiesStore().saveAllowHvmTransferTrc10(entry.getValue());
           break;
         }
         case TOTAL_CURRENT_ENERGY_LIMIT: {
@@ -149,13 +149,13 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAllowAccountStateRoot(entry.getValue());
           break;
         }
-        case ALLOW_TVM_CONSTANTINOPLE: {
-          manager.getDynamicPropertiesStore().saveAllowTvmConstantinople(entry.getValue());
+        case ALLOW_HVM_CONSTANTINOPLE: {
+          manager.getDynamicPropertiesStore().saveAllowHvmConstantinople(entry.getValue());
           manager.getDynamicPropertiesStore().addSystemContractAndSetPermission(48);
           break;
         }
-        case ALLOW_TVM_SOLIDITY_059: {
-          manager.getDynamicPropertiesStore().saveAllowTvmSolidity059(entry.getValue());
+        case ALLOW_HVM_SOLIDITY_059: {
+          manager.getDynamicPropertiesStore().saveAllowHvmSolidity059(entry.getValue());
           break;
         }
         case ADAPTIVE_RESOURCE_LIMIT_TARGET_RATIO: {
@@ -202,8 +202,8 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAllowPBFT(entry.getValue());
           break;
         }
-        case ALLOW_TVM_ISTANBUL: {
-          manager.getDynamicPropertiesStore().saveAllowTvmIstanbul(entry.getValue());
+        case ALLOW_HVM_ISTANBUL: {
+          manager.getDynamicPropertiesStore().saveAllowHvmIstanbul(entry.getValue());
           break;
         }
         case ALLOW_SHIELDED_TRC20_TRANSACTION: {
@@ -242,21 +242,21 @@ public class ProposalService extends ProposalUtil {
           manager.getDynamicPropertiesStore().saveAllowNewResourceModel(entry.getValue());
           break;
         }
-        case ALLOW_TVM_FREEZE: {
-          manager.getDynamicPropertiesStore().saveAllowTvmFreeze(entry.getValue());
+        case ALLOW_HVM_FREEZE: {
+          manager.getDynamicPropertiesStore().saveAllowHvmFreeze(entry.getValue());
           break;
         }
-        case ALLOW_TVM_VOTE: {
-          manager.getDynamicPropertiesStore().saveAllowTvmVote(entry.getValue());
+        case ALLOW_HVM_VOTE: {
+          manager.getDynamicPropertiesStore().saveAllowHvmVote(entry.getValue());
           manager.getDynamicPropertiesStore().saveNewRewardAlgorithmEffectiveCycle();
           break;
         }
-        case ALLOW_TVM_LONDON: {
-          manager.getDynamicPropertiesStore().saveAllowTvmLondon(entry.getValue());
+        case ALLOW_HVM_LONDON: {
+          manager.getDynamicPropertiesStore().saveAllowHvmLondon(entry.getValue());
           break;
         }
-        case ALLOW_TVM_COMPATIBLE_EVM: {
-          manager.getDynamicPropertiesStore().saveAllowTvmCompatibleEvm(entry.getValue());
+        case ALLOW_HVM_COMPATIBLE_EVM: {
+          manager.getDynamicPropertiesStore().saveAllowHvmCompatibleEvm(entry.getValue());
           break;
         }
         case FREE_NET_LIMIT: {

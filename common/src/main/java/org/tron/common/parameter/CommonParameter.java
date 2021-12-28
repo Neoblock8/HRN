@@ -240,13 +240,13 @@ public class CommonParameter {
   public long allowSameTokenName; //committee parameter
   @Getter
   @Setter
-  public long allowTvmTransferTrc10; //committee parameter
+  public long allowHvmTransferTrc10; //committee parameter
   @Getter
   @Setter
-  public long allowTvmConstantinople; //committee parameter
+  public long allowHvmConstantinople; //committee parameter
   @Getter
   @Setter
-  public long allowTvmSolidity059; //committee parameter
+  public long allowHvmSolidity059; //committee parameter
   @Getter
   @Setter
   public long forbidTransferToContract; //committee parameter
@@ -466,23 +466,23 @@ public class CommonParameter {
 
   @Getter/**/
   @Setter
-  public long allowTvmIstanbul;
+  public long allowHvmIstanbul;
 
   @Getter
   @Setter
-  public long allowTvmFreeze;
+  public long allowHvmFreeze;
 
   @Getter
   @Setter
-  public long allowTvmVote;
+  public long allowHvmVote;
 
   @Getter
   @Setter
-  public long allowTvmLondon;
+  public long allowHvmLondon;
 
   @Getter
   @Setter
-  public long allowTvmCompatibleEvm;
+  public long allowHvmCompatibleEvm;
 
   @Getter
   @Setter

@@ -46,7 +46,7 @@ public class ProgramPrecompile {
         i += op - Op.PUSH1 + 1;
       }
     }
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowHvmConstantinople()) {
       return new byte[0];
     } else {
       return new byte[DataWord.WORD_SIZE];

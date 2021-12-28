@@ -104,7 +104,7 @@ public class EnergyProcessor extends ResourceProcessor {
     long newEnergyUsage = increase(energyUsage, 0, latestConsumeTime, now);
 
     if (energy > (energyLimit - newEnergyUsage)
-        && dynamicPropertiesStore.getAllowTvmFreeze() == 0) {
+        && dynamicPropertiesStore.getAllowHvmFreeze() == 0) {
       return false;
     }
 

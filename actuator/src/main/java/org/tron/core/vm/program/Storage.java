@@ -45,7 +45,7 @@ public class Storage {
   }
 
   private byte[] compose(byte[] key, byte[] addrHash) {
-    if (VMConfig.allowTvmCompatibleEvm() && contractVersion == 1) {
+    if (VMConfig.allowHvmCompatibleEvm() && contractVersion == 1) {
       key = Hash.sha3(key);
     }
     byte[] result = new byte[key.length];

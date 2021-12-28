@@ -200,7 +200,7 @@ public class UnfreezeBalanceProcessor {
 
     repo.updateAccount(accountCapsule.createDbKey(), accountCapsule);
 
-    if (VMConfig.allowTvmVote() && !accountCapsule.getVotesList().isEmpty()) {
+    if (VMConfig.allowHvmVote() && !accountCapsule.getVotesList().isEmpty()) {
       long usedTronPower = 0;
       for (Protocol.Vote vote : accountCapsule.getVotesList()) {
         usedTronPower += vote.getVoteCount();

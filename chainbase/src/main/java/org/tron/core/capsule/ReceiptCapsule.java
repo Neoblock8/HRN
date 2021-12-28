@@ -134,7 +134,7 @@ public class ReceiptCapsule {
       return;
     }
 
-    if (Objects.isNull(origin) && dynamicPropertiesStore.getAllowTvmConstantinople() == 1) {
+    if (Objects.isNull(origin) && dynamicPropertiesStore.getAllowHvmConstantinople() == 1) {
       payEnergyBill(dynamicPropertiesStore, accountStore, forkController, caller,
           receipt.getEnergyUsageTotal(), receipt.getResult(), energyProcessor, now);
       return;
@@ -161,7 +161,7 @@ public class ReceiptCapsule {
       long originEnergyLimit,
       EnergyProcessor energyProcessor, long originUsage) {
 
-    if (dynamicPropertiesStore.getAllowTvmFreeze() == 1) {
+    if (dynamicPropertiesStore.getAllowHvmFreeze() == 1) {
       return Math.min(originUsage, Math.min(originEnergyLeft, originEnergyLimit));
     }
 
@@ -181,7 +181,7 @@ public class ReceiptCapsule {
       EnergyProcessor energyProcessor,
       long now) throws BalanceInsufficientException {
     long accountEnergyLeft;
-    if (dynamicPropertiesStore.getAllowTvmFreeze() == 1) {
+    if (dynamicPropertiesStore.getAllowHvmFreeze() == 1) {
       accountEnergyLeft = callerEnergyLeft;
     } else {
       accountEnergyLeft = energyProcessor.getAccountLeftEnergyFromFreeze(account);

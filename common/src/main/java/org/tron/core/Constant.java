@@ -137,11 +137,11 @@ public class Constant {
 
   public static final String COMMITTEE_ALLOW_SAME_TOKEN_NAME = "committee.allowSameTokenName";
 
-  public static final String COMMITTEE_ALLOW_TVM_TRANSFER_TRC10 = "committee.allowTvmTransferTrc10";
+  public static final String COMMITTEE_ALLOW_HVM_TRANSFER_TRC10 = "committee.allowHvmTransferTrc10";
 
-  public static final String COMMITTEE_ALLOW_TVM_CONSTANTINOPLE = "committee.allowTvmConstantinople";
+  public static final String COMMITTEE_ALLOW_HVM_CONSTANTINOPLE = "committee.allowHvmConstantinople";
 
-  public static final String COMMITTEE_ALLOW_TVM_SOLIDITY059 = "committee.allowTvmSolidity059";
+  public static final String COMMITTEE_ALLOW_HVM_SOLIDITY059 = "committee.allowHvmSolidity059";
 
   public static final String COMMITTEE_FORBID_TRANSFER_TO_CONTRACT = "committee.forbidTransferToContract";
 
@@ -192,8 +192,8 @@ public class Constant {
   public static final String COMMITTEE_ALLOW_SHIELDED_TRC20_TRANSACTION = "committee"
       + ".allowShieldedTRC20Transaction";
 
-  public static final String COMMITTEE_ALLOW_TVM_ISTANBUL = "committee"
-      + ".allowTvmIstanbul";
+  public static final String COMMITTEE_ALLOW_HVM_ISTANBUL = "committee"
+      + ".allowHvmIstanbul";
 
   public static final String COMMITTEE_ALLOW_MARKET_TRANSACTION =
       "committee.allowMarketTransaction";
@@ -276,11 +276,11 @@ public class Constant {
   public static final String COMMITTEE_ALLOW_NEW_RESOURCE_MODEL = "committee.allowNewResourceModel";
   public static final String COMMITTEE_ALLOW_RECEIPTS_MERKLE_ROOT = "committee.allowReceiptsMerkleRoot";
 
-  public static final String COMMITTEE_ALLOW_TVM_FREEZE = "committee.allowTvmFreeze";
-  public static final String COMMITTEE_ALLOW_TVM_VOTE = "committee.allowTvmVote";
+  public static final String COMMITTEE_ALLOW_HVM_FREEZE = "committee.allowHvmFreeze";
+  public static final String COMMITTEE_ALLOW_HVM_VOTE = "committee.allowHvmVote";
 
-  public static final String COMMITTEE_ALLOW_TVM_LONDON = "committee.allowTvmLondon";
-  public static final String COMMITTEE_ALLOW_TVM_COMPATIBLE_EVM = "committee.allowTvmCompatibleEvm";
+  public static final String COMMITTEE_ALLOW_HVM_LONDON = "committee.allowHvmLondon";
+  public static final String COMMITTEE_ALLOW_HVM_COMPATIBLE_EVM = "committee.allowHvmCompatibleEvm";
 
   public static final String METRICS_STORAGE_ENABLE = "node.metrics.storageEnable";
   public static final String METRICS_INFLUXDB_IP = "node.metrics.influxdb.ip";

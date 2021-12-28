@@ -140,11 +140,11 @@ public class Args extends CommonParameter {
     PARAMETER.checkFrozenTime = 1;
     PARAMETER.allowCreationOfContracts = 0;
     PARAMETER.allowAdaptiveEnergy = 0;
-    PARAMETER.allowTvmTransferTrc10 = 0;
-    PARAMETER.allowTvmConstantinople = 0;
+    PARAMETER.allowHvmTransferTrc10 = 0;
+    PARAMETER.allowHvmConstantinople = 0;
     PARAMETER.allowDelegateResource = 0;
     PARAMETER.allowSameTokenName = 0;
-    PARAMETER.allowTvmSolidity059 = 0;
+    PARAMETER.allowHvmSolidity059 = 0;
     PARAMETER.forbidTransferToContract = 0;
     PARAMETER.tcpNettyWorkThreadNum = 0;
     PARAMETER.udpNettyWorkThreadNum = 0;
@@ -188,11 +188,11 @@ public class Args extends CommonParameter {
     PARAMETER.allowTransactionFeePool = 0;
     PARAMETER.allowBlackHoleOptimization = 0;
     PARAMETER.allowNewResourceModel = 0;
-    PARAMETER.allowTvmIstanbul = 0;
-    PARAMETER.allowTvmFreeze = 0;
-    PARAMETER.allowTvmVote = 0;
-    PARAMETER.allowTvmLondon = 0;
-    PARAMETER.allowTvmCompatibleEvm = 0;
+    PARAMETER.allowHvmIstanbul = 0;
+    PARAMETER.allowHvmFreeze = 0;
+    PARAMETER.allowHvmVote = 0;
+    PARAMETER.allowHvmLondon = 0;
+    PARAMETER.allowHvmCompatibleEvm = 0;
     PARAMETER.historyBalanceLookup = false;
     PARAMETER.openPrintLog = true;
     PARAMETER.openTransactionSort = false;
@@ -578,17 +578,17 @@ public class Args extends CommonParameter {
         config.hasPath(Constant.COMMITTEE_ALLOW_SAME_TOKEN_NAME) ? config
             .getInt(Constant.COMMITTEE_ALLOW_SAME_TOKEN_NAME) : 0;
 
-    PARAMETER.allowTvmTransferTrc10 =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_TRANSFER_TRC10) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_TRANSFER_TRC10) : 0;
+    PARAMETER.allowHvmTransferTrc10 =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_TRANSFER_TRC10) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_TRANSFER_TRC10) : 0;
 
-    PARAMETER.allowTvmConstantinople =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_CONSTANTINOPLE) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_CONSTANTINOPLE) : 0;
+    PARAMETER.allowHvmConstantinople =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_CONSTANTINOPLE) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_CONSTANTINOPLE) : 0;
 
-    PARAMETER.allowTvmSolidity059 =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_SOLIDITY059) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_SOLIDITY059) : 0;
+    PARAMETER.allowHvmSolidity059 =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_SOLIDITY059) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_SOLIDITY059) : 0;
 
     PARAMETER.forbidTransferToContract =
         config.hasPath(Constant.COMMITTEE_FORBID_TRANSFER_TO_CONTRACT) ? config
@@ -690,9 +690,9 @@ public class Args extends CommonParameter {
         config.hasPath(Constant.COMMITTEE_ALLOW_NEW_RESOURCE_MODEL) ? config
             .getInt(Constant.COMMITTEE_ALLOW_NEW_RESOURCE_MODEL) : 0;
 
-    PARAMETER.allowTvmIstanbul =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_ISTANBUL) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_ISTANBUL) : 0;
+    PARAMETER.allowHvmIstanbul =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_ISTANBUL) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_ISTANBUL) : 0;
 
     PARAMETER.eventPluginConfig =
         config.hasPath(Constant.EVENT_SUBSCRIBE)
@@ -754,21 +754,21 @@ public class Args extends CommonParameter {
       //  INSTANCE.agreeNodeCount = MAX_ACTIVE_WITNESS_NUM * 2 / 3 + 1;
     }
 
-    PARAMETER.allowTvmFreeze =
-            config.hasPath(Constant.COMMITTEE_ALLOW_TVM_FREEZE) ? config
-                    .getInt(Constant.COMMITTEE_ALLOW_TVM_FREEZE) : 0;
+    PARAMETER.allowHvmFreeze =
+            config.hasPath(Constant.COMMITTEE_ALLOW_HVM_FREEZE) ? config
+                    .getInt(Constant.COMMITTEE_ALLOW_HVM_FREEZE) : 0;
 
-    PARAMETER.allowTvmVote =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_VOTE) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_VOTE) : 0;
+    PARAMETER.allowHvmVote =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_VOTE) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_VOTE) : 0;
 
-    PARAMETER.allowTvmLondon =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_LONDON) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_LONDON) : 0;
+    PARAMETER.allowHvmLondon =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_LONDON) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_LONDON) : 0;
 
-    PARAMETER.allowTvmCompatibleEvm =
-        config.hasPath(Constant.COMMITTEE_ALLOW_TVM_COMPATIBLE_EVM) ? config
-            .getInt(Constant.COMMITTEE_ALLOW_TVM_COMPATIBLE_EVM) : 0;
+    PARAMETER.allowHvmCompatibleEvm =
+        config.hasPath(Constant.COMMITTEE_ALLOW_HVM_COMPATIBLE_EVM) ? config
+            .getInt(Constant.COMMITTEE_ALLOW_HVM_COMPATIBLE_EVM) : 0;
 
     initBackupProperty(config);
     if (Constant.ROCKSDB.equals(CommonParameter

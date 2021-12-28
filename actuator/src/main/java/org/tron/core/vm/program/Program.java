@@ -395,7 +395,7 @@ public class Program {
     byte[] owner = getContextAddress();
     byte[] obtainer = obtainerAddress.toTronAddress();
 
-    if (VMConfig.allowTvmVote()) {
+    if (VMConfig.allowHvmVote()) {
       withdrawRewardAndCancelVote(owner, getContractState());
     }
 
@@ -416,7 +416,7 @@ public class Program {
       // if owner == obtainer just zeroing account according to Yellow Paper
       getContractState().addBalance(owner, -balance);
       byte[] blackHoleAddress = getContractState().getBlackHoleAddress();
-      if (VMConfig.allowTvmTransferTrc10()) {
+      if (VMConfig.allowHvmTransferTrc10()) {
         getContractState().addBalance(blackHoleAddress, balance);
         MUtil.transferAllToken(getContractState(), owner, blackHoleAddress);
       }
@@ -424,18 +424,18 @@ public class Program {
       createAccountIfNotExist(getContractState(), obtainer);
       try {
         MUtil.transfer(getContractState(), owner, obtainer, balance);
-        if (VMConfig.allowTvmTransferTrc10()) {
+        if (VMConfig.allowHvmTransferTrc10()) {
           MUtil.transferAllToken(getContractState(), owner, obtainer);
         }
       } catch (ContractValidateException e) {
-        if (VMConfig.allowTvmConstantinople()) {
+        if (VMConfig.allowHvmConstantinople()) {
           throw new TransferException(
               "transfer all token or transfer all hrn failed in suicide: %s", e.getMessage());
         }
         throw new BytecodeExecutionException("transfer failure");
       }
     }
-    if (VMConfig.allowTvmFreeze()) {
+    if (VMConfig.allowHvmFreeze()) {
       byte[] blackHoleAddress = getContractState().getBlackHoleAddress();
       if (FastByteComparisons.isEqual(owner, obtainer)) {
         transferDelegatedResourceToInheritor(owner, blackHoleAddress, getContractState());
@@ -509,10 +509,10 @@ public class Program {
   public boolean canSuicide() {
     byte[] owner = getContextAddress();
     AccountCapsule accountCapsule = getContractState().getAccount(owner);
-    return !VMConfig.allowTvmFreeze()
+    return !VMConfig.allowHvmFreeze()
         || (accountCapsule.getDelegatedFrozenBalanceForBandwidth() == 0
         && accountCapsule.getDelegatedFrozenBalanceForEnergy() == 0);
-//    boolean voteCheck = !VMConfig.allowTvmVote()
+//    boolean voteCheck = !VMConfig.allowHvmVote()
 //        || (accountCapsule.getVotesList().size() == 0
 //        && VoteRewardUtil.queryReward(owner, getContractState()) == 0
 //        && getContractState().getAccountVote(
@@ -555,12 +555,12 @@ public class Program {
     AccountCapsule existingAccount = getContractState().getAccount(newAddress);
     boolean contractAlreadyExists = existingAccount != null;
 
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowHvmConstantinople()) {
       contractAlreadyExists =
           contractAlreadyExists && isContractExist(existingAccount, getContractState());
     }
     Repository deposit = getContractState().newRepositoryChild();
-    if (VMConfig.allowTvmConstantinople()) {
+    if (VMConfig.allowHvmConstantinople()) {
       if (existingAccount == null) {
         deposit.createAccount(newAddress, "CreatedByContract",
             AccountType.Contract);
@@ -572,7 +572,7 @@ public class Program {
 
       if (!contractAlreadyExists) {
         Builder builder = SmartContract.newBuilder();
-        if (VMConfig.allowTvmCompatibleEvm()) {
+        if (VMConfig.allowHvmCompatibleEvm()) {
           builder.setVersion(getContractVersion());
         }
         builder.setContractAddress(ByteString.copyFrom(newAddress))
@@ -588,7 +588,7 @@ public class Program {
       deposit.createAccount(newAddress, "CreatedByContract",
           Protocol.AccountType.Contract);
       Builder builder = SmartContract.newBuilder();
-      if (VMConfig.allowTvmCompatibleEvm()) {
+      if (VMConfig.allowHvmCompatibleEvm()) {
         builder.setVersion(getContractVersion());
       }
       SmartContract newSmartContract = builder.setContractAddress(ByteString.copyFrom(newAddress))
@@ -639,7 +639,7 @@ public class Program {
     } else if (isNotEmpty(programCode)) {
       Program program = new Program(programCode, programInvoke, internalTx);
       program.setRootTransactionId(this.rootTransactionId);
-      if (VMConfig.allowTvmCompatibleEvm()) {
+      if (VMConfig.allowHvmCompatibleEvm()) {
         program.setContractVersion(getContractVersion());
       }
       VM.play(program);
@@ -653,7 +653,7 @@ public class Program {
     // 4. CREATE THE CONTRACT OUT OF RETURN
     byte[] code = createResult.getHReturn();
 
-    if (code.length != 0 && VMConfig.allowTvmLondon() && code[0] == (byte) 0xEF) {
+    if (code.length != 0 && VMConfig.allowHvmLondon() && code[0] == (byte) 0xEF) {
       createResult.setException(Program.Exception
           .invalidCodeException());
     }
@@ -763,7 +763,7 @@ public class Program {
     try {
       endowment = msg.getEndowment().value().longValueExact();
     } catch (ArithmeticException e) {
-      if (VMConfig.allowTvmConstantinople()) {
+      if (VMConfig.allowHvmConstantinople()) {
         refundEnergy(msg.getEnergy().longValue(), "endowment out of long range");
         throw new TransferException("endowment out of long range");
       } else {
@@ -816,7 +816,7 @@ public class Program {
           VMUtils
               .validateForSmartContract(deposit, senderAddress, contextAddress, endowment);
         } catch (ContractValidateException e) {
-          if (VMConfig.allowTvmConstantinople()) {
+          if (VMConfig.allowHvmConstantinople()) {
             refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
             throw new TransferException("transfer hrn failed: %s", e.getMessage());
           }
@@ -829,7 +829,7 @@ public class Program {
           VMUtils.validateForSmartContract(deposit, senderAddress, contextAddress,
               tokenId, endowment);
         } catch (ContractValidateException e) {
-          if (VMConfig.allowTvmConstantinople()) {
+          if (VMConfig.allowHvmConstantinople()) {
             refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
             throw new TransferException("transfer trc10 failed: %s", e.getMessage());
           }
@@ -872,7 +872,7 @@ public class Program {
       }
       Program program = new Program(programCode, programInvoke, internalTx);
       program.setRootTransactionId(this.rootTransactionId);
-      if (VMConfig.allowTvmCompatibleEvm()) {
+      if (VMConfig.allowHvmCompatibleEvm()) {
         program.setContractVersion(
             invoke.getDeposit().getContract(codeAddress).getContractVersion());
       }
@@ -1091,7 +1091,7 @@ public class Program {
 
   public DataWord getChainId() {
     byte[] chainId = getContractState().getBlockByNum(0).getBlockId().getBytes();
-    if (VMConfig.allowTvmCompatibleEvm()) {
+    if (VMConfig.allowHvmCompatibleEvm()) {
       chainId = Arrays.copyOfRange(chainId, chainId.length - 4, chainId.length);
     }
     return new DataWord(chainId).clone();
@@ -1318,11 +1318,11 @@ public class Program {
 
   public void createContract2(DataWord value, DataWord memStart, DataWord memSize, DataWord salt) {
     byte[] senderAddress;
-    if (VMConfig.allowTvmCompatibleEvm() && getCallDeep() == MAX_DEPTH) {
+    if (VMConfig.allowHvmCompatibleEvm() && getCallDeep() == MAX_DEPTH) {
       stackPushZero();
       return;
     }
-    if (VMConfig.allowTvmIstanbul()) {
+    if (VMConfig.allowHvmIstanbul()) {
       senderAddress = getContextAddress();
     } else {
       senderAddress = getCallerAddress().toTronAddress();
@@ -1479,7 +1479,7 @@ public class Program {
       try {
         tokenId = msg.getTokenId().sValue().longValueExact();
       } catch (ArithmeticException e) {
-        if (VMConfig.allowTvmConstantinople()) {
+        if (VMConfig.allowHvmConstantinople()) {
           refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
           throw new TransferException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, INVALID_TOKEN_ID_MSG);
         }
@@ -1490,7 +1490,7 @@ public class Program {
       if ((tokenId <= VMConstant.MIN_TOKEN_ID && tokenId != 0)
           || (tokenId == 0 && msg.isTokenTransferMsg())) {
         // tokenId == 0 is a default value for token id DataWord.
-        if (VMConfig.allowTvmConstantinople()) {
+        if (VMConfig.allowHvmConstantinople()) {
           refundEnergy(msg.getEnergy().longValue(), REFUND_ENERGY_FROM_MESSAGE_CALL);
           throw new TransferException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, INVALID_TOKEN_ID_MSG);
         }
@@ -1515,7 +1515,7 @@ public class Program {
       try {
         tokenId = tokenIdDataWord.sValue().longValueExact();
       } catch (ArithmeticException e) {
-        if (VMConfig.allowTvmConstantinople()) {
+        if (VMConfig.allowHvmConstantinople()) {
           throw new TransferException(VALIDATE_FOR_SMART_CONTRACT_FAILURE, INVALID_TOKEN_ID_MSG);
         }
         throw e;
@@ -1530,7 +1530,7 @@ public class Program {
   }
 
   public DataWord getCallEnergy(DataWord requestedEnergy, DataWord availableEnergy) {
-    if (VMConfig.allowTvmCompatibleEvm() && getContractVersion() == 1) {
+    if (VMConfig.allowHvmCompatibleEvm() && getContractVersion() == 1) {
       DataWord availableEnergyReduce = availableEnergy.clone();
       availableEnergyReduce.div(new DataWord(64));
       availableEnergy.sub(availableEnergyReduce);
@@ -1539,7 +1539,7 @@ public class Program {
   }
 
   public DataWord getCreateEnergy(DataWord availableEnergy) {
-    if (VMConfig.allowTvmCompatibleEvm() && getContractVersion() == 1) {
+    if (VMConfig.allowHvmCompatibleEvm() && getContractVersion() == 1) {
       DataWord availableEnergyReduce = availableEnergy.clone();
       availableEnergyReduce.div(new DataWord(64));
       availableEnergy.sub(availableEnergyReduce);
@@ -1570,7 +1570,7 @@ public class Program {
   }
 
   private void createAccountIfNotExist(Repository deposit, byte[] contextAddress) {
-    if (VMConfig.allowTvmSolidity059()) {
+    if (VMConfig.allowHvmSolidity059()) {
       //after solidity059 proposal , allow contract transfer trc10 or HRN to non-exist address(would create one)
       AccountCapsule sender = deposit.getAccount(contextAddress);
       if (sender == null) {
@@ -1629,9 +1629,9 @@ public class Program {
       repository.commit();
       return true;
     } catch (ContractValidateException e) {
-      logger.error("TVM Freeze: validate failure. Reason: {}", e.getMessage());
+      logger.error("HVM Freeze: validate failure. Reason: {}", e.getMessage());
     } catch (ArithmeticException e) {
-      logger.error("TVM Freeze: frozenBalance out of long range.");
+      logger.error("HVM Freeze: frozenBalance out of long range.");
     }
     if (internalTx != null) {
       internalTx.reject();
@@ -1662,7 +1662,7 @@ public class Program {
       }
       return true;
     } catch (ContractValidateException e) {
-      logger.error("TVM Unfreeze: validate failure. Reason: {}", e.getMessage());
+      logger.error("HVM Unfreeze: validate failure. Reason: {}", e.getMessage());
     }
     if (internalTx != null) {
       internalTx.reject();
@@ -1737,13 +1737,13 @@ public class Program {
 
     if (memoryLoad(witnessArrayOffset).intValueSafe() != witnessArrayLength ||
         memoryLoad(amountArrayOffset).intValueSafe() != amountArrayLength) {
-      logger.warn("TVM VoteWitness: memory array length do not match length parameter!");
+      logger.warn("HVM VoteWitness: memory array length do not match length parameter!");
       throw new BytecodeExecutionException(
-          "TVM VoteWitness: memory array length do not match length parameter!");
+          "HVM VoteWitness: memory array length do not match length parameter!");
     }
 
     if (witnessArrayLength != amountArrayLength) {
-      logger.warn("TVM VoteWitness: witness array length {} does not match amount array length {}",
+      logger.warn("HVM VoteWitness: witness array length {} does not match amount array length {}",
           witnessArrayLength, amountArrayLength);
       return false;
     }
@@ -1774,11 +1774,11 @@ public class Program {
       repository.commit();
       return true;
     } catch (ContractValidateException e) {
-      logger.error("TVM VoteWitness: validate failure. Reason: {}", e.getMessage());
+      logger.error("HVM VoteWitness: validate failure. Reason: {}", e.getMessage());
     } catch (ContractExeException e) {
-      logger.error("TVM VoteWitness: execute failure. Reason: {}", e.getMessage());
+      logger.error("HVM VoteWitness: execute failure. Reason: {}", e.getMessage());
     } catch (ArithmeticException e) {
-      logger.error("TVM VoteWitness: int or long out of range. caused by: {}", e.getMessage());
+      logger.error("HVM VoteWitness: int or long out of range. caused by: {}", e.getMessage());
     }
     if (internalTx != null) {
       internalTx.reject();
@@ -1807,9 +1807,9 @@ public class Program {
       }
       return allowance;
     } catch (ContractValidateException e) {
-      logger.error("TVM WithdrawReward: validate failure. Reason: {}", e.getMessage());
+      logger.error("HVM WithdrawReward: validate failure. Reason: {}", e.getMessage());
     } catch (ContractExeException e) {
-      logger.error("TVM WithdrawReward: execute failure. Reason: {}", e.getMessage());
+      logger.error("HVM WithdrawReward: execute failure. Reason: {}", e.getMessage());
     }
     if (internalTx != null) {
       internalTx.reject();

@@ -431,7 +431,7 @@ public class OperationActions {
 
   public static void gasPriceAction(Program program) {
     DataWord energyPrice = DataWord.ZERO();
-    if (VMConfig.allowTvmCompatibleEvm() && program.getContractVersion() == 1) {
+    if (VMConfig.allowHvmCompatibleEvm() && program.getContractVersion() == 1) {
       energyPrice = new DataWord(program.getContractState()
           .getDynamicPropertiesStore().getEnergyFee());
     }
@@ -729,7 +729,7 @@ public class OperationActions {
 
   public static void freezeAction(Program program) {
     // after allow vote, check static
-    if (VMConfig.allowTvmVote() && program.isStaticCall()) {
+    if (VMConfig.allowHvmVote() && program.isStaticCall()) {
       throw new Program.StaticCallModificationException();
     }
     // 0 as bandwidth, 1 as energy
@@ -743,7 +743,7 @@ public class OperationActions {
   }
 
   public static void unfreezeAction(Program program) {
-    if (VMConfig.allowTvmVote() && program.isStaticCall()) {
+    if (VMConfig.allowHvmVote() && program.isStaticCall()) {
       throw new Program.StaticCallModificationException();
     }
 

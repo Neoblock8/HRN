@@ -57,7 +57,7 @@ public class ClearABIContractActuator extends AbstractActuator {
 
   @Override
   public boolean validate() throws ContractValidateException {
-    if (!VMConfig.allowTvmConstantinople()) {
+    if (!VMConfig.allowHvmConstantinople()) {
       throw new ContractValidateException(
           "contract type error,unexpected type [ClearABIContract]");
     }

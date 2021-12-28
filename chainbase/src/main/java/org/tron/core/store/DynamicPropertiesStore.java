@@ -122,15 +122,15 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
   //Used only for abi moves, once，value is {0,1}
   private static final byte[] ABI_MOVE_DONE = "ABI_MOVE_DONE".getBytes();
   //This value is only allowed to be 0, 1, -1
-  private static final byte[] ALLOW_TVM_TRANSFER_TRC10 = "ALLOW_TVM_TRANSFER_TRC10".getBytes();
+  private static final byte[] ALLOW_HVM_TRANSFER_TRC10 = "ALLOW_HVM_TRANSFER_TRC10".getBytes();
   //If the parameter is larger than 0, allow ZKsnark Transaction
   private static final byte[] ALLOW_SHIELDED_TRANSACTION = "ALLOW_SHIELDED_TRANSACTION".getBytes();
   private static final byte[] ALLOW_SHIELDED_TRC20_TRANSACTION =
       "ALLOW_SHIELDED_TRC20_TRANSACTION"
           .getBytes();
-  private static final byte[] ALLOW_TVM_ISTANBUL = "ALLOW_TVM_ISTANBUL".getBytes();
-  private static final byte[] ALLOW_TVM_CONSTANTINOPLE = "ALLOW_TVM_CONSTANTINOPLE".getBytes();
-  private static final byte[] ALLOW_TVM_SOLIDITY_059 = "ALLOW_TVM_SOLIDITY_059".getBytes();
+  private static final byte[] ALLOW_HVM_ISTANBUL = "ALLOW_HVM_ISTANBUL".getBytes();
+  private static final byte[] ALLOW_HVM_CONSTANTINOPLE = "ALLOW_HVM_CONSTANTINOPLE".getBytes();
+  private static final byte[] ALLOW_HVM_SOLIDITY_059 = "ALLOW_HVM_SOLIDITY_059".getBytes();
   private static final byte[] FORBID_TRANSFER_TO_CONTRACT = "FORBID_TRANSFER_TO_CONTRACT"
       .getBytes();
   //Used only for protobuf data filter , once，value is 0,1
@@ -156,10 +156,10 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
   private static final byte[] BURN_HRN_AMOUNT = "BURN_HRN_AMOUNT".getBytes();
   private static final byte[] ALLOW_BLACKHOLE_OPTIMIZATION = "ALLOW_BLACKHOLE_OPTIMIZATION".getBytes();
   private static final byte[] ALLOW_NEW_RESOURCE_MODEL = "ALLOW_NEW_RESOURCE_MODEL".getBytes();
-  private static final byte[] ALLOW_TVM_FREEZE = "ALLOW_TVM_FREEZE".getBytes();
-  private static final byte[] ALLOW_TVM_VOTE = "ALLOW_TVM_VOTE".getBytes();
-  private static final byte[] ALLOW_TVM_LONDON = "ALLOW_TVM_LONDON".getBytes();
-  private static final byte[] ALLOW_TVM_COMPATIBLE_EVM = "ALLOW_TVM_COMPATIBLE_EVM".getBytes();
+  private static final byte[] ALLOW_HVM_FREEZE = "ALLOW_HVM_FREEZE".getBytes();
+  private static final byte[] ALLOW_HVM_VOTE = "ALLOW_HVM_VOTE".getBytes();
+  private static final byte[] ALLOW_HVM_LONDON = "ALLOW_HVM_LONDON".getBytes();
+  private static final byte[] ALLOW_HVM_COMPATIBLE_EVM = "ALLOW_HVM_COMPATIBLE_EVM".getBytes();
   private static final byte[] NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE =
       "NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE".getBytes();
   //This value is only allowed to be 1
@@ -565,24 +565,24 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     }
 
     try {
-      this.getAllowTvmTransferTrc10();
+      this.getAllowHvmTransferTrc10();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmTransferTrc10(CommonParameter.getInstance()
-          .getAllowTvmTransferTrc10());
+      this.saveAllowHvmTransferTrc10(CommonParameter.getInstance()
+          .getAllowHvmTransferTrc10());
     }
 
     try {
-      this.getAllowTvmConstantinople();
+      this.getAllowHvmConstantinople();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmConstantinople(CommonParameter.getInstance()
-          .getAllowTvmConstantinople());
+      this.saveAllowHvmConstantinople(CommonParameter.getInstance()
+          .getAllowHvmConstantinople());
     }
 
     try {
-      this.getAllowTvmSolidity059();
+      this.getAllowHvmSolidity059();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmSolidity059(CommonParameter.getInstance()
-          .getAllowTvmSolidity059());
+      this.saveAllowHvmSolidity059(CommonParameter.getInstance()
+          .getAllowHvmSolidity059());
     }
 
     try {
@@ -642,10 +642,10 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     }
 
     try {
-      this.getAllowTvmIstanbul();
+      this.getAllowHvmIstanbul();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmIstanbul(
-          CommonParameter.getInstance().getAllowTvmIstanbul());
+      this.saveAllowHvmIstanbul(
+          CommonParameter.getInstance().getAllowHvmIstanbul());
     }
 
     try {
@@ -752,31 +752,31 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     }
 
     try {
-      this.getAllowTvmFreeze();
+      this.getAllowHvmFreeze();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmFreeze(CommonParameter.getInstance().getAllowTvmFreeze());
+      this.saveAllowHvmFreeze(CommonParameter.getInstance().getAllowHvmFreeze());
     }
 
     try {
-      this.getAllowTvmVote();
+      this.getAllowHvmVote();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmVote(CommonParameter.getInstance().getAllowTvmVote());
-      if (CommonParameter.getInstance().getAllowTvmVote() == 1) {
+      this.saveAllowHvmVote(CommonParameter.getInstance().getAllowHvmVote());
+      if (CommonParameter.getInstance().getAllowHvmVote() == 1) {
         this.put(NEW_REWARD_ALGORITHM_EFFECTIVE_CYCLE,
             new BytesCapsule(ByteArray.fromLong(getCurrentCycleNumber())));
       }
     }
 
     try {
-      this.getAllowTvmLondon();
+      this.getAllowHvmLondon();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmLondon(CommonParameter.getInstance().getAllowTvmLondon());
+      this.saveAllowHvmLondon(CommonParameter.getInstance().getAllowHvmLondon());
     }
 
     try {
-      this.getAllowTvmCompatibleEvm();
+      this.getAllowHvmCompatibleEvm();
     } catch (IllegalArgumentException e) {
-      this.saveAllowTvmCompatibleEvm(CommonParameter.getInstance().getAllowTvmCompatibleEvm());
+      this.saveAllowHvmCompatibleEvm(CommonParameter.getInstance().getAllowHvmCompatibleEvm());
     }
 
     try {
@@ -1676,42 +1676,42 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found ALLOW_ADAPTIVE_ENERGY"));
   }
 
-  public void saveAllowTvmTransferTrc10(long value) {
-    this.put(ALLOW_TVM_TRANSFER_TRC10,
+  public void saveAllowHvmTransferTrc10(long value) {
+    this.put(ALLOW_HVM_TRANSFER_TRC10,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmTransferTrc10() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_TRANSFER_TRC10))
+  public long getAllowHvmTransferTrc10() {
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_TRANSFER_TRC10))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_TVM_TRANSFER_TRC10"));
+            () -> new IllegalArgumentException("not found ALLOW_HVM_TRANSFER_TRC10"));
   }
 
-  public void saveAllowTvmConstantinople(long value) {
-    this.put(ALLOW_TVM_CONSTANTINOPLE,
+  public void saveAllowHvmConstantinople(long value) {
+    this.put(ALLOW_HVM_CONSTANTINOPLE,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmConstantinople() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_CONSTANTINOPLE))
+  public long getAllowHvmConstantinople() {
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_CONSTANTINOPLE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
-            () -> new IllegalArgumentException("not found ALLOW_TVM_CONSTANTINOPLE"));
+            () -> new IllegalArgumentException("not found ALLOW_HVM_CONSTANTINOPLE"));
   }
 
-  public void saveAllowTvmSolidity059(long value) {
-    this.put(ALLOW_TVM_SOLIDITY_059,
+  public void saveAllowHvmSolidity059(long value) {
+    this.put(ALLOW_HVM_SOLIDITY_059,
         new BytesCapsule(ByteArray.fromLong(value)));
   }
 
-  public long getAllowTvmSolidity059() {
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_SOLIDITY_059))
+  public long getAllowHvmSolidity059() {
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_SOLIDITY_059))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
-        .orElseThrow(() -> new IllegalArgumentException("not found ALLOW_TVM_SOLIDITY_059"));
+        .orElseThrow(() -> new IllegalArgumentException("not found ALLOW_HVM_SOLIDITY_059"));
   }
 
   public void saveForbidTransferToContract(long value) {
@@ -1750,9 +1750,9 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
 
   public void updateDynamicStoreByConfig() {
     if (CommonParameter.getInstance()
-        .getAllowTvmConstantinople() != 0) {
-      saveAllowTvmConstantinople(CommonParameter.getInstance()
-          .getAllowTvmConstantinople());
+        .getAllowHvmConstantinople() != 0) {
+      saveAllowHvmConstantinople(CommonParameter.getInstance()
+          .getAllowHvmConstantinople());
       addSystemContractAndSetPermission(48);
     }
   }
@@ -1838,7 +1838,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found ALLOW_CREATION_OF_CONTRACTS"));
   }
 
-  public boolean supportVM() {
+  public boolean supporhvm() {
     return getAllowCreationOfContracts() == 1L;
   }
 
@@ -1870,14 +1870,14 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmIstanbul(long allowTVMIstanbul) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_ISTANBUL,
-        new BytesCapsule(ByteArray.fromLong(allowTVMIstanbul)));
+  public void saveAllowHvmIstanbul(long allowHVMIstanbul) {
+    this.put(DynamicPropertiesStore.ALLOW_HVM_ISTANBUL,
+        new BytesCapsule(ByteArray.fromLong(allowHVMIstanbul)));
   }
 
-  public long getAllowTvmIstanbul() {
-    String msg = "not found ALLOW_TVM_ISTANBUL";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_ISTANBUL))
+  public long getAllowHvmIstanbul() {
+    String msg = "not found ALLOW_HVM_ISTANBUL";
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_ISTANBUL))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
@@ -2266,56 +2266,56 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
             () -> new IllegalArgumentException("not found ALLOW_NEW_RESOURCE_MODEL"));
   }
 
-  public void saveAllowTvmFreeze(long allowTvmFreeze) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_FREEZE,
-        new BytesCapsule(ByteArray.fromLong(allowTvmFreeze)));
+  public void saveAllowHvmFreeze(long allowHvmFreeze) {
+    this.put(DynamicPropertiesStore.ALLOW_HVM_FREEZE,
+        new BytesCapsule(ByteArray.fromLong(allowHvmFreeze)));
   }
 
-  public long getAllowTvmFreeze() {
-    String msg = "not found ALLOW_TVM_FREEZE";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_FREEZE))
+  public long getAllowHvmFreeze() {
+    String msg = "not found ALLOW_HVM_FREEZE";
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_FREEZE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmVote(long allowTvmVote) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_VOTE,
-        new BytesCapsule(ByteArray.fromLong(allowTvmVote)));
+  public void saveAllowHvmVote(long allowHvmVote) {
+    this.put(DynamicPropertiesStore.ALLOW_HVM_VOTE,
+        new BytesCapsule(ByteArray.fromLong(allowHvmVote)));
   }
 
-  public long getAllowTvmVote() {
-    String msg = "not found ALLOW_TVM_VOTE";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_VOTE))
+  public long getAllowHvmVote() {
+    String msg = "not found ALLOW_HVM_VOTE";
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_VOTE))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmLondon(long allowTvmLondon) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_LONDON,
-        new BytesCapsule(ByteArray.fromLong(allowTvmLondon)));
+  public void saveAllowHvmLondon(long allowHvmLondon) {
+    this.put(DynamicPropertiesStore.ALLOW_HVM_LONDON,
+        new BytesCapsule(ByteArray.fromLong(allowHvmLondon)));
   }
 
-  public long getAllowTvmLondon() {
-    String msg = "not found ALLOW_TVM_LONDON";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_LONDON))
+  public long getAllowHvmLondon() {
+    String msg = "not found ALLOW_HVM_LONDON";
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_LONDON))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
             () -> new IllegalArgumentException(msg));
   }
 
-  public void saveAllowTvmCompatibleEvm(long allowTvmCompatibleEvm) {
-    this.put(DynamicPropertiesStore.ALLOW_TVM_COMPATIBLE_EVM,
-        new BytesCapsule(ByteArray.fromLong(allowTvmCompatibleEvm)));
+  public void saveAllowHvmCompatibleEvm(long allowHvmCompatibleEvm) {
+    this.put(DynamicPropertiesStore.ALLOW_HVM_COMPATIBLE_EVM,
+        new BytesCapsule(ByteArray.fromLong(allowHvmCompatibleEvm)));
   }
 
-  public long getAllowTvmCompatibleEvm() {
-    String msg = "not found ALLOW_TVM_COMPATIBLE_EVM";
-    return Optional.ofNullable(getUnchecked(ALLOW_TVM_COMPATIBLE_EVM))
+  public long getAllowHvmCompatibleEvm() {
+    String msg = "not found ALLOW_HVM_COMPATIBLE_EVM";
+    return Optional.ofNullable(getUnchecked(ALLOW_HVM_COMPATIBLE_EVM))
         .map(BytesCapsule::getData)
         .map(ByteArray::toLong)
         .orElseThrow(
@@ -2323,7 +2323,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
   }
 
   public boolean useNewRewardAlgorithm() {
-    return getAllowTvmVote() == 1;
+    return getAllowHvmVote() == 1;
   }
 
   public void saveNewRewardAlgorithmEffectiveCycle() {

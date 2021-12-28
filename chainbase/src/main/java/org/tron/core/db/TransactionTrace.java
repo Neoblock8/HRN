@@ -129,7 +129,7 @@ public class TransactionTrace {
   }
 
   public void checkIsConstant() throws ContractValidateException, VMIllegalException {
-    if (dynamicPropertiesStore.getAllowTvmConstantinople() == 1) {
+    if (dynamicPropertiesStore.getAllowHvmConstantinople() == 1) {
       return;
     }
     TriggerSmartContract triggerContractFromTransaction = ContractCapsule

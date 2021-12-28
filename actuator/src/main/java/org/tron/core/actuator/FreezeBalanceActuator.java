@@ -240,7 +240,7 @@ public class FreezeBalanceActuator extends AbstractActuator {
                 + readableOwnerAddress + NOT_EXIST_STR);
       }
 
-      if (dynamicStore.getAllowTvmConstantinople() == 1
+      if (dynamicStore.getAllowHvmConstantinople() == 1
           && receiverCapsule.getType() == AccountType.Contract) {
         throw new ContractValidateException(
             "Do not allow delegate resources to contract addresses");
