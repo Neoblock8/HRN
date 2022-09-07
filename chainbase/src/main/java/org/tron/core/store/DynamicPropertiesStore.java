@@ -446,7 +446,7 @@ public class DynamicPropertiesStore extends HrnetworkStoreWithRevoking<BytesCaps
     try {
       this.getAssetIssueFee();
     } catch (IllegalArgumentException e) {
-      this.saveAssetIssueFee(1024000000L);
+      this.saveAssetIssueFee(5000000L);
     }
 
     try {
